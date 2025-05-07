@@ -35,9 +35,9 @@ O usuário cliente irá acessar o site utilizando  um computador ou celular e re
 
 
 ## 5. Principais necessidades dos usuários
-Considerando o pronto de vista do lojista, administrador do site, sua principal necessidade é aumentar o volume de vendas de sua loja incorporando em seu negócio a possibilidade de realização de vendas via internet. 
+Considerando o ponto de vista do lojista, administrador do site, sua principal necessidade é aumentar o volume de vendas de sua loja incorporando em seu negócio a possibilidade de realização de vendas via internet. 
 
-Considerando o pronto de vista do cliente, ele deseja ter acesso a um site com interface amigável que permita obter informações sobre os produtos comercializados e, caso identifique que estes atendam às suas necessidades, ele possa montar sua relação de compra confirmando a aquisição. Após essa etapa ele desejará visualizar o processo de entrega dos produtos adquiridos.
+Considerando o ponto de vista do cliente, ele deseja ter acesso a um site com interface amigável que permita obter informações sobre os produtos comercializados e, caso identifique que estes atendam às suas necessidades, ele possa montar sua relação de compra confirmando a aquisição. Após essa etapa ele desejará visualizar o processo de entrega dos produtos adquiridos.
 
 ## 6. Alternativas concorrentes
 Uma alternativa ao comércio eletrônico desenvolvido é a lojas Americanas, que apresenta pesquisa por meio de nome ou categoria do produto, tem o sistema de carrinho de compras, que permite adicionar os produtos selecionados, deixando o pagamento somente para o final quando o cliente tiver selecionado todos os produtos desejados. Também tem o sistema de login, o qual o usuário se cadastra, o que facilita as próximas compras. Além disso em cada produto tem sua descrição, produto similares ao selecionado e uma seção destinada à avaliação dos consumidores. 
