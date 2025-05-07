@@ -27,50 +27,65 @@ O projeto __Garçom__ tem como objetivo possibilitar restaurantes utilizarem um 
 
 
 ## 4. Descrição do ambiente dos usuários 
-O comércio eletrônico tem dois tipos de usuários. O tipo administrador representa o gestor da loja e seus colaboradores e o tipo Cliente que representa o cliente, seja ele anônimo ou já cadastrado. 
+O sistema será utilizado por dois tipos principais de usuários: clientes e funcionários dos restaurantes.
 
-O administrador acessará o site a partir do ambiente físico da loja e fará a configuração dos produtos a serem vendidos e realizará a logística de atendimento dos pedidos coletados pelo site, registrando a informação de situação de envio dos pedidos. Nesse processo, os produtos que forem identificados fisicamente sem estoque deverão ter sua disponibilidade para venda bloqueada.
+Clientes: Acessam o sistema por meio de dispositivos móveis (smartphones) ou computadores com conexão à internet. Espera-se que o acesso seja feito em ambientes variados, como dentro do próprio restaurante ou em casa.
 
-O usuário cliente irá acessar o site utilizando  um computador ou celular e realizará a visualização dos produtos vendidos na loja e realizará a compra, caso deseje. Neste caso não há muitas restrições quanto ao ambiente pois ele poderá fazer os pedidos de qualquer local que tenha conexão com internet.
+Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sistema geralmente a partir de tablets, computadores ou smartphones disponíveis no estabelecimento, em ambientes movimentados e com múltiplas demandas simultâneas. O sistema deve ser simples, rápido e estável, mesmo sob pressão.
+
 
 
 ## 5. Principais necessidades dos usuários
-Considerando o ponto de vista do lojista, administrador do site, sua principal necessidade é aumentar o volume de vendas de sua loja incorporando em seu negócio a possibilidade de realização de vendas via internet. 
+**Clientes:**
+- Visualizar cardápios de forma clara e organizada.
+- Realizar pedidos de maneira rápida e intuitiva.
+- Ter transparência no acompanhamento do pedido (status, tempo estimado, etc.).
+- Avaliar e favoritar restaurantes para facilitar pedidos futuros.
 
-Considerando o ponto de vista do cliente, ele deseja ter acesso a um site com interface amigável que permita obter informações sobre os produtos comercializados e, caso identifique que estes atendam às suas necessidades, ele possa montar sua relação de compra confirmando a aquisição. Após essa etapa ele desejará visualizar o processo de entrega dos produtos adquiridos.
+**Restaurantes:**
+- Gerenciar produtos e cardápios com facilidade.
+- Receber e processar pedidos em tempo real.
+- Atualizar status dos pedidos rapidamente.
+- Melhorar a organização e reduzir erros manuais no atendimento.
 
 ## 6. Alternativas concorrentes
-Uma alternativa ao comércio eletrônico desenvolvido é a lojas Americanas, que apresenta pesquisa por meio de nome ou categoria do produto, tem o sistema de carrinho de compras, que permite adicionar os produtos selecionados, deixando o pagamento somente para o final quando o cliente tiver selecionado todos os produtos desejados. Também tem o sistema de login, o qual o usuário se cadastra, o que facilita as próximas compras. Além disso em cada produto tem sua descrição, produto similares ao selecionado e uma seção destinada à avaliação dos consumidores. 
+Algumas soluções já existentes no mercado que oferecem funcionalidades semelhantes incluem:
+- iFood para Restaurantes – Voltado para pedidos online, possui painel de controle para restaurantes.
+- AnotaAi – Plataforma de delivery com gerenciamento de cardápios.
+- Goomer – Solução focada em cardápios digitais e autoatendimento em restaurantes.
+
+No entanto, muitos desses sistemas têm custos elevados, foco em delivery ou pouca personalização para restaurantes pequenos, criando espaço para uma solução mais acessível e personalizada como o Garçom.
+
 
 ## 7.	Visão geral do produto
-Esse projeto consiste em um site voltado para vendas de produtos que pretende funcionar de forma rápida e eficiente, disponibilizando um ambiente acessível a diversos tipos de usuários e possuindo um design confortável. Para tal, o site irá disponibilizar diferentes mecanismos de busca permitindo que o usuário encontre de forma eficiente o que ele precisa. Após a aquisição, o usuário poderá acompanhar o produto comprado, avaliar produtos da loja, comentar e marcar produtos como favoritos. 
+O sistema Garçom será uma plataforma voltada para restaurantes que desejam modernizar o atendimento ao cliente e o gerenciamento de pedidos. Por meio de interfaces intuitivas e responsivas, tanto os clientes quanto os funcionários poderão interagir com o sistema para criar uma experiência de pedido mais ágil, precisa e organizada. O produto visa reduzir o tempo de espera, eliminar erros e aumentar a satisfação dos clientes, promovendo não só uma melhora para os clientes mas também aos funcionários.
 
 ## 8.	Requisitos funcionais
-| Código | Nome | Descrição |
+| | | | 
 |:---  |:--- |:--- |
-| F01	| Adicionar, remover ou alterar produtos | O administrador tem à sua disponibilidade a função de adicionar, remover ou alterar produtos comercializados no site estabelecendo ainda seus preços de venda. 
-| F02	| Adicionar, remover ou alterar grupos de produtos.	| O administrador tem à sua disponibilidade a função de adicionar, remover ou alterar grupos de produtos comercializados no site.
-| F03	| Adicionar, remover ou alterar fabricante de produtos.	| O administrador tem à sua disponibilidade a função de adicionar, remover ou alterar fabricantes de produtos comercializados no site.
-| F04	| Disponibilizar ou bloquear a apresentação do produto no site de venda	| O administrador tem à sua disponibilidade a função de liberar ou bloquear a apresentação de produtos a venda 
-| F05	| Consultar pedidos realizados e não enviados.	| O administrador pode acessar os dados de vendas de produtos do site que foram realizados pelos clientes e que ainda não foram remetidos
-| F06	| Registrar recebimento do pagamento do cliente	| O administrador registra no site a identificação do recebimento do pagamento realizado pelo cliente liberando o pedido para envio.
-| F07	| Registrar o envio do pedido.	| O administrador informa no site a forma de envio do pedido ao cliente.
-| F08	| Visualizar produtos	| O usuário visualiza os produtos disponíveis filtrando ou por grupos, fabricante ou através de um trecho do nome do produto
-| F09	| Adicionar ou remover produtos à cesta de compras	| O usuário  pode escolher mais de um produto para realizar a compra e inserir em uma cesta de compras.
-| F10	| Realizar o cadastro e login no site	| O usuário pode se cadastrar no site para poder comprar produtos e acessar outras diversas funcionalidades como avaliar e comentar os produtos.
-| F11	| Realizar a compra de um produto	| Os clientes podem confirmar a compra dos produtos adicionados em sua cesta de compra gerando assim um pedido.
-| F12	| Realizar o cancelamento de pedido solicitado	| Os clientes podem solicitar o cancelamento de um pedido realizado desde que ainda não tenha sido enviado.
-| F13	| Verificar as compras realizadas	| Os clientes podem verificar seu histórico de compra na loja.
-| F14	| Verificar o andamento do pedido	| Os clientes podem acompanhar o andamento da entrega dos pedidos realizados.
-| F15	| Avaliar o Produto	| Os clientes podem avaliar os produtos realizando um comentário e atribuindo uma nota
-| F16 	| Revisar dados cadastrais	| Os clientes podem alterar seus dados cadastrais permitindo assim que façam, por exemplo, alteração do endereço de entrega
+| Código | Nome | Descrição |
+| F01    | Gerenciar produtos do cardápio           | O restaurante pode adicionar, remover ou alterar os produtos disponíveis no cardápio, incluindo nome, descrição, imagem e preço. |
+| F02    | Gerenciar categorias do cardápio         | O restaurante pode organizar seus produtos em categorias (por exemplo: entradas, pratos principais, bebidas, sobremesas).        |
+| F03    | Ativar ou desativar produtos do cardápio | O restaurante pode disponibilizar ou ocultar temporariamente produtos no cardápio, conforme a disponibilidade.                   |
+| F04    | Visualizar pedidos em aberto             | O restaurante pode consultar os pedidos realizados pelos clientes que ainda estão em preparo ou aguardando envio para a cozinha. |
+| F05    | Atualizar status do pedido               | O restaurante pode alterar o status dos pedidos (ex: recebido, em preparo, pronto, entregue).                                    |
+| F06    | Cadastro e login de restaurante          | O restaurante pode se cadastrar e acessar o sistema com login e senha seguros.                                                   |
+| F07    | Cadastro e login de cliente              | O cliente pode criar uma conta ou acessar o sistema para fazer pedidos.                                                          |
+| F08    | Visualizar cardápio                      | O cliente pode visualizar o cardápio do restaurante com informações detalhadas dos produtos.                                     |
+| F09    | Adicionar ou remover itens no pedido     | O cliente pode montar seu pedido escolhendo os produtos desejados e removê-los antes da confirmação.                             |
+| F10    | Finalizar pedido                         | O cliente pode confirmar e enviar seu pedido ao restaurante, que receberá em tempo real.                                         |
+| F11    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
+| F12    | Avaliar restaurante ou produtos          | O cliente pode deixar avaliações e notas sobre o atendimento ou produtos recebidos.                                              |
+| F13    | Editar dados do perfil                   | O cliente pode atualizar seus dados de conta, como nome ou preferências.                                                         |
 | | | | 
 
 ## 9.	Requisitos não-funcionais
-| Código | Nome | Descrição | Categoria | Classificação |
+| | | | | |
 |:---  |:--- |:--- |:--- |:--- |
-| NF01	| Design responsivo	| O site apresentará responsividade, deixando-o mais confortável para o usuário | Usabilidade	| obrigatório
-| NF02	| Acesso somente com internet	| É necessário um acesso contínuo à Internet para poder acessar os dados do site e suas funcionalidades, como comprar produtos.	| Disponibilidade	| Obrigatório
-| NF03	| Criptografia das informações sensíveis aos usuários	| Senhas do usuário devem ser gravadas de forma criptografada no banco de dados	| Segurança	| Obrigatório
-| NF04	| Organização do conteúdo de forma objetiva	| O site apresentará o conteúdo de forma objetiva, de modo que o usuário encontre o desejado com facilidade.	| Usabilidade	| Obrigatório
-| | | | 
+| Código | Nome | Descrição | Categoria | Classificação |
+| NF01   | Design responsivo               | A interface do sistema se adapta a diferentes dispositivos (smartphones, tablets, desktops), garantindo conforto na navegação.             | Usabilidade     | Obrigatório   |
+| NF02   | Acesso com conexão à internet   | O sistema depende de conexão contínua à internet para funcionar corretamente, especialmente para comunicação em tempo real dos pedidos.    | Disponibilidade | Obrigatório   |
+| NF03   | Criptografia de dados sensíveis | Dados sensíveis, como senhas e informações pessoais, são armazenados de forma criptografada no banco de dados.                             | Segurança       | Obrigatório   |
+| NF04   | Interface objetiva e intuitiva  | O sistema apresenta uma interface clara e organizada, facilitando o uso tanto para os clientes quanto para os funcionários do restaurante. | Usabilidade     | Obrigatório   |
+| NF05   | Tempo de resposta rápido        | O sistema deve apresentar respostas rápidas às ações dos usuários para não comprometer o atendimento.                                      | Performance     | Recomendado   |
+| | | | | |
