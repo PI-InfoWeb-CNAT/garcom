@@ -10,7 +10,7 @@
 
 ## 1. Diagrama de casos de uso 
 
-![Casos de Uso](imagens/Diagrama_Casos_de_Uso.png)
+![Casos de Uso](imagens/Diagrama_de_casos_de_uso.png)
 
 ## 2. Diagrama de entidades e relacionamentos
 
