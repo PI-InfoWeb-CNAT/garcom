@@ -70,13 +70,13 @@ O sistema Garçom será uma plataforma voltada para restaurantes que desejam mod
 | F04    | Visualizar pedidos em aberto             | O restaurante pode consultar os pedidos realizados pelos clientes que ainda estão em preparo ou aguardando envio para a cozinha. |
 | F05    | Atualizar status do pedido               | O restaurante pode alterar o status dos pedidos (ex: recebido, em preparo, pronto, entregue).                                    |
 | F06    | Cadastro e login de restaurante          | O restaurante pode se cadastrar e acessar o sistema com login e senha seguros.                                                   |
-| F13    | Editar dados do perfil do restaurante    | O restaurante pode atualizar seus dados e personalizar sua página, como nome ou preferências de cores.                           |
-| F07    | Cadastro e login de cliente              | O cliente pode criar uma conta ou acessar o sistema para fazer pedidos.                                                          |
-| F08    | Visualizar cardápio                      | O cliente pode visualizar o cardápio do restaurante com informações detalhadas dos produtos.                                     |
-| F09    | Adicionar ou remover itens no pedido     | O cliente pode montar seu pedido escolhendo os produtos desejados e removê-los antes da confirmação.                             |
-| F10    | Finalizar pedido                         | O cliente pode confirmar e enviar seu pedido ao restaurante, que receberá em tempo real.                                         |
-| F11    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
-| F12    | Avaliar restaurante ou produtos          | O cliente pode deixar avaliações e notas sobre o atendimento ou produtos recebidos.                                              |
+| F07    | Editar dados do perfil do restaurante    | O restaurante pode atualizar seus dados e personalizar sua página, como nome ou preferências de cores.                           |
+| F08    | Cadastro e login de cliente              | O cliente pode criar uma conta ou acessar o sistema para fazer pedidos.                                                          |
+| F09    | Visualizar cardápio                      | O cliente pode visualizar o cardápio do restaurante com informações detalhadas dos produtos.                                     |
+| F10    | Adicionar ou remover itens no pedido     | O cliente pode montar seu pedido escolhendo os produtos desejados e removê-los antes da confirmação.                             |
+| F11    | Finalizar pedido                         | O cliente pode confirmar e enviar seu pedido ao restaurante, que receberá em tempo real.                                         |
+| F12    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
+| F13    | Avaliar restaurante ou produtos          | O cliente pode deixar avaliações e notas sobre o atendimento ou produtos recebidos.                                              |
 | | | | 
 
 ## 9.	Requisitos não-funcionais
