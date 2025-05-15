@@ -15,24 +15,23 @@ O projeto __Garçom__ tem como objetivo possibilitar restaurantes utilizarem um 
 |:-|:-|
 | **_O problema_**    | 	Falta de organização no gerenciamento dos pedidos realizados pelos clientes nos restaurantes.  |
 | **_afetando_**      | A eficiência dos funcionários e a experiência dos clientes. |
-| **_cujo impacto é_**| Desorganização no atendimento, aumento no tempo de espera, erros nos pedidos e insatisfação dos clientes. |
+| **_cujo impacto é_**| Desorganização no atendimento, aumento no tempo de espera, erros nos pedidos, insatisfação dos clientes e sobrecarga dos garçons. |
 | **_uma boa solução seria_** | Desenvolver um sistema digital que permita aos restaurantes administrar pedidos de forma rápida, organizada e eficiente. |
 | | |
 
 ## 3. Descrição dos usuários
 | Nome | Descrição | Responsabilidades |
 |:- |:- |:- |
-| Clientes | Compradores nos restaurantes cadastrados | Pesquisa, visualizar e favoritar restaurantes; Realizar pedidos. |
-| Restaurante | Funcionário ou dono do restaurante | Editar o perfil do restaurante e os seus produtos; Visualizar e tratar os pedidos. | 
+| Clientes | Compradores nos restaurantes cadastrados | Vizualizar cádapio; Realizar pedidos. |
+| Restaurante | Funcionário ou dono do restaurante | Editar o perfil do restaurante e os seus produtos; Gerenciar cardápio; Visualizar e tratar os pedidos. | 
 
 
 ## 4. Descrição do ambiente dos usuários 
 O sistema será utilizado por dois tipos principais de usuários: clientes e funcionários dos restaurantes.
 
-Clientes: Acessam o sistema por meio de dispositivos móveis (smartphones) ou computadores com conexão à internet. Espera-se que o acesso seja feito em ambientes variados, como dentro do próprio restaurante ou em casa.
+Clientes: Acessam o sistema por meio de dispositivos móveis (smartphones) ou computadores com conexão à internet. Espera-se que o acesso seja feito no ambiente do restaurante, e o acesso seja feito através de QRCODE.
 
 Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sistema geralmente a partir de tablets, computadores ou smartphones disponíveis no estabelecimento, em ambientes movimentados e com múltiplas demandas simultâneas. O sistema deve ser simples, rápido e estável, mesmo sob pressão.
-
 
 
 ## 5. Principais necessidades dos usuários
@@ -40,7 +39,6 @@ Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sis
 - Visualizar cardápios de forma clara e organizada.
 - Realizar pedidos de maneira rápida e intuitiva.
 - Ter transparência no acompanhamento do pedido (status, tempo estimado, etc.).
-- Avaliar e favoritar restaurantes para facilitar pedidos futuros.
 
 **Restaurantes:**
 - Gerenciar produtos e cardápios com facilidade.
@@ -50,7 +48,7 @@ Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sis
 
 ## 6. Alternativas concorrentes
 Algumas soluções já existentes no mercado que oferecem funcionalidades semelhantes incluem:
-- iFood para Restaurantes – Voltado para pedidos online, possui painel de controle para restaurantes.
+- iFood – Voltado para pedidos online, possui painel de controle para restaurantes.
 - AnotaAi – Plataforma de delivery com gerenciamento de cardápios.
 - Goomer – Solução focada em cardápios digitais e autoatendimento em restaurantes.
 
