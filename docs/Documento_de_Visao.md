@@ -23,15 +23,18 @@ O projeto __Garçom__ tem como objetivo possibilitar restaurantes utilizarem um 
 | Nome | Descrição | Responsabilidades |
 |:- |:- |:- |
 | Clientes | Compradores nos restaurantes cadastrados | Vizualizar cádapio; Realizar pedidos. |
-| Restaurante | Funcionário ou dono do restaurante | Editar o perfil do restaurante e os seus produtos; Gerenciar cardápio; Visualizar e tratar os pedidos. | 
+| Restaurante | Gerente do restaurante | Editar o perfil do restaurante e os seus produtos; Gerenciar cardápio. |
+| Funcionário | Funcionário do restaurante | Abrir e fechar comandas; Visualizar e tratar os pedidos.
 
 
 ## 4. Descrição do ambiente dos usuários 
-O sistema será utilizado por dois tipos principais de usuários: clientes e funcionários dos restaurantes.
+O sistema será utilizado por três tipos principais de usuários: clientes e funcionários (gerentes/garçons) dos restaurantes.
 
 Clientes: Acessam o sistema por meio de dispositivos móveis (smartphones) ou computadores com conexão à internet. Espera-se que o acesso seja feito no ambiente do restaurante, e o acesso seja feito através de QRCODE.
 
-Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sistema geralmente a partir de tablets, computadores ou smartphones disponíveis no estabelecimento, em ambientes movimentados e com múltiplas demandas simultâneas. O sistema deve ser simples, rápido e estável, mesmo sob pressão.
+Funcionários: Utilizarão o sistema geralmente a partir de tablets, computadores ou smartphones disponíveis no estabelecimento, em ambientes movimentados e com múltiplas demandas simultâneas. O sistema deve ser simples, rápido e estável, mesmo sob pressão.
+
+Restaurantes: Acessam o sistema geralmente por computadores, podendo estar ou não no estabelecimento.
 
 
 ## 5. Principais necessidades dos usuários
@@ -42,6 +45,9 @@ Restaurantes: Funcionários e administradores dos restaurantes utilizarão o sis
 
 **Restaurantes:**
 - Gerenciar produtos e cardápios com facilidade.
+- Cadastrar funcionários responsáveis pelo atendimento e funcionamento do restaurante.
+
+**Funcionários:**
 - Receber e processar pedidos em tempo real.
 - Atualizar status dos pedidos rapidamente.
 - Melhorar a organização e reduzir erros manuais no atendimento.
