@@ -71,16 +71,17 @@ O sistema Garçom será uma plataforma voltada para restaurantes que desejam mod
 | F01    | Gerenciar produtos do cardápio           | O restaurante pode adicionar, remover ou alterar os produtos disponíveis no cardápio, incluindo nome, descrição, imagem e preço. |
 | F02    | Gerenciar categorias do cardápio         | O restaurante pode organizar seus produtos em categorias (por exemplo: entradas, pratos principais, bebidas, sobremesas).        |
 | F03    | Ativar ou desativar produtos do cardápio | O restaurante pode disponibilizar ou ocultar temporariamente produtos no cardápio, conforme a disponibilidade.                   |
-| F04    | Visualizar pedidos em aberto             | O restaurante pode consultar os pedidos realizados pelos clientes que ainda estão em preparo ou aguardando envio para a cozinha. |
-| F05    | Atualizar status do pedido               | O restaurante pode alterar o status dos pedidos (ex: recebido, em preparo, pronto, entregue).                                    |
+| F04    | Visualizar pedidos em aberto             | O funcionario pode consultar os pedidos realizados pelos clientes que ainda estão em preparo ou aguardando envio para a cozinha. |
+| F05    | Atualizar status do pedido               | O funcionario pode alterar o status dos pedidos (ex: recebido, em preparo, pronto, entregue).                                    |
 | F06    | Cadastro e login de restaurante          | O restaurante pode se cadastrar e acessar o sistema com login e senha seguros.                                                   |
-| F07    | Editar dados do perfil do restaurante    | O restaurante pode atualizar seus dados e personalizar sua página, como nome ou endereço.                                        |
+| F07    | Gerenciar funcionario                    | O restaurante pode cadastrar, editar ou remover funcionarios.                               |
+| F08    | Editar dados do perfil do restaurante    | O restaurante pode atualizar seus dados e personalizar sua página, como nome ou endereço.                                        |
 | F09    | Visualizar cardápio                      | O cliente pode visualizar o cardápio do restaurante com informações detalhadas dos produtos.                                     |
 | F10    | Adicionar ou remover itens no pedido     | O cliente pode montar seu pedido escolhendo os produtos desejados e removê-los antes da confirmação.                             |
 | F11    | Confirmar pedido                         | O cliente pode confirmar e enviar seu pedido ao restaurante, que receberá em tempo real.                                         |
 | F12    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
-| F13    | Habilitar mesa                           | O restaurante pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
-| F14    | Encerrar comanda                         | O restaurante finaliza a comanda que contém os pedidos de determinada mesa.                                                      |
+| F13    | Habilitar mesa                           | O funcionário pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
+| F14    | Encerrar comanda                         | O funcionário finaliza a comanda que contém os pedidos de determinada mesa.                                                      |
 | F14    | Acesso ao cardápio via QR Code           | O cliente pode acessar o cardápio digital escaneando um QR Code em sua mesa.                                                     |
 | | | | 
 
