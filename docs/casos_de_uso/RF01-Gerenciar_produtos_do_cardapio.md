@@ -1,6 +1,3 @@
-Com base no arquivo **Documento\_de\_Visao.md** e no padrão dos documentos específicos de requisitos funcionais que você forneceu, aqui está o **detalhamento do RF01 - Gerenciar produtos do cardápio**:
-
----
 
 # Garçom
 
