@@ -1,13 +1,13 @@
 
 # Garçom
 
-## Especificação do caso de uso - F16 - Login de funcionários
+## Especificação do caso de uso - FR16 - Login de funcionários
 
 ### Histórico da Revisão
 
 | Data       | Versão | Descrição      | Autor            |
-| ---------- | ------ | -------------- | ---------------- |
-| 16/05/2025 | 1.00   | Versão Inicial | Vinícius H. |
+|: ---------- :|: ------ :|: -------------- :|: ---------------- :|
+| 16/05/2025 | **1.00**   | Versão Inicial | Vinícius H. |
 
 ---
 
@@ -44,15 +44,7 @@ Permite o funcionário entrar autenticado na página do restaurante.
 3. \[OUT] O sistema valida as credenciais.
 4. \[OUT] O sistema libera o acesso ao painel do restaurante.
 
-#### 5.2) Fluxo alternativo – Editar produto
-
-1. \[IN] O restaurante seleciona um produto existente.
-2. \[IN] O restaurante edita os campos desejados.
-3. \[OUT] O sistema valida as alterações.
-4. \[OUT] O sistema atualiza o produto.
-5. \[OUT] O sistema confirma a atualização com uma mensagem.
-
-#### 5.4) Fluxo de exceção
+#### 5.2) Fluxo de exceção
 
 * Caso algum campo obrigatório não seja preenchido corretamente:
   \[OUT] O sistema destaca o(s) campo(s) com erro e exibe mensagem explicativa.
@@ -66,7 +58,7 @@ Permite o funcionário entrar autenticado na página do restaurante.
 
 | Campo     | Tipo                  | Restrições                        |
 | --------- | --------------------- | --------------------------------- |
-| Email do funcionário      | Texto alfabético      | Obrigatório|
+| Email do funcionário      | Texto alfanumérico      | Obrigatório|
 | Senha | Texto alfanumérico  | Obrigatório|
 
 ---
