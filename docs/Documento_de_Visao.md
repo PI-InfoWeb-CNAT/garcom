@@ -81,7 +81,7 @@ O sistema Garçom será uma plataforma voltada para restaurantes que desejam mod
 | F10    | Adicionar ou remover itens no pedido     | O cliente pode montar seu pedido escolhendo os produtos desejados e removê-los antes da confirmação.                             |
 | F11    | Confirmar pedido                         | O cliente pode confirmar e enviar seu pedido ao restaurante, que receberá em tempo real.                                         |
 | F12    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
-| F13    | Habilitar mesa                           | O funcionário pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
+| F13    | Habilitar comanda para mesa              | O funcionário pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
 | F14    | Encerrar comanda                         | O funcionário finaliza a comanda que contém os pedidos de determinada mesa.                                                      |
 | F14    | Acesso ao cardápio via QR Code           | O cliente pode acessar o cardápio digital escaneando um QR Code em sua mesa.                                                     |
 | F15    | Login de funcionário                     | O funcionar pode acessar o sistema com login e senha seguros.                                                                    |
