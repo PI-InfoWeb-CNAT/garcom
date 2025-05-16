@@ -6,6 +6,7 @@
 |  Data  | Versão | Descrição | Autor |
 |:-------|:-------|:----------|:------|
 | 05/05/2025 | **1.00** | Versão Inicial  | Beatriz Maria |
+| 15/05/2025 | **2.00** | Modificações nos requisitos e adição da entidade funcionários | Beatriz Maria e Vinicius Henrique |
 
 ## 1. Objetivo do Projeto 
 O projeto __Garçom__ tem como objetivo possibilitar restaurantes utilizarem um sistema de cardápio e comandas eletrônicas
