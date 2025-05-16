@@ -30,8 +30,6 @@ O cliente terá um pedido personalizado, pronto para ser preparado e enviado par
 
 #### 5.1) Fluxo básico
 
-5) Fluxos de evento
-5.1) Fluxo básico
 1 - [IN] O cliente acessa o cardápio de um restaurante.
 
 2 - [IN] O cliente seleciona os itens que deseja adicionar ao pedido.
