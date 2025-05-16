@@ -84,6 +84,7 @@ O sistema Garçom será uma plataforma voltada para restaurantes que desejam mod
 | F13    | Habilitar mesa                           | O funcionário pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
 | F14    | Encerrar comanda                         | O funcionário finaliza a comanda que contém os pedidos de determinada mesa.                                                      |
 | F14    | Acesso ao cardápio via QR Code           | O cliente pode acessar o cardápio digital escaneando um QR Code em sua mesa.                                                     |
+| F15    | Login de funcionário                     | O funcionar pode acessar o sistema com login e senha seguros.                                                                    |
 | | | | 
 
 ## 9.	Requisitos não-funcionais 
