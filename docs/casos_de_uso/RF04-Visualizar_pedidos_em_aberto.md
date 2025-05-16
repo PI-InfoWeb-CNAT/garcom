@@ -60,7 +60,7 @@ Tempo estimado de preparo: valor numérico (minutos)
 
 ### 7) Regras de negócio
 
-O funcionário pode alterar dados do pedido.
+O funcionário não pode alterar dados do pedido, apenas visualizar (edições ocorrem em outro caso de uso).
 
 ### 8) Protótipo(s) de interface do caso de uso
 
