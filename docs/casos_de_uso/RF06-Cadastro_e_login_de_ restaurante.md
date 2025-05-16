@@ -10,7 +10,7 @@
 
 ### 1) Resumo
 
-Permite aos usuários que possuem um restaurante podem se cadastrar e acessar o sistema com login e senha seguros.
+Permite aos usuários (donos/gerentes) podem se cadastrar e acessar o sistema com login e senha seguros.
 
 ### 2) Atores
 
@@ -18,10 +18,7 @@ Usuário restaurante (pessoa responsável por um restaurante)
 
 ### 3) Precondições
 
-O restaurante ainda não pode estar cadastrado no sistema (para fluxo de cadastro).
-
 O restaurante deve estar cadastrado (para login).
-
 
 ### 4) Pós-condições 
 
@@ -29,31 +26,25 @@ O usuário restaurante terá acesso à página inicial do sistema, podendo geren
 
 ### 5) Fluxos de evento
 
-#### 5.1) Fluxo básico
-5.1) Fluxo básico – Login
+#### 5.1) Fluxo básico – Login
+
 1 - [IN] O usuário acessa a página de login.
-
 2 - [IN] O usuário insere seu e-mail e senha.
-
 3 - [OUT] O sistema valida as credenciais.
-
 4 - [OUT] O sistema libera o acesso ao painel do restaurante.
 
-5.2) Fluxo alternativo – Cadastro de restaurante
+#### 5.2) Fluxo alternativo – Cadastro de restaurante
+
 1 - [IN] O usuário acessa a tela de cadastro.
-
 2 - [IN] O usuário preenche os seguintes dados: Nome do restaurante, Tipo de restaurante, CNPJ (opcional), Descrição, CEP, Telefone (opcional), Instagram / Facebook (opcional), Endereço completo, Horários de funcionamento, E-mail e Senha.
-
 3 - [OUT] O sistema valida os dados inseridos.
-
 4 - [OUT] O sistema armazena os dados no banco.
-
 5 - [OUT] O sistema redireciona o usuário para a tela de login com mensagem de sucesso.
 
 a) Erro nas credenciais
 
 1 - [IN] O usuário entra com as credenciais(E-mail e senha).
-2 - [Out] O sistema mostra um erro falando que as credenciais de E-mail e/ou senha são invalidadas.
+2 - [Out] O sistema mostra um erro falando que as credenciais de E-mail e/ou senha são invalidas.
 
 b) Credenciais vazias
 
@@ -70,8 +61,8 @@ c) Usuário esqueceu a senha
 6 - [OUT] O sistema verifica se o e-mail existe no banco de dados.
 
 Se o e-mail for válido, o sistema envia um link de redefinição para o e-mail informado.
-
 Se o e-mail não for encontrado, o sistema exibe uma mensagem de erro.
+
 7 - [IN] O usuário acessa o link de redefinição de senha.
 8 - [OUT] O sistema exibe um campo para inserir e confirmar a nova senha.
 9 - [IN] O usuário insere a nova senha e confirma.
@@ -80,7 +71,7 @@ Se o e-mail não for encontrado, o sistema exibe uma mensagem de erro.
 
 ### 6) Dicionário de dados
 
-E-mail - dados alfabeticos;
+E-mail - dados alfanuméricos;
 senha - dados alfanuméricos de mais de 8 caracteres;
 
 ### 7) Regras de negócio
