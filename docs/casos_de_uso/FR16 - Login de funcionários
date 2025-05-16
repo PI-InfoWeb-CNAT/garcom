@@ -59,7 +59,7 @@ Permite o funcionário entrar autenticado na página do restaurante.
 | Campo     | Tipo                  | Restrições                        |
 | --------- | --------------------- | --------------------------------- |
 | Email do funcionário      | Texto alfanumérico      | Obrigatório|
-| Senha | Texto alfanumérico  | Obrigatório|
+| Senha | Texto alfanumérico  | Obrigatório, mínimo de 8 caractéres|
 
 ---
 
