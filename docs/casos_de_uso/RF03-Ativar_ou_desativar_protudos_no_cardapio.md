@@ -32,7 +32,6 @@ Permite ao restaurante ativar ou desativar produtos do cardápio temporariamente
 ### 4) Pós-condições
 
 - O status do produto será atualizado, sendo refletido na interface dos clientes.
-- Produtos desativados não serão exibidos para os clientes.
 
 ---
 
@@ -43,7 +42,7 @@ Permite ao restaurante ativar ou desativar produtos do cardápio temporariamente
 1. [IN] O restaurante acessa a interface de gerenciamento de produtos.  
 2. [IN] O restaurante localiza o produto desejado e clica na opção "Desativar".  
 3. [OUT] O sistema altera o status do produto para "indisponível".  
-4. [OUT] O produto deixa de ser exibido no cardápio visível ao cliente.  
+4. [OUT] O produto fica indisponível no cardápio visível ao cliente.  
 5. [OUT] O sistema exibe mensagem de sucesso.
 
 #### 5.2) Fluxo alternativo – Ativar produto
@@ -51,7 +50,7 @@ Permite ao restaurante ativar ou desativar produtos do cardápio temporariamente
 1. [IN] O restaurante visualiza a lista de produtos inativos.  
 2. [IN] O restaurante clica na opção "Ativar" ao lado de um produto.  
 3. [OUT] O sistema altera o status do produto para "disponível".  
-4. [OUT] O produto volta a ser exibido no cardápio para os clientes.  
+4. [OUT] O produto volta a ser exibido normalmente no cardápio para os clientes.  
 5. [OUT] O sistema exibe mensagem de sucesso.
 
 ---
@@ -67,7 +66,6 @@ Permite ao restaurante ativar ou desativar produtos do cardápio temporariamente
 
 ### 7) Regras de negócio
 
-- Produtos inativos não devem aparecer no cardápio visível ao cliente.
 - O sistema deve permitir alternar livremente entre ativo e inativo sem perda de dados do produto.
 - Produtos inativos não podem ser adicionados a pedidos.
 
