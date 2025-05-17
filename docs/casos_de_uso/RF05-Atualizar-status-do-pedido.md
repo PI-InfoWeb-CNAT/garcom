@@ -75,7 +75,6 @@ Não possúi.
 | Quantidade por item       | Numérico                    |
 | Horário do pedido         | Data e hora                 |
 | Status do pedido          | Texto ("Aguardando envio", "Em preparo", "Finalizado") |
-| Tempo estimado de preparo | Numérico (em minutos)       |
 
 ---
 
@@ -87,7 +86,3 @@ Não possúi.
 ---
 
 ### 8) Protótipo(s) de interface do caso de uso
-
-**Figura 1**: Tela de visualização de pedidos em aberto (exemplo ilustrativo)
-
-![Protótipo - Visualizar Pedidos](imagens_Prototipo/Visualizar_Pedidos.png)
