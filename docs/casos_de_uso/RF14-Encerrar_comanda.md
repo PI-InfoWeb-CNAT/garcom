@@ -1,6 +1,6 @@
 # Garçom
 
-## Especificação do caso de uso - F13 - 
+## Especificação do caso de uso - F13 - Encerrar comanda
 
 ### Histórico da Revisão
 |  Data  | Versão | Descrição | Autor |
