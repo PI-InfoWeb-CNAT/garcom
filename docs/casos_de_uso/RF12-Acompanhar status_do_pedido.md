@@ -1,6 +1,6 @@
 # Garçom
 
-## Especificação do caso de uso - RF9 - Visualizar Cardapio
+## Especificação do caso de uso - F12 - Acompanhar status do pedido
 
 ### Histórico da Revisão 
 
