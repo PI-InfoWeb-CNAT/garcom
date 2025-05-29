@@ -1,10 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# lock files
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-
 # dependencies
 /node_modules
 /.pnp
@@ -14,6 +9,7 @@ yarn.lock
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/drizzle/
 
 # testing
 /coverage
@@ -44,3 +40,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+

@@ -130,4 +130,10 @@ psd
 thumb
 sketch
 
+# Ignorar tudo do .vscode
+.vscode/*
+
+# Mas deixar settings.json
+!.vscode/settings.json
+
 # End of https://www.toptal.com/developers/gitignore/api/react
