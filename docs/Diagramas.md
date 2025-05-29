@@ -14,4 +14,8 @@
 
 ## 2. Diagrama de entidades e relacionamentos
 
-![Entidades e Relacionamentos](imagens/Diagrama_Entidades_e_Relacionamentos.png)
+![Entidades e Relacionamentos](imagens/Diagrama_ER.png)
+
+## 3. Esquema Relacional
+
+![Esquema Relacional](imagens/Esquema_relacional.png)
