@@ -34,7 +34,7 @@ O projeto Garçom tem como objetivo possibilitar restaurantes utilizarem um sist
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="TypeScript" height="40px"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" height="40px"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js API" height="40px"/>
-  <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Drizzle ORM" height="40px"/>>
+  <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Drizzle ORM" height="40px"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="TypeScript Backend" height="40px"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" height="40px"/>
   <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Drizzle ORM Postgres" height="40px"/>
