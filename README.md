@@ -9,7 +9,7 @@ O projeto Garçom tem como objetivo possibilitar restaurantes utilizarem um sist
 
 ### Artefatos do Projeto
 * [Documento de visão](./docs/Documento_de_Visao.md)
-* [Detalhamento dos casos de uso](.docs/casos_de_uso)
+* [Detalhamento dos casos de uso](docs/casos_de_uso)
 * [Prototipo](https://www.figma.com/design/bStpkUfwo2PJ7plEBPJyXs/Gar%C3%A7om?node-id=0-1&t=oxmP9M9SxWsuilG1-1)
 * [Diagrama de casos de uso](.docs/imagens/Diagrama_casos_de_uso.png)
 * [Mapa do Site](docs/mapa_do_site.md)
