@@ -19,3 +19,7 @@
 ## 3. Esquema Relacional
 
 ![Esquema Relacional](imagens/Esquema_relacional.png)
+
+## 4. Classe de domínio
+
+![Esquema Relacional](imagens/Classe_dominio.png)
