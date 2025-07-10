@@ -7,7 +7,8 @@ export const funcionario = pgTable("funcionario", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   nome: varchar("nome", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  cpf: varchar("cpf", { length: 14 }).notNull().unique(),
   senha: varchar("senha", { length: 255 }).notNull(),
   restaurante_id: uuid("restaurante_id")
     .references(() => restaurante.id)

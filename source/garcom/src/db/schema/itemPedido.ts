@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, integer } from "drizzle-orm/pg-core";
+import { pgTable, uuid, integer, varchar } from "drizzle-orm/pg-core";
 import { pedido } from "./pedido";
 import { item } from "./item";
 
@@ -9,6 +9,6 @@ export const itemPedido = pgTable("item_pedido", {
   item_id: uuid("item_id")
     .references(() => item.id)
     .notNull(),
-  observacao: text("observacao"),
   quantidade: integer("quantidade").notNull(),
+  observacao: varchar("observacao", { length: 1024 }),
 });
