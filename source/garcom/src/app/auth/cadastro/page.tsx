@@ -50,17 +50,10 @@ export default function CadastroPage() {
     "font-poppins rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
 
   return (
-    <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
-      <div className="flex flex-col justify-center px-8 sm:px-16 md:px-24">
+    <div className="grid h-screen grid-cols-1 md:grid-cols-[40%_60%]">
+      <div className="scrollbar-thin scrollbar-thumb-[#f65c5c] scrollbar-thumb-rounded-full scrollbar-track-transparent flex h-full flex-col justify-center overflow-y-auto px-8 py-8 sm:px-16 md:px-24">
         <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="font-poppins text-[2.5em] font-semibold text-[#E55F4B]">
-              Registrar
-            </h1>
-            <p className="font-poppins text-[1.2em] font-medium text-[#9E9E9E]">
-              Coração de mãe sempre cabe mais um!
-            </p>
-          </div>
+          <Image src="/logo.svg" alt="Logo" width={90} height={20} />
           <Link href="/">
             <img
               src="/seta-voltar.svg"
@@ -68,6 +61,15 @@ export default function CadastroPage() {
               className="h-8 w-8 cursor-pointer"
             />
           </Link>
+        </div>
+
+        <div className="mb-6">
+          <h1 className="font-poppins text-[2.5em] font-semibold text-[#E55F4B]">
+            Registrar
+          </h1>
+          <p className="font-poppins text-[1.2em] font-medium text-[#9E9E9E]">
+            Coração de mãe sempre cabe mais um!
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
