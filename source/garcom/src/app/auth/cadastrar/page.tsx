@@ -1,4 +1,3 @@
-// src/app/auth/cadastrar/page.tsx
 "use client";
 
 import Image from "next/image";
@@ -8,7 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
@@ -42,24 +40,43 @@ export default function CadastroPage() {
   });
 
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
   const onSubmit = (data: FormData) => {
     console.log("Formulário enviado:", data);
   };
 
+  const inputClass =
+    "font-poppins rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
+
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
-      {/* Lado esquerdo - formulário */}
       <div className="flex flex-col justify-center px-8 sm:px-16 md:px-24">
-        <h1 className="mb-1 text-3xl font-bold text-[#f65c5c]">Registrar</h1>
-        <p className="text-muted-foreground mb-6 text-sm">
-          Coração de mãe sempre cabe mais um!
-        </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="font-poppins text-[2.5em] font-semibold text-[#E55F4B]">
+              Registrar
+            </h1>
+            <p className="font-poppins text-[1.2em] font-medium text-[#9E9E9E]">
+              Coração de mãe sempre cabe mais um!
+            </p>
+          </div>
+          <Link href="/">
+            <img
+              src="/seta-voltar.svg"
+              alt="Voltar"
+              className="h-8 w-8 cursor-pointer"
+            />
+          </Link>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label>Nome do restaurante</Label>
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              Nome do restaurante
+            </label>
             <Input
+              className={inputClass}
               placeholder="Digite seu nome do restaurante"
               {...register("nome")}
             />
@@ -69,25 +86,37 @@ export default function CadastroPage() {
           </div>
 
           <div>
-            <Label>CNPJ</Label>
-            <Input placeholder="Digite o CNPJ" {...register("cnpj")} />
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              CNPJ
+            </label>
+            <Input
+              className={inputClass}
+              placeholder="Digite o CNPJ"
+              {...register("cnpj")}
+            />
             {errors.cnpj && (
               <p className="text-sm text-[#f65c5c]">{errors.cnpj.message}</p>
             )}
           </div>
 
           <div>
-            <Label>Descrição</Label>
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              Descrição
+            </label>
             <Input
+              className={inputClass}
               placeholder="Breve texto apresentando a empresa"
               {...register("descricao")}
             />
           </div>
 
           <div>
-            <Label>Email</Label>
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              Email
+            </label>
             <Input
               type="email"
+              className={inputClass}
               placeholder="Digite o email"
               {...register("email")}
             />
@@ -97,10 +126,13 @@ export default function CadastroPage() {
           </div>
 
           <div>
-            <Label>Senha</Label>
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              Senha
+            </label>
             <div className="relative">
               <Input
                 type={mostrarSenha ? "text" : "password"}
+                className={inputClass}
                 placeholder="Digite sua senha"
                 {...register("senha")}
               />
@@ -117,18 +149,25 @@ export default function CadastroPage() {
           </div>
 
           <div>
-            <Label>Confirmar Senha</Label>
+            <label className="font-poppins mb-[0.3em] block text-[1em] font-medium text-[#9E9E9E]">
+              Confirmar Senha
+            </label>
             <div className="relative">
               <Input
-                type={mostrarSenha ? "text" : "password"}
+                type={mostrarConfirmarSenha ? "text" : "password"}
+                className={inputClass}
                 placeholder="Digite sua senha novamente"
                 {...register("confirmarSenha")}
               />
               <span
                 className="text-muted-foreground absolute top-2.5 right-3 cursor-pointer"
-                onClick={() => setMostrarSenha((prev) => !prev)}
+                onClick={() => setMostrarConfirmarSenha((prev) => !prev)}
               >
-                {mostrarSenha ? <EyeOff size={18} /> : <Eye size={18} />}
+                {mostrarConfirmarSenha ? (
+                  <EyeOff size={18} />
+                ) : (
+                  <Eye size={18} />
+                )}
               </span>
             </div>
             {errors.confirmarSenha && (
@@ -140,7 +179,10 @@ export default function CadastroPage() {
 
           <div className="flex items-center space-x-2">
             <Checkbox id="termos" {...register("termos")} />
-            <label htmlFor="termos" className="text-sm leading-none">
+            <label
+              htmlFor="termos"
+              className="font-poppins text-[0.9em] leading-none font-medium text-[#9E9E9E]"
+            >
               Li e aceito os termos de privacidade
             </label>
           </div>
@@ -150,22 +192,24 @@ export default function CadastroPage() {
 
           <Button
             type="submit"
-            className="w-full bg-[#f65c5c] hover:bg-[#e25555]"
+            className="font-poppins w-full rounded-full bg-[#f65c5c] text-[1em] font-semibold text-[#FFE3CF] hover:bg-[#e25555]"
           >
             Registrar
           </Button>
         </form>
 
-        <p className="mt-4 text-sm">
+        <p className="font-poppins mt-4 text-[1em] font-medium text-[#9E9E9E]">
           Já possui uma conta?{" "}
-          <Link href="/auth/entrar" className="text-[#f65c5c] hover:underline">
+          <Link
+            href="/auth/entrar"
+            className="font-poppins font-medium text-[#f65c5c] hover:underline"
+          >
             Entre!
           </Link>
         </p>
       </div>
 
-      {/* Lado direito - imagem */}
-      <div className="hidden items-center justify-center rounded-[40px] bg-[#f65c5c] md:flex margin m-6">
+      <div className="m-6 hidden items-center justify-center rounded-[40px] bg-[#f65c5c] md:flex">
         <Image
           src="/garcom-ilustracao.png"
           alt="Garçom"
