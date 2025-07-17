@@ -1,0 +1,7 @@
+DATABASE_URL=postgresql://neondb_owner:npg_IS8qLsUd6YeA@ep-blue-sky-acdpwxmy-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+PGHOST=ep-blue-sky-acdpwxmy-pooler.sa-east-1.aws.neon.tech
+PGUSER=neondb_owner
+PGPASSWORD=npg_IS8qLsUd6YeA
+PGDATABASE=neondb
+PGPORT=5432
+PGSSLMODE=require
