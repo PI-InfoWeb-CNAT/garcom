@@ -30,10 +30,10 @@ export function Header() {
 >
             {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> 
             <DropdownMenuSeparator />*/}
-            <a href="#"><DropdownMenuItem className="cursor-pointer"><FaHome />Página principal</DropdownMenuItem></a>
-            <a href="#"><DropdownMenuItem className="cursor-pointer"><FaBookOpen />Cardápio</DropdownMenuItem></a>
-            <a href="#"><DropdownMenuItem className="cursor-pointer"><IoMdPeople /> Funcionarios</DropdownMenuItem></a>
-            <a href="#"><DropdownMenuItem className="cursor-pointer"><CgProfile />Perfil</DropdownMenuItem></a>
+            <a href="#"><DropdownMenuItem className="cursor-pointer font-poppins text-[1em] font-medium"><FaHome className="text-white text-2xl" />Página principal</DropdownMenuItem></a>
+            <a href="#"><DropdownMenuItem className="cursor-pointer font-poppins text-[1em] font-medium"><FaBookOpen className="text-white text-2xl" />Cardápio</DropdownMenuItem></a>
+            <a href="#"><DropdownMenuItem className="cursor-pointer font-poppins text-[1em] font-medium"><IoMdPeople className="text-white text-2xl" /> Funcionarios</DropdownMenuItem></a>
+            <a href="#"><DropdownMenuItem className="cursor-pointer font-poppins text-[1em] font-medium"><CgProfile className="text-white text-2xl"/>Perfil</DropdownMenuItem></a>
           </DropdownMenuContent>
         </DropdownMenu>
         
