@@ -12,13 +12,15 @@ export function Header() {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div className="flex items-center justify-center fixed top-0  bg-[#F65C5C] w-full h-28 p-6">
-      <header className="flex items-center justify-between w-full rounded-full h-14 pl-10 pr-10 box-border bg-white text-[#E55F4B]">
+    <div className="flex items-center justify-center fixed top-0  bg-[#F65C5C] w-full h-26 p-4">
+      <header className="flex items-center justify-between w-full rounded-full h-14 pl-3 pr-3 sm:pl-10 sm:pr-10 box-border bg-white text-[#E55F4B]">
+
         <h1 className="flex items-center align-center pt-px">
           <Image src="/logo.svg" alt="Logo" width={60} height={60} />
         </h1>
+
         <DropdownMenu>
-          <DropdownMenuTrigger className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 l--100px" onClick={() => setOpen(!open)} aria-label="Menu">
+          <DropdownMenuTrigger className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 " onClick={() => setOpen(!open)} aria-label="Menu">
             <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1"></span>
             <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1"></span>
             <span className="block w-6 h-0.5 bg-[#E55F4B]"></span>
@@ -29,25 +31,25 @@ export function Header() {
             {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> 
             <DropdownMenuSeparator />*/}
             <a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[19px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
     <FaHome className="text-white !size-[23px]" />Página principal
   </DropdownMenuItem>
 </a>
 
 <a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[19px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
     <FaBookOpen className="text-white !size-[23px]" />Cardápio
   </DropdownMenuItem>
 </a>
 
 <a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[19px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
     <IoMdPeople className="text-white !size-[23px]" /> Funcionarios
   </DropdownMenuItem>
 </a>
 
 <a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[19px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
     <CgProfile className="text-white !size-[23px] hover:text-[#3D3D3D]"/>Perfil
   </DropdownMenuItem>
 </a>
