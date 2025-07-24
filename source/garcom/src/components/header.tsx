@@ -48,7 +48,7 @@ export function Header() {
   </DropdownMenuItem>
 </a>
 
-<a href="#">
+<a href="/perfil">
   <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
     <CgProfile className="text-white !size-[23px] hover:text-[#3D3D3D]"/>Perfil
   </DropdownMenuItem>
@@ -65,7 +65,7 @@ export function Header() {
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Página principal</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Perfil</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
           </ol>
         </nav>
         

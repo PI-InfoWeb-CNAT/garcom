@@ -22,7 +22,7 @@ export function Footer() {
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Página principal</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Perfil</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
           </ol>
           <p>©2025 Garçom,  Todos os direitos reservados.</p>
         </nav>
