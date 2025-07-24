@@ -3,6 +3,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
 export default function LandingPage() {
+  const mainClass = "!pt-35 flex flex-col h-screen bg-white p-7 md:p-36 !pb-0";
     return (
       <>
         <Header />
@@ -16,19 +17,19 @@ export default function LandingPage() {
               className="h-auto w-full object-contain"
             />
           </section>
-          <section className="mb-8 w-full">
+          <section className={mainClass}>
             <Image
-              src="/garçom2.png"
+              src="/garc]om2.png"
               alt="Imagem do garçom"
               width={362.83}
               height={384.81}
               className="h-auto"
             />
             <div>
-              <h2 className="font-poppins text-[h2] font- text-[#F65C5C] uppercase">
+              <h2 className="font-poppins text-2xl font-semibold text-[#F65C5C]">
                 A gente entende a sua correria
               </h2>
-              <p>
+              <p className="text-[#9E9E9E]">
                 Aqui é simples. Você abre o cardápio do restaurante, escolhe o
                 que quer, faz seu pedido e… pronto! O pessoal da cozinha recebe
                 na hora. Você paga quando receber, em dinheiro, cartão, pix ou
@@ -46,7 +47,7 @@ export default function LandingPage() {
               <h3 className="font-poppins text-[#F65C5C] uppercase">
                 Qualidade supimpa
               </h3>
-              <p>
+              <p className="text-[#9E9E9E]">
                 Parceiros de confiança para garantir que tudo chegue do jeitinho
                 que você espera.
               </p>
@@ -60,7 +61,7 @@ export default function LandingPage() {
                 className=""
               />
               <h3 className="text-[#F65C5C]">Uma experiência digna</h3>
-              <p>
+              <p className="text-[#9E9E9E]">
                 No fim das contas, o que a gente quer é te ouvir dizer: "Ô,
                 Garçom… capricha aí!"
               </p>
