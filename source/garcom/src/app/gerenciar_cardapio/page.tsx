@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 import {
   Accordion,
   AccordionContent,
@@ -9,21 +9,29 @@ import {
 import { Input } from "@/components/ui/input"
 
 export default function Page() {
+  const mainClass = "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10"
   return (
     <>
       <Header />
-      <main className="font flex min-h-screen flex-col p-24 pt-45">
-        <div className="items-left max-w-2/3">
-          <div className="mb-10 flex flex-row items-center justify-between w-80/100">
+      <main className={mainClass}>
+        <div className="items-left flex-1 border-r-1 border-[#F55774] pr-30">
+          <div className="mb-10 flex flex-row items-center justify-between">
             <h2 className="mb-10 text-2xl font-bold text-red-400">Cardápio</h2>
-            <div className="flex flex-row items-center justify-between mb-5">
-              <Input placeholder="Adicionar novo item" className="bg-gray-100 border-0 text-gray-400 rounded-4xl"/>
+            <div className="mb-5 flex flex-row items-center justify-between">
+              <Input
+                placeholder="Adicionar novo produto"
+                className="rounded-4xl border-0 bg-gray-100 text-gray-400 w-100 items-right"
+              />
               <button className="cursor-pointer">
-                <img className="h-fit w-fit ml-0.5" src="/add.svg" alt="Adicionar" />
+                <img
+                  className="ml-0.5 h-fit w-fit"
+                  src="/add.svg"
+                  alt="Adicionar"
+                />
               </button>
             </div>
           </div>
-          <Accordion type="single" collapsible className="w-80/100">
+          <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-base text-gray-700">
                 Destaques
@@ -62,18 +70,10 @@ export default function Page() {
                       </p>
                       <div className="flex flex-row items-center space-x-1">
                         <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/editar.svg"
-                            alt="editar"
-                          />
+                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
                         </button>
                         <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/excluir.svg"
-                            alt="Deletar"
-                          />
+                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
                         </button>
                       </div>
                     </div>
@@ -83,7 +83,64 @@ export default function Page() {
             </AccordionItem>
           </Accordion>
         </div>
+        <div className="items-right w-2/5 pl-30">
+          <div className="mb-5 flex flex-row items-center justify-between">
+            <Input
+              placeholder="Adicionar nova categoria"
+              className="rounded-4xl border-0 bg-gray-100 text-gray-400"
+            />
+            <button className="cursor-pointer">
+              <img
+                className="ml-0.5 h-fit w-fit"
+                src="/add.svg"
+                alt="Adicionar"
+              />
+            </button>
+          </div>
+                <ul className="list-disc pl-5 marker:text-red-400">
+                  <li className="mb-5">
+                    <div className="flex flex-row items-center space-x-4">
+                      <h3 className="font-semibold text-gray-700">Item 1</h3>
+                      <div className="flex flex-row items-center space-x-1">
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
+                        </button>
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="mb-5">
+                    <div className="flex flex-row items-center space-x-4">
+                      <h3 className="font-semibold text-gray-700">Destaques</h3>
+                      <div className="flex flex-row items-center space-x-1">
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
+                        </button>
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="mb-5">
+                    <div className="flex flex-row items-center space-x-4">
+                      <h3 className="font-semibold text-gray-700">Sobremesas</h3>
+                      <div className="flex flex-row items-center space-x-1">
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
+                        </button>
+                        <button className="cursor-pointer">
+                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+        </div>
       </main>
+      <Footer />
     </>
   );
 }
