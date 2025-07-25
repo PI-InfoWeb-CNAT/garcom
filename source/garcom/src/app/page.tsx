@@ -13,14 +13,18 @@ export default function Page() {
         <h1 className={tituloClass}>Botoes do shadcn com tempero do kill</h1>
         <div className="flex items-center justify-center gap-4">
           <Button className="w-40" variant="rosa">
-            Default Button
+            Confirmar pedido
           </Button>
           <Button className="w-40" variant="branco">
-            Outline Button
+            Editar Perfil
           </Button>
           <Button className="w-40" variant="amarelo">
-            Destructive Button
+            Bater no chefe
           </Button>
+          <Button className="w-40" variant="laranja">
+            Calabraso
+          </Button>
+
         </div>
       </main>
       

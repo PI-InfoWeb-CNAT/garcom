@@ -9,22 +9,17 @@ const buttonVariants = cva(
     variants: {
       variant: {
         rosa:
-          "h-[35px] w-fit pl-10 pr-10 inline-flex items-center justify-center rounded-full  bg-[#F65C5C] text-white font-semibold font-poppins  hover:bg-[#E54747] transition-all",
-        destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "inline-flex cursor-pointer items-center justify-center rounded-full  bg-[#F65C5C] hover:bg-[#E54747] hover:text-[#FFE6E6] transition-all text-white font-semibold font-poppins",
         laranja:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "inline-flex cursor-pointer items-center justify-center rounded-full  bg-[#FF954A] hover:bg-[#DE9310] text-white hover:text-[#FFE6E6] font-semibold font-poppins",
         branco:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "inline-flex cursor-pointer items-center justify-center rounded-full  bg-white hover:bg-[#F6E1E1] text-[#F65C5C]  border border-[#F65C5C] font-semibold font-poppins",
         amarelo:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          " inline-flex cursor-pointer items-center justify-center rounded-full  bg-[#FFC300] hover:bg-[#F0B800] text-white hover:text-[#FFF9E6] font-semibold font-poppins ",
+        link: "text-[#F65C5C] text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9",
+        default: "h-[35px] w-fit pl-10 pr-10",
       },
     },
     defaultVariants: {
