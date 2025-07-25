@@ -45,7 +45,55 @@ export default function editarPerfil() {
     if (file) { setFotoBanner(URL.createObjectURL(file));}
   }
 
-  const {editar,handleSubmit,formState: { errors }} = useForm<FormData>({resolver: zodResolver(schema),});
+  const { handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  function editar(data: FormData) {
+    console.log("Dados editados:", data);
+  }
+
+  const diasDaSemana = [
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+  "Domingo",
+  ];
+  
+    const [horarios, setHorarios] = useState(
+      diasDaSemana.map((dia) => ({
+        dia,
+        aberto: dia !== "Domingo", // por padrão, domingo fechado
+        inicio: dia !== "Domingo" ? "08:00" : "",
+        fim: dia !== "Domingo" ? "22:00" : "",
+      }))
+    );
+
+    const toggleDia = (index: number) => {
+      const novos = [...horarios];
+      novos[index].aberto = !novos[index].aberto;
+      if (!novos[index].aberto) {
+        novos[index].inicio = "";
+        novos[index].fim = "";
+      } else {
+        novos[index].inicio = "08:00";
+        novos[index].fim = "22:00";
+      }
+      setHorarios(novos);
+    };
+
+    const alterarHorario = (
+      index: number,
+      campo: "inicio" | "fim",
+      valor: string
+    ) => {
+      const novos = [...horarios];
+      novos[index][campo] = valor;
+      setHorarios(novos);
+    };
 
     return (
     <div>
@@ -82,7 +130,7 @@ export default function editarPerfil() {
           </label>
         </div>
         </section>
-        <form className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(editar)} className="flex flex-col gap-4">
         <section className="flex flex-col gap-4">
           <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
@@ -139,39 +187,86 @@ export default function editarPerfil() {
                       <label className="text-[20px] font-medium text-[#9E9E9E]">CEP</label>
                       <Input className={inputClass} type="text" placeholder="Digite"/>
                     </div>
-                    <div className="w-full h-fit">
-                      <label className="text-[20px] font-medium text-[#9E9E9E] col-span-2">Logradouro</label>
+                    <div className="w-full h-fit col-span-2">
+                      <label className="text-[20px] font-medium text-[#9E9E9E] ">Logradouro</label>
                       <Input className={inputClass} type="text" placeholder="Digite"/>
                     </div>
                     <div className="w-full h-fit">
                       <label className="text-[20px] font-medium text-[#9E9E9E]">Nº</label>
                       <Input className={inputClass} type="type" placeholder="233"/>
                     </div>
-                    <div className="w-full h-fit">
-                      <label className="text-[20px] font-medium text-[#9E9E9E] col-span-3">Complemento</label>
+                    <div className="w-full h-fit col-span-3">
+                      <label className="text-[20px] font-medium text-[#9E9E9E] ">Complemento</label>
                       <Input className={inputClass} type="text" placeholder="Digite"/>
                     </div>
                     <div className="w-full h-fit">
                       <label className="text-[20px] font-medium text-[#9E9E9E]">Bairro</label>
                       <Input className={inputClass} type="text" placeholder="Digite"/>
                     </div>
-                    <div className="w-full h-fit">
-                      <label className="text-[20px] font-medium text-[#9E9E9E] col-span-2">Cidade</label>
+                    <div className="w-full h-fit col-span-2">
+                      <label className="text-[20px] font-medium text-[#9E9E9E]">Cidade</label>
                       <Input className={inputClass} type="text" placeholder="Natal rs"/>
                     </div>
-                    <div className="w-full h-fit">
-                      <label className="text-[20px] font-medium text-[#9E9E9E] col-span-2">Estado</label>
+                    <div className="w-full h-fit col-span-2">
+                      <label className="text-[20px] font-medium text-[#9E9E9E] ">Estado</label>
                       <Input className={inputClass} type="text" placeholder="Rio grande do norte"/>
                     </div>
+                  </div>          
+              </AccordionContent>
+            </AccordionItem>
+        </Accordion>
+        </section>
 
-                  </div>
+        <section className="flex flex-col">
+          <Accordion type="single" collapsible>
+          <AccordionItem value="item-3">
+              <AccordionTrigger className="cursor-pointer !no-underline"><h2 className={tituloClass}>Horários de Funcionamento</h2></AccordionTrigger>
+              <AccordionContent>
+                    <div className="flex flex-col gap-4">
+                      {horarios.map((dia, index) => (
+                        <div key={dia.dia} className="flex items-center justify-between border-b pb-2">
+                          <span className="w-32 text-gray-700">{dia.dia}</span>
+
+                          <label className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={dia.aberto}
+                              onChange={() => toggleDia(index)}
+                              className="accent-red-500 w-5 h-5"
+                            />
+                            <span className="text-sm text-gray-600">
+                              {dia.aberto ? "Aberto" : "Fechado"}
+                            </span>
+                          </label>
+
+                          <div className="flex gap-2 items-center">
+                            <input
+                              type="time"
+                              value={dia.inicio}
+                              disabled={!dia.aberto}
+                              onChange={(e) => alterarHorario(index, "inicio", e.target.value)}
+                              className="bg-gray-100 px-2 py-1 rounded disabled:opacity-50"
+                            />
+                            <span className="text-gray-500">-</span>
+                            <input
+                              type="time"
+                              value={dia.fim}
+                              disabled={!dia.aberto}
+                              onChange={(e) => alterarHorario(index, "fim", e.target.value)}
+                              className="bg-gray-100 px-2 py-1 rounded disabled:opacity-50"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  
                   
               </AccordionContent>
             </AccordionItem>
         </Accordion>
         </section>
 
-        <Button variant="rosa">Salvar Alterações</Button>
+        <Button type="submit" variant="rosa">Salvar Alterações</Button>
         </form>
          
 
