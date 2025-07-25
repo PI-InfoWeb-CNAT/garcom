@@ -25,7 +25,7 @@ export default function LandingPage() {
               className="h-auto"
             />
             <div>
-              <h2 className="font-poppins text-[h2] font- text-[#F65C5C] uppercase">
+              <h2 className="font-poppins font- text-[#F65C5C] uppercase">
                 A gente entende a sua correria
               </h2>
               <p>

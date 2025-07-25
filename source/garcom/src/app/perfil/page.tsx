@@ -43,8 +43,7 @@ export default function perfil() {
       <main className={mainClass}>
         
         <div className="flex align-center gap-10 h-auto mb-10">
-
-        <div className="flex flex-col items-center relative justify-center w-full flex-2 h-50">
+          <div className="flex flex-col items-center relative justify-center w-full flex-2 h-50">
           <img src={fotoBanner || "/default-banner.png"} alt="banner"
             className="w-full h-50  object-cover"/>
 
@@ -56,21 +55,17 @@ export default function perfil() {
 
             <MdOutlineEdit className="text-[#F65C5C] text-lg" />
           </label>
+          </div>
         </div>
+
+        <div className="flex items-center gap-5">
+          <Button className="w-40" variant="rosa">
+            Confirmar pedido
+          </Button>
+          <Button className="w-40" variant="branco">
+            Editar Perfil
+          </Button>
         </div>
-        <section>
-          <div className="flex items-center justify-center gap-4">
-                    <Button className="w-40" variant="rosa">
-                      Default Button
-                    </Button>
-                    <Button className="w-40" variant="branco">
-                      Outline Button
-                    </Button>
-                    <Button className="w-40" variant="amarelo">
-                      Destructive Button
-                    </Button>
-                  </div>
-        </section>
          
       </main>
       <Footer />
