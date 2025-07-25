@@ -20,7 +20,7 @@ export default function Page() {
             <div className="mb-5 flex flex-row items-center justify-between">
               <Input
                 placeholder="Adicionar novo produto"
-                className="rounded-4xl border-0 bg-[#EFEFEF] text-4xl text-gray-400 text-right"
+                className="rounded-4xl border-0 bg-[#EFEFEF] text-right text-6xl font-semibold text-[#B9B9B9]"
               />
               <button className="cursor-pointer">
                 <img
@@ -70,10 +70,18 @@ export default function Page() {
                       </p>
                       <div className="flex flex-row items-center space-x-1">
                         <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
+                          <img
+                            className="h-6 w-6"
+                            src="/editar.svg"
+                            alt="editar"
+                          />
                         </button>
                         <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
+                          <img
+                            className="h-6 w-6"
+                            src="/excluir.svg"
+                            alt="Deletar"
+                          />
                         </button>
                       </div>
                     </div>
@@ -87,7 +95,7 @@ export default function Page() {
           <div className="mb-5 flex flex-row items-center justify-between">
             <Input
               placeholder="Adicionar nova categoria"
-              className="rounded-4xl border-0 bg-gray-100 text-gray-400"
+              className="rounded-4xl border-0 bg-[#EFEFEF] text-right text-6xl font-semibold text-[#B9B9B9]"
             />
             <button className="cursor-pointer">
               <img
@@ -97,47 +105,47 @@ export default function Page() {
               />
             </button>
           </div>
-                <ul className="list-disc pl-5 marker:text-red-400">
-                  <li className="mb-5">
-                    <div className="flex flex-row items-center space-x-4">
-                      <h3 className="font-semibold text-gray-700">Item 1</h3>
-                      <div className="flex flex-row items-center space-x-1">
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
-                        </button>
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mb-5">
-                    <div className="flex flex-row items-center space-x-4">
-                      <h3 className="font-semibold text-gray-700">Destaques</h3>
-                      <div className="flex flex-row items-center space-x-1">
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
-                        </button>
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mb-5">
-                    <div className="flex flex-row items-center space-x-4">
-                      <h3 className="font-semibold text-gray-700">Sobremesas</h3>
-                      <div className="flex flex-row items-center space-x-1">
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/editar.svg" alt="editar"/>
-                        </button>
-                        <button className="cursor-pointer">
-                          <img className="h-6 w-6" src="/excluir.svg" alt="Deletar"/>
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
+          <ul className="list-disc pl-5 marker:text-red-400">
+            <li className="mb-5">
+              <div className="flex flex-row items-center space-x-4">
+                <h3 className="font-semibold text-gray-700">Item 1</h3>
+                <div className="flex flex-row items-center space-x-1">
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
+                  </button>
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li className="mb-5">
+              <div className="flex flex-row items-center space-x-4">
+                <h3 className="font-semibold text-gray-700">Destaques</h3>
+                <div className="flex flex-row items-center space-x-1">
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
+                  </button>
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li className="mb-5">
+              <div className="flex flex-row items-center space-x-4">
+                <h3 className="font-semibold text-gray-700">Sobremesas</h3>
+                <div className="flex flex-row items-center space-x-1">
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
+                  </button>
+                  <button className="cursor-pointer">
+                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </main>
       <Footer />
