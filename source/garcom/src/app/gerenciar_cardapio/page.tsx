@@ -20,7 +20,7 @@ export default function Page() {
             <div className="mb-5 flex flex-row items-center justify-between">
               <Input
                 placeholder="Adicionar novo produto"
-                className="rounded-4xl border-0 bg-gray-100 text-gray-400 w-100 items-right"
+                className="rounded-4xl border-0 bg-[#EFEFEF] text-4xl text-gray-400 text-right"
               />
               <button className="cursor-pointer">
                 <img
