@@ -1,23 +1,12 @@
-import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Label } from "@/components/ui/label";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
+import { Header } from "@/components/header";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
-
+import { Input } from "@/components/ui/input";
 
 export default function Page() {
   const mainClass =
@@ -26,7 +15,7 @@ export default function Page() {
     <>
       <Header />
       <main className={mainClass}>
-        <section className="rounded-3xl border-1 border-[#F55774] p-6 h-175">
+        <section className="h-175 rounded-3xl border-1 border-[#F55774] p-6">
           <form className="space-y-3">
             <div>
               <button className="absolute m-5 cursor-pointer">
@@ -90,10 +79,8 @@ export default function Page() {
               <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-white via-white/85 to-transparent"></div>
             </div>
             <div className="flex justify-between">
-              <Button className="rounded-3xl bg-[#FFC300] p-6">
-                Cancelar
-              </Button>
-              <Button className="rounded-3xl bg-[#E55F4B] p-6 pl-15 pr-15">
+              <Button className="rounded-3xl bg-[#FFC300] p-6">Cancelar</Button>
+              <Button className="rounded-3xl bg-[#E55F4B] p-6 pr-15 pl-15">
                 Salvar Produto
               </Button>
             </div>

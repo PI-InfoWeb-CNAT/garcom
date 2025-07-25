@@ -1,12 +1,12 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
 export default function Page() {
   const mainClass = "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10"
