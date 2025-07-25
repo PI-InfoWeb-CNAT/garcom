@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer"
 
 export default function Page() {
   const tituloClass =  "text-[23px] font-bold mb-6 text-[##E55F4B]"; 
-  const mainClass = "!pt-35 flex flex-col h-screen bg-white p-7 md:p-36 !pb-0"
+  const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
   return (
     <div>
       <Header />

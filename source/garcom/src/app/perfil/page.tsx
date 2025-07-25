@@ -22,7 +22,7 @@ export default function perfil() {
 
     const inputClass = "font-poppins rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
     
-    const mainClass = "!pt-35 flex flex-col h-screen bg-white p-7 md:p-36 !pb-0"
+    const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
     
     
     const [fotoPerfil, setFotoPerfil] = useState<string | null>(null)
@@ -59,12 +59,9 @@ export default function perfil() {
         </div>
 
         <div className="flex items-center gap-5">
-          <Button className="w-40" variant="rosa">
-            Confirmar pedido
-          </Button>
-          <Button className="w-40" variant="branco">
-            Editar Perfil
-          </Button>
+          <Button className="w-40" variant="rosa"><a href="/perfil/editar">Editar Perfil</a></Button>
+          <Button className="w-40" variant="branco">Cardápio</Button>
+          <Button className="w-40" variant="branco">Funcionarios</Button>
         </div>
          
       </main>
