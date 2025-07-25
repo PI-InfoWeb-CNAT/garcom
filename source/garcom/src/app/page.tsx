@@ -10,15 +10,15 @@ export default function Page() {
       <Header />
       
       <main className={mainClass}>
-        <h1 className={tituloClass}>Exemplo de uso do Button do shadcn/ui</h1>
+        <h1 className={tituloClass}>Botoes do shadcn com tempero do kill</h1>
         <div className="flex items-center justify-center gap-4">
-          <Button className="w-64" variant="default">
+          <Button className="w-40" variant="rosa">
             Default Button
           </Button>
-          <Button className="w-64" variant="outline">
+          <Button className="w-40" variant="branco">
             Outline Button
           </Button>
-          <Button className="w-64" variant="destructive">
+          <Button className="w-40" variant="amarelo">
             Destructive Button
           </Button>
         </div>

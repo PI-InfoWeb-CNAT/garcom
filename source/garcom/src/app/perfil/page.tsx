@@ -58,9 +58,14 @@ export default function perfil() {
           </label>
         </div>
         </div>
-         <Button className="w-64" variant="default">
-            <a href="/editar">Editar Perfil</a>
-          </Button>
+        <div className="flex items-center gap-5">
+          <a href="/perfil/editar" className="h-[35px] w-fit pl-10 pr-10 inline-flex items-center justify-center rounded-full  bg-[#F65C5C] hover:bg-[#E54747] hover:text-[#FFE6E6] transition-all text-white font-semibold font-poppins ">Editar Perfil</a>
+          <a href="/perfil/editar" className="h-[35px] w-fit pl-10 pr-10 inline-flex items-center justify-center rounded-full  bg-[#FF954A] hover:bg-[#DE9310] text-white hover:text-[#FFE6E6] font-semibold font-poppins ">Editar Perfil</a>
+          <a href="/perfil/editar" className="h-[35px] w-fit pl-10 pr-10 inline-flex items-center justify-center rounded-full  bg-white hover:bg-[#F6E1E1] text-[#F65C5C]  border border-[#F65C5C] font-semibold font-poppins ">Editar Perfil</a>
+          <a href="/perfil/editar" className="h-[35px] w-fit pl-10 pr-10 inline-flex items-center justify-center rounded-full  bg-[#FFC300] hover:bg-[#F0B800] text-white hover:text-[#FFF9E6] font-semibold font-poppins ">Editar Perfil</a>
+
+        </div>
+         
       </main>
       <Footer />
     </div>

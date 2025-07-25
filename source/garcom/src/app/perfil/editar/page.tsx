@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 const schema = z.object({
   usuario: z.string().min(2, "Usuário é obrigatório"),
@@ -43,7 +44,7 @@ export default function editarPerfil() {
       <main className={mainClass}>
         <h1 className={tituloClass}>Editar Restaurante</h1>
         
-        <div className="flex align-center gap-10 h-auto mb-10">
+        <section className="flex align-center gap-10 h-auto mb-10">
           <div className="flex flex-col items-center relative justify-center w-50 h-50">
           <img src={fotoPerfil || "/default-profile.png"} alt="Foto do perfil"
             className="w-50 h-50 rounded-full object-cover"/>
@@ -71,14 +72,38 @@ export default function editarPerfil() {
             <MdOutlineEdit className="text-[#F65C5C] text-lg" />
           </label>
         </div>
-        </div>
-         <h2 className={tituloClass}>Informações do Restaurante</h2>
+        </section>
+        <section className="flex flex-col gap-4 mb-6">
+          
+          <Accordion type="single" collapsible>
+          <AccordionItem value="item-1">
+              <AccordionTrigger><h2 className={tituloClass}>Informações do Restaurante</h2></AccordionTrigger>
+              <AccordionContent>
+                <form className="flex flex-col gap-4">
+                  <div>
+                    <label>Nome do restaurante</label>
+                    <Input className={inputClass} type="text" placeholder="Nome do Restaurante"/>
+                  </div>
+                  <Input
+                    className={inputClass}
+                    type="text"
+                    placeholder="Endereço"
+                  />
+                  <Input
+                    className={inputClass}
+                    type="text"
+                    placeholder="Telefone"
+                  />
+                  <Button className="w-64" variant="rosa">Salvar</Button>
+                </form>
+              </AccordionContent>
+            </AccordionItem>
+        </Accordion>
+        </section>
+         
 
 
-        <Input
-          className={inputClass}
-          placeholder="hello word"
-        />
+        
       </main>
       <Footer />
     </div>

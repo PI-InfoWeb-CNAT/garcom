@@ -21,9 +21,9 @@ export function Header() {
 
         <DropdownMenu>
           <DropdownMenuTrigger className="cursor-pointer md:hidden flex flex-col justify-center items-center w-10 h-10 " onClick={() => setOpen(!open)} aria-label="Menu">
-            <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1"></span>
-            <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1"></span>
-            <span className="block w-6 h-0.5 bg-[#E55F4B]"></span>
+            <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1 hover:bg-[#E54747] transition-all"></span>
+            <span className="block w-6 h-0.5 bg-[#E55F4B] mb-1 hover:bg-[#E54747] transition-all"></span>
+            <span className="block w-6 h-0.5 bg-[#E55F4B] hover:bg-[#E54747] transition-all"></span>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="w-65 bg-[#3D3D3D] text-white border-none p-0 m-0 rounded-2xl" align="end"
@@ -62,10 +62,10 @@ export function Header() {
           md:flex md:flex-row md:static md:bg-transparent md:shadow-none md:py-0 md:gap-5
         `}>
           <ol className="flex flex-col md:flex-row items-center justify-center gap-5">
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Página principal</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Página principal</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
           </ol>
         </nav>
         
