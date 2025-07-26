@@ -1,16 +1,12 @@
-import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { restaurante } from "./restaurante";
 
 export const funcionario = pgTable("funcionario", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
+  user_id: text("user_id").notNull(),
   nome: varchar("nome", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
   cpf: varchar("cpf", { length: 14 }).notNull().unique(),
-  senha: varchar("senha", { length: 255 }).notNull(),
-  restaurante_id: uuid("restaurante_id")
-    .references(() => restaurante.id)
-    .notNull(),
+  restaurante_id: uuid("restaurante_id").notNull(),
 });
