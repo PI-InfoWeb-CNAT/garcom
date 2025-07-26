@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from "react";
+
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import {
@@ -8,8 +12,31 @@ import {
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 
+
 export default function Page() {
   const mainClass = "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10"
+
+  // Adicionar categoria
+  const [categorias, setCategoria] = useState([{id: 1, nome: "Destaques"}, {id: 2, nome: "Bebidas"}, {id: 3, nome: "Sobremesas"}]);
+  const [novaCategoria, setNovaCategoria] = useState("");
+  const addCategoria = () => {
+    if (novaCategoria.trim() !== "") {
+      const categoria = {
+        id: categorias.length + 1,
+        nome: novaCategoria,
+      };
+      setCategoria([...categorias, categoria]);
+    }
+    setNovaCategoria("");
+  };
+
+  // excluir categoria
+  const excluirCategoria = (id: number) => {
+    const novasCategorias = categorias.filter(categoria => categoria.id !== id);
+    setCategoria(novasCategorias);
+  }
+
+
   return (
     <>
       <Header />
@@ -96,8 +123,11 @@ export default function Page() {
             <Input
               placeholder="Adicionar nova categoria"
               className="rounded-4xl border-0 bg-[#EFEFEF] text-right text-6xl font-semibold text-[#B9B9B9]"
+              type="text"
+              value={novaCategoria}
+              onChange={(e) => setNovaCategoria(e.target.value)}
             />
-            <button className="cursor-pointer">
+            <button className="cursor-pointer" onClick={addCategoria}>
               <img
                 className="ml-0.5 h-fit w-fit"
                 src="/add.svg"
@@ -106,45 +136,21 @@ export default function Page() {
             </button>
           </div>
           <ul className="list-disc pl-5 marker:text-red-400">
-            <li className="mb-5">
-              <div className="flex flex-row items-center space-x-4">
-                <h3 className="font-semibold text-gray-700">Item 1</h3>
-                <div className="flex flex-row items-center space-x-1">
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
-                  </button>
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
-                  </button>
+            {categorias.map((categoria) => (
+              <li key={categoria.id} className="mb-5">
+                <div className="flex flex-row items-center space-x-4">
+                  <h3 className="font-semibold text-gray-700">{categoria.nome}</h3>
+                  <div className="flex flex-row items-center space-x-1">
+                    <button className="cursor-pointer">
+                      <img className="h-6 w-6" src="/editar.svg" alt="editar" />
+                    </button>
+                    <button className="cursor-pointer" onClick={() => excluirCategoria(categoria.id)}>
+                      <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li className="mb-5">
-              <div className="flex flex-row items-center space-x-4">
-                <h3 className="font-semibold text-gray-700">Destaques</h3>
-                <div className="flex flex-row items-center space-x-1">
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
-                  </button>
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li className="mb-5">
-              <div className="flex flex-row items-center space-x-4">
-                <h3 className="font-semibold text-gray-700">Sobremesas</h3>
-                <div className="flex flex-row items-center space-x-1">
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/editar.svg" alt="editar" />
-                  </button>
-                  <button className="cursor-pointer">
-                    <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
-                  </button>
-                </div>
-              </div>
-            </li>
+              </li>
+            ))}
           </ul>
         </div>
       </main>
