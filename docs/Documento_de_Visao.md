@@ -8,6 +8,7 @@
 | 05/05/2025 | **1.00** | Versão Inicial  | Beatriz Maria |
 | 15/05/2025 | **2.00** | Modificações nos requisitos e adição da entidade funcionários | Beatriz Maria e Vinicius Henrique |
 | 10/07/2025 | **3.00** | Adição de novos casos de uso | Rodrigo |
+| 10/07/2025 | **3.50** | Correção dos casos de uso | Kilton J. Araujo |
 
 ## 1. Objetivo do Projeto 
 O projeto __Garçom__ tem como objetivo possibilitar restaurantes utilizarem um sistema de cardápio e comandas eletrônicas
@@ -84,10 +85,10 @@ O sistema Garçom será uma plataforma voltada para restaurantes que desejam mod
 | F12    | Acompanhar status do pedido              | O cliente pode acompanhar o andamento do seu pedido, desde o envio até a entrega na mesa.                                        |
 | F13    | Habilitar comanda para mesa              | O funcionário pode habilitar ou desabilitar mesas, disponibilizando-as para uso no sistema e permitindo o início de comandas vinculadas a elas.|
 | F14    | Encerrar comanda                         | O funcionário finaliza a comanda que contém os pedidos de determinada mesa.                                                      |
-| F14    | Acesso ao cardápio via QR Code           | O cliente pode acessar o cardápio digital escaneando um QR Code em sua mesa.                                                     |
-| F15    | Login de funcionário                     | O funcionar pode acessar o sistema com login e senha seguros.                                                                    |
-| F16    | Gerar QR Code                            | O restaurante pode gerar o QR das mesas para acesso do cliente.                                                                  | 
-| F17    | Gerenciar mesas                            | O restaurante adicionar ou excluir mesas.                                                                  | 
+| F15    | Acesso ao cardápio via QR Code           | O cliente pode acessar o cardápio digital escaneando um QR Code em sua mesa.                                                     |
+| F16    | Login de funcionário                     | O funcionar pode acessar o sistema com login e senha seguros.                                                                    |
+| F17    | Gerar QR Code                            | O restaurante pode gerar o QR das mesas para acesso do cliente.                                                                  | 
+| F18    | Gerenciar mesas                            | O restaurante adicionar ou excluir mesas.                                                                  | 
 
 
 ## 9.	Requisitos não-funcionais 
