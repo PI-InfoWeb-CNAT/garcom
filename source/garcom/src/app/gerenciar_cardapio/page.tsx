@@ -183,7 +183,7 @@ export default function Page() {
                           cancelarEdicao();
                         }
                       }}
-                      className="rounded-lg border-1 border-[#83546A] bg-white p-2 font-semibold text-gray-700"
+                      className="rounded-4xl border-1 border-[#83546A] bg-white p-1 font-semibold text-gray-700"
                       autoFocus
                     />
                   ) : (
@@ -199,8 +199,8 @@ export default function Page() {
                           onClick={salvarEdicao}
                         >
                           <img
-                            className="h-6 w-6"
-                            src="/salvar.svg"
+                            className="h-8 w-8"
+                            src="/editar.svg"
                             alt="Salvar"
                           />
                         </button>
@@ -209,8 +209,8 @@ export default function Page() {
                           onClick={cancelarEdicao}
                         >
                           <img
-                            className="h-6 w-6"
-                            src="/cancelar.svg"
+                            className="h-8 w-8"
+                            src="/excluir.svg"
                             alt="Cancelar"
                           />
                         </button>
