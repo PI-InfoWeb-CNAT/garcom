@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 
@@ -12,12 +12,16 @@ import {
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 
-
 export default function Page() {
-  const mainClass = "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10"
+  const mainClass =
+    "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
   // Adicionar categoria
-  const [categorias, setCategoria] = useState([{id: 1, nome: "Destaques"}, {id: 2, nome: "Bebidas"}, {id: 3, nome: "Sobremesas"}]);
+  const [categorias, setCategoria] = useState([
+    { id: 1, nome: "Destaques" },
+    { id: 2, nome: "Bebidas" },
+    { id: 3, nome: "Sobremesas" },
+  ]);
   const [novaCategoria, setNovaCategoria] = useState("");
   const addCategoria = () => {
     if (novaCategoria.trim() !== "") {
@@ -32,10 +36,38 @@ export default function Page() {
 
   // excluir categoria
   const excluirCategoria = (id: number) => {
-    const novasCategorias = categorias.filter(categoria => categoria.id !== id);
+    const novasCategorias = categorias.filter(
+      (categoria) => categoria.id !== id,
+    );
     setCategoria(novasCategorias);
-  }
+  };
 
+  // editar categoria
+  const [editandoId, setEditandoId] = useState<number | null>(null);
+  const [nomeEditando, setNomeEditando] = useState("");
+
+  const iniciarEdicao = (id: number, nome: string) => {
+    setEditandoId(id);
+    setNomeEditando(nome);
+  };
+
+  const cancelarEdicao = () => {
+    setEditandoId(null);
+    setNomeEditando("");
+  };
+
+  const salvarEdicao = () => {
+    if (nomeEditando.trim() !== "" && editandoId !== null) {
+      const novasCategorias = categorias.map((categoria) => {
+        if (categoria.id === editandoId) {
+          return { ...categoria, nome: nomeEditando };
+        }
+        return categoria;
+      });
+      setCategoria(novasCategorias);
+      cancelarEdicao();
+    }
+  };
 
   return (
     <>
@@ -139,14 +171,76 @@ export default function Page() {
             {categorias.map((categoria) => (
               <li key={categoria.id} className="mb-5">
                 <div className="flex flex-row items-center space-x-4">
-                  <h3 className="font-semibold text-gray-700">{categoria.nome}</h3>
+                  {editandoId === categoria.id ? (
+                    <Input
+                      type="text"
+                      value={nomeEditando}
+                      onChange={(e) => setNomeEditando(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          salvarEdicao();
+                        } else if (e.key === "Escape") {
+                          cancelarEdicao();
+                        }
+                      }}
+                      className="rounded-lg border-1 border-[#83546A] bg-white p-2 font-semibold text-gray-700"
+                      autoFocus
+                    />
+                  ) : (
+                    <h3 className="font-semibold text-gray-700">
+                      {categoria.nome}
+                    </h3>
+                  )}
                   <div className="flex flex-row items-center space-x-1">
-                    <button className="cursor-pointer">
-                      <img className="h-6 w-6" src="/editar.svg" alt="editar" />
-                    </button>
-                    <button className="cursor-pointer" onClick={() => excluirCategoria(categoria.id)}>
-                      <img className="h-6 w-6" src="/excluir.svg" alt="Deletar" />
-                    </button>
+                    {editandoId === categoria.id ? (
+                      <>
+                        <button
+                          className="cursor-pointer"
+                          onClick={salvarEdicao}
+                        >
+                          <img
+                            className="h-6 w-6"
+                            src="/salvar.svg"
+                            alt="Salvar"
+                          />
+                        </button>
+                        <button
+                          className="cursor-pointer"
+                          onClick={cancelarEdicao}
+                        >
+                          <img
+                            className="h-6 w-6"
+                            src="/cancelar.svg"
+                            alt="Cancelar"
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="cursor-pointer"
+                          onClick={() =>
+                            iniciarEdicao(categoria.id, categoria.nome)
+                          }
+                        >
+                          <img
+                            className="h-6 w-6"
+                            src="/editar.svg"
+                            alt="editar"
+                          />
+                        </button>
+                        <button
+                          className="cursor-pointer"
+                          onClick={() => excluirCategoria(categoria.id)}
+                        >
+                          <img
+                            className="h-6 w-6"
+                            src="/excluir.svg"
+                            alt="Deletar"
+                          />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </li>
