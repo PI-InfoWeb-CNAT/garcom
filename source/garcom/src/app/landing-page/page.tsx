@@ -1,10 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import "@/app/globals.css";
 
 export default function LandingPage() {
-  const mainClass = "!pt-35 h-full bg-white p-7 md:p-36 !pb-0";
+  const mainClass = "pt-35 h-full bg-white p-7 md:p-36 !pb-0";
   return (
     <>
       <Header />
@@ -74,7 +75,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-        <section className={mainClass + " w-full !bg-[#ffffff]"}>
+        <section className={mainClass + " w-full !bg-[#ffffff] !pb-20"}>
           <h2 className="mb-6 text-3xl font-semibold text-[#F65C5C]">
             Como funciona?
           </h2>
@@ -89,7 +90,7 @@ export default function LandingPage() {
                   className="mb-3 h-auto object-contain"
                 />
               </div>
-              <h3 className=" text-lg font-semibold text-[#83546A]">
+              <h3 className="text-lg font-semibold text-[#83546A]">
                 Escolha seus itens
               </h3>
               <p className="text-[#9E9E9E]">
@@ -151,6 +152,102 @@ export default function LandingPage() {
                 restaurante.
               </p>
             </div>
+          </div>
+        </section>
+        <section
+          className={
+            mainClass +
+            " flex w-full flex-col items-center !bg-[#260000] !pt-10 !pb-10 text-[#FFFFFF]"
+          }
+        >
+          <h2 className="text-center text-4xl">A prova está nos números!</h2>
+          <div className="mt-10 flex w-full max-w-6xl items-center justify-between gap-10 text-center">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <Image
+                  src="/pizza.svg"
+                  alt="Pizza icon"
+                  width={48}
+                  height={48}
+                  className="h-auto object-contain"
+                />
+                <h3 className="text-5xl">123</h3>
+              </div>
+              <p className="text-center">Restaurantes registrados</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <Image
+                  src="/porco.svg"
+                  alt="Porco icon"
+                  width={53}
+                  height={48}
+                  className="h-auto object-contain"
+                />
+                <h3 className="text-5xl">37K</h3>
+              </div>
+              <p className="text-center">Pedidos concluídos</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <Image
+                  src="/melancia.svg"
+                  alt="Melancia icon"
+                  width={47}
+                  height={48}
+                  className="h-auto object-contain"
+                />
+                <h3 className="text-5xl">789</h3>
+              </div>
+              <p className="text-center">Funcionários registrados</p>
+            </div>
+          </div>
+        </section>
+        <section
+          className={
+            mainClass +
+            " flex w-full items-center justify-between !pt-20 !pb-20"
+          }
+        >
+          <div className="flex gap-7">
+            <div className="h-65 rounded-2xl bg-[#F65C5C] pt-12 pr-18 pl-11 text-white">
+              <h2 className="text-2xl">
+                Sua chance<br></br> de crescer
+              </h2>
+              <p className="text-lg">
+                Cadastre seu restaurante<br></br> ou seu mercado
+              </p>
+              <Link href="/auth/cadastro">
+                <button className="mt-4 flex cursor-pointer items-center rounded-4xl bg-[#FFFFFF] px-5 py-2 text-sm text-[#616161] transition-colors hover:bg-[#FFFFFF50]">
+                  Registrar
+                  <Image
+                    src="/seta-direita.svg"
+                    alt="Seta para a direita"
+                    width={10}
+                    height={16}
+                    className="ml-2 inline h-auto"
+                  />
+                </button>
+              </Link>
+            </div>
+            <div className="h-65 rounded-2xl bg-[#F6B23C] pt-12 pr-18 pl-11 text-white">
+              <h2 className="text-2xl">
+                Gerencie<br></br> seu restaurante
+              </h2>
+              <p className="text-lg">
+                Controle suas mesas, seus<br></br> pedidos e seu cardápio.
+                <br></br> Tudo digital.
+              </p>
+            </div>
+          </div>
+          <div>
+            <Image
+              src="/grafico.png"
+              alt="Gráfico"
+              width={200}
+              height={500}
+              className="h-auto w-full object-contain"
+            />
           </div>
         </section>
       </main>
