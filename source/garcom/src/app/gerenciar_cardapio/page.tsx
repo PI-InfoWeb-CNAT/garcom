@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -14,15 +15,24 @@ import { Input } from "@/components/ui/input";
 
 export default function Page() {
   const mainClass =
-    "!pt-35 flex flex-row items-right h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
+    "!pt-35 flex flex-row items-start min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
   // Adicionar categoria
-  const [categorias, setCategoria] = useState([
-    { id: 1, nome: "Destaques" },
-    { id: 2, nome: "Bebidas" },
-    { id: 3, nome: "Sobremesas" },
-  ]);
+  const [categorias, setCategoria] = useState([]);
   const [novaCategoria, setNovaCategoria] = useState("");
+
+  useEffect(() => {
+    const categoriasSalvas = localStorage.getItem("categorias");
+    if (categoriasSalvas !== null) {
+      setCategoria(JSON.parse(categoriasSalvas));
+    }
+  }, []);
+
+  // salvar categorias no localStorage
+  const salvarLocalStorage = (novasCategorias) => {
+    localStorage.setItem("categorias", JSON.stringify(novasCategorias));
+  };
+
   const addCategoria = () => {
     if (novaCategoria.trim() !== "") {
       const categoria = {
@@ -30,8 +40,9 @@ export default function Page() {
         nome: novaCategoria,
       };
       setCategoria([...categorias, categoria]);
+      salvarLocalStorage([...categorias, categoria]);
+      setNovaCategoria("");
     }
-    setNovaCategoria("");
   };
 
   // excluir categoria
@@ -40,11 +51,14 @@ export default function Page() {
       (categoria) => categoria.id !== id,
     );
     setCategoria(novasCategorias);
+    salvarLocalStorage(novasCategorias);
   };
 
   // editar categoria
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [nomeEditando, setNomeEditando] = useState("");
+
+
 
   const iniciarEdicao = (id: number, nome: string) => {
     setEditandoId(id);
@@ -65,15 +79,20 @@ export default function Page() {
         return categoria;
       });
       setCategoria(novasCategorias);
+      salvarLocalStorage(novasCategorias);
       cancelarEdicao();
     }
   };
+
+
+
+  
 
   return (
     <>
       <Header />
       <main className={mainClass}>
-        <div className="items-left flex-1 border-r-1 border-[#F55774] pr-30">
+        <div className="items-left min-h-full flex-1 pr-30">
           <div className="mb-10 flex flex-row items-center justify-between">
             <h2 className="mb-10 text-2xl font-bold text-red-400">Cardápio</h2>
             <div className="mb-5 flex flex-row items-center justify-between">
@@ -150,7 +169,11 @@ export default function Page() {
             </AccordionItem>
           </Accordion>
         </div>
-        <div className="items-right w-2/5 pl-30">
+
+        {/* borda */}
+        <div className="mx-8 w-px self-stretch bg-[#F55774]"></div> 
+
+        <div className="items-right min-h-full w-2/5 pl-30">
           <div className="mb-5 flex flex-row items-center justify-between">
             <Input
               placeholder="Adicionar nova categoria"
