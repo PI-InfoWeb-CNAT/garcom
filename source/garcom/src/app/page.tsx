@@ -11,7 +11,7 @@ export default function Page() {
       
       <main className={mainClass}>
         <h1 className={tituloClass}>Botoes do shadcn com tempero do kill</h1>
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4 flex-wrap ">
           <Button className="w-40" variant="rosa">
             Confirmar pedido
           </Button>
