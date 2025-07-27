@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { MdOutlineEdit } from "react-icons/md";
+import { IoQrCode } from "react-icons/io5";
 
 
 export default function perfil() {
@@ -101,38 +101,26 @@ export default function perfil() {
           </div>
         </section>
         <section className="grid md:grid-cols-4 grid-cols-2 gap-2 w-full">
-          <p className="md:col-span-2 col-span-2">Facilitamos o que deveria ser simples: pedir o que você precisa e receber na porta de casa, quando você quiser. Nada de cadastro demorado, pagamento online ou mil etapas. Aqui, você escolhe, pede e recebe. Paga na hora, do seu jeito</p>
+          <p className="md:col-span-2 col-span-4 pb-3 md:pb-0 !text-[#9E9E9E]">Facilitamos o que deveria ser simples: pedir o que você precisa e receber na porta de casa, quando você quiser. Nada de cadastro demorado, pagamento online ou mil etapas. Aqui, você escolhe, pede e recebe. Paga na hora, do seu jeito</p>
           
-          <form onSubmit={handleSubmit}
-            className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] ">
-            <span className="underline text-[#303030] mb-2">Editar</span>
-            <p className="text-[2em] font-poppins font-semibold text-[#303030] mb-4">Mesas cadastradas</p>
+          <div
+            className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] relative ">
+            <p className="!text-[22px] font-medium text-[#303030]">Gerar QRcode das mesas</p>
+            <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[93px]">
+              <IoQrCode size={24} />
+            </span>
 
-            <div className="flex items-center gap-1">
-              <div className="flex items-center gap-4 justify-center">
-                <button type="button" onClick={() => setMesas((prev) => Math.max(0, prev - 1))}
-                  className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
-                </button>
-                
-                <input type="number" value={mesas} readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
-                
-                <button type="button" onClick={() => setMesas((prev) => prev + 1)}
-                  className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">+
-                </button>
-              </div>
-              <button type="submit" className="text-[#FFC300] font-bold text-[20px] ml-2 cursor-pointer">OK</button>
-            </div>
-          </form>
+          </div>
 
           <form onSubmit={handleSubmit}
             className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] ">
             <span className="underline text-[#303030] mb-2">Editar</span>
-            <p className="text-[2em] font-poppins font-semibold text-[#303030] mb-4">Mesas cadastradas</p>
+            <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
 
             <div className="flex items-center gap-1">
               <div className="flex items-center gap-4 justify-center">
                 <button type="button" onClick={() => setMesas((prev) => Math.max(0, prev - 1))}
-                  className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
+                  className="cursor-pointer pb-[4px] min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
                 </button>
                 
                 <input type="number" value={mesas} readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
