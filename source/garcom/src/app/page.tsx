@@ -4,27 +4,31 @@ import { Footer } from "@/components/footer"
 
 export default function Page() {
   const tituloClass =  "text-[23px] font-bold mb-6 text-[##E55F4B]"; 
-  const mainClass = "!pt-35 flex flex-col h-screen bg-white p-7 md:p-36 !pb-0"
+  const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
   return (
     <div>
       <Header />
       
       <main className={mainClass}>
-        <h1 className={tituloClass}>Exemplo de uso do Button do shadcn/ui</h1>
+        <h1 className={tituloClass}>Botoes do shadcn com tempero do kill</h1>
         <div className="flex items-center justify-center gap-4">
-          <Button className="w-64" variant="default">
-            Default Button
+          <Button className="w-40" variant="rosa">
+            Confirmar pedido
           </Button>
-          <Button className="w-64" variant="outline">
-            Outline Button
+          <Button className="w-40" variant="branco">
+            Editar Perfil
           </Button>
-          <Button className="w-64" variant="destructive">
-            Destructive Button
+          <Button className="w-40" variant="amarelo">
+            Bater no chefe
           </Button>
+          <Button className="w-40" variant="laranja">
+            Calabraso
+          </Button>
+
         </div>
       </main>
+      
       <Footer />
-
     </div>
   )
 }
