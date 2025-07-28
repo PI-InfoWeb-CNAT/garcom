@@ -18,7 +18,7 @@ export default function Page() {
     "!pt-35 flex flex-row items-start min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
   // Adicionar categoria
-  const [categorias, setCategoria] = useState([]);
+  const [categorias, setCategoria] = useState<{ id: number; nome: string }[]>([]);
   const [novaCategoria, setNovaCategoria] = useState("");
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Page() {
   }, []);
 
   // salvar categorias no localStorage
-  const salvarLocalStorage = (novasCategorias) => {
+  const salvarLocalStorage = (novasCategorias: { id: number; nome: string }[]) => {
     localStorage.setItem("categorias", JSON.stringify(novasCategorias));
   };
 
