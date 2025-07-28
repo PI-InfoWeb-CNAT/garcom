@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function CadastroPage() {
   return (
-    <div className="grid h-screen grid-cols-1 md:grid-cols-[40%_60%]">
+    <div className="grid min-h-screen grid-cols-1 md:grid-cols-[40%_60%]">
       <div className="scrollbar-thin scrollbar-thumb-[#f65c5c] scrollbar-thumb-rounded-full scrollbar-track-transparent flex h-full flex-col justify-center overflow-y-auto px-8 py-8 sm:px-16 md:px-24">
         <div className="mb-6 flex items-center justify-between">
           <Image src="/logo.svg" alt="Logo" width={90} height={20} />
