@@ -7,3 +7,7 @@ export * from "./schema/categoria";
 export * from "./schema/item";
 export * from "./schema/itemPedido";
 export * from "./schema/horarioFuncionamento";
+export * from "./schema/user";
+export * from "./schema/session";
+export * from "./schema/account";
+export * from "./schema/verification";
