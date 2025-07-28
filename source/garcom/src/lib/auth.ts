@@ -12,4 +12,17 @@ export const auth = betterAuth({
     enabled: true,
   },
   logger: console,
+  user:{
+    modelName:"user",
+  },
+  session: {
+    modelName: "session",
+  },
+  account: {
+    modelName: "account",
+  },
+  verification: {
+    modelName: "verification",
+  },
+
 });

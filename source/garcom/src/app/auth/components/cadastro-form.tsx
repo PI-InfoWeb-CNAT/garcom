@@ -48,11 +48,9 @@ export default function CadastroForm() {
   const onSubmit = async (data: FormData) => {
     try {
       await authClient.signUp.email({
-        email: data.email,
-        password: data.senha,
-        name: data.nome,
-        
-        callbackURL: "/",
+        name: data.nome, // required
+        email: data.email, // required
+        password: data.senha, // required
       });
     } catch (error) {
       console.error("Erro ao registrar:", error);
