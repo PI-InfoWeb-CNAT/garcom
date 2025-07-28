@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { IoQrCode } from "react-icons/io5";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 
 export default function perfil() {
@@ -63,7 +64,7 @@ export default function perfil() {
             className="w-full h-50  object-cover"/>
           </div>
 
-          <div className="flex items-center  justify-between w-full h-auto  ">
+          <div className="flex sm:items-center items-start sm:flex-row flex-col  justify-between w-full h-auto  ">
               <div>
                 <img src={"/default-profile.png"} alt="avatar" className="w-[150px] h-[150px] rounded-full absolute left-0 top-[131px]"/>
 
@@ -100,11 +101,13 @@ export default function perfil() {
               </ul>
           </div>
         </section>
-        <section className="grid md:grid-cols-4 grid-cols-2 gap-2 w-full">
-          <p className="md:col-span-2 col-span-4 pb-3 md:pb-0 !text-[#9E9E9E]">Facilitamos o que deveria ser simples: pedir o que você precisa e receber na porta de casa, quando você quiser. Nada de cadastro demorado, pagamento online ou mil etapas. Aqui, você escolhe, pede e recebe. Paga na hora, do seu jeito</p>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 w-full">
+          <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">
+            Facilitamos o que deveria ser simples: pedir o que você precisa e receber na porta de casa, quando você quiser. Nada de cadastro demorado, pagamento online ou mil etapas. Aqui, você escolhe, pede e recebe. Paga na hora, do seu jeito
+          </p>
           
           <div
-            className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] relative ">
+            className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[169px] relative w-full">
             <p className="!text-[22px] font-medium text-[#303030]">Gerar QRcode das mesas</p>
             <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[93px]">
               <IoQrCode size={24} />
@@ -112,8 +115,10 @@ export default function perfil() {
 
           </div>
 
-          <form onSubmit={handleSubmit}
-            className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] ">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
+          >
             <span className="underline text-[#303030] mb-2">Editar</span>
             <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
 
@@ -133,9 +138,20 @@ export default function perfil() {
             </div>
           </form>
         </section>
-
-        
-         
+        <section className="mt-10">
+          <h1 className={tituloClass}>Churrascos</h1>
+          <div className="flex gap-2 bg-[#F5F5F5] p-4 rounded-[27px] box-border w-[360px] h-[170px]">
+            <img src="/default-banner.png" alt="Churrasco" className="w-[140px] h-[140px] object-cover rounded-[20px]"/>
+            <div className="flex flex-col justify-between items-start gap-1">
+              <div className="flex flex-col gap-2">
+                <h2 className={`${tituloClass} !text-[16px] !m-0`}>Churrascunho de besta</h2>
+                <p className="!text-[15px] text-[#464646] font-medium">Espeto de carne de calma calabreso chama chama</p>
+              </div>
+              <p className={`${tituloClass} !text-[14px] !m-0`}>R$
+                <span className={`${tituloClass} !text-[20px] !m-0`}>39,99</span></p>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
