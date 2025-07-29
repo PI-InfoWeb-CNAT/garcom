@@ -13,7 +13,7 @@ export const auth = betterAuth({
   },
   logger: console,
   user:{
-    modelName:"user",
+    modelName: "user",
   },
   session: {
     modelName: "session",
