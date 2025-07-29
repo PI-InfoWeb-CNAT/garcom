@@ -10,7 +10,6 @@ export const restaurante = pgTable("restaurante", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   cnpj: varchar("cnpj", { length: 18 }).notNull().unique(),
-  nome: varchar("nome", { length: 255 }).notNull(),
   descricao: varchar("descricao", { length: 1024 }),
   foto_perfil: varchar("foto_perfil", { length: 1024 }),
   foto_banner: varchar("foto_banner", { length: 1024 }),

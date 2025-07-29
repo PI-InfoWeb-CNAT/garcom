@@ -1,17 +1,24 @@
-'use client'
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { IoQrCode } from "react-icons/io5";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import LogoutForm from "@/app/auth/components/logout-form";
+import { getDados } from "@/app/auth/getDados/page";
 
 
-export default function perfil() {
+const perfil = async () => {
+  const dados = await getDados();
+  
+    if (!dados) {
+      return (
+        <div className="p-10 text-center">
+          <h1>Erro ao carregar dados do usuário</h1>
+        </div>
+      );
+    }
+    const { role, roleData, user } = dados;
     const tituloClass =  "text-[23px] font-bold mb-6 text-[#F65C5C]";
     const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
-    const [fotoBanner, setFotoBanner] = useState<string | null>(null);
-    const [mesas, setMesas] = useState(40);
 
    type DiaSemana = 
   | 'Segunda-feira'
@@ -48,19 +55,13 @@ export default function perfil() {
     'Domingo': { aberto: false, horarioAbertura: "", horarioFechamento: "" },
   };
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    alert(`Mesas cadastradas: ${mesas}`);
-  }
-
-
     return (
     <div>
       <Header />
       <main className={mainClass}>
         <section className="relative mb-10 pb-6 border-b border-[#F65C5C]">
           <div className="flex flex-col items-center relative justify-center w-full h-auto">
-            <img src={fotoBanner || "/default-banner.png"} alt="banner"
+            <img src="/default-banner.png" alt="banner"
             className="w-full h-50  object-cover"/>
           </div>
 
@@ -70,7 +71,7 @@ export default function perfil() {
 
                 <div className="flex items-start gap-5 mt-18">
                   <div>
-                    <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>Super Minorinha</h1>
+                    <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
                     <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">Natal - RN</p>
                   </div>
                   <Button className="w-40 mt-[5px]" variant="rosa"><a href="/perfil/editar">Editar Perfil</a></Button>
@@ -102,9 +103,7 @@ export default function perfil() {
           </div>
         </section>
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 w-full">
-          <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">
-            Facilitamos o que deveria ser simples: pedir o que você precisa e receber na porta de casa, quando você quiser. Nada de cadastro demorado, pagamento online ou mil etapas. Aqui, você escolhe, pede e recebe. Paga na hora, do seu jeito
-          </p>
+          <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">{roleData?.descricao}</p>
           
           <div
             className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[169px] relative w-full">
@@ -115,22 +114,20 @@ export default function perfil() {
 
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
+          <form className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
           >
             <span className="underline text-[#303030] mb-2">Editar</span>
             <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
 
             <div className="flex items-center gap-1">
               <div className="flex items-center gap-4 justify-center">
-                <button type="button" onClick={() => setMesas((prev) => Math.max(0, prev - 1))}
+                <button type="button"
                   className="cursor-pointer pb-[4px] min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
                 </button>
                 
-                <input type="number" value={mesas} readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
+                <input type="number" readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
                 
-                <button type="button" onClick={() => setMesas((prev) => prev + 1)}
+                <button type="button"
                   className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">+
                 </button>
               </div>
@@ -157,3 +154,4 @@ export default function perfil() {
     </div>
   )
 }
+export default perfil;

@@ -1,99 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import LogoutForm from "@/app/auth/components/logout-form";
+import { getDados } from "./auth/getDados/page";
+
 
 
 const HomeLayout = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const dados = await getDados();
 
-  const tituloClass = "text-[23px] font-bold mb-6 text-[#E55F4B]";
-  const mainClass =
-    "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0";
-
-  let extraData = null;
-  let extraTitle = null;
-
-  const baseUrl = process.env.NEXT_PUBLIC_URL;
-
-  if (!baseUrl) {
+  if (!dados) {
+    return (
+      <div className="p-10 text-center">
+        <h1>Erro ao carregar dados do usuário</h1>
+      </div>
+    );
   }
 
-  if (session?.user?.id && baseUrl) {
-    try {
-      const userRes = await fetch(`${baseUrl}/api/user?id=${session.user.id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  const { role, roleData, user } = dados;
+  const tituloClass =  "text-[23px] font-bold mb-6 text-[#F65C5C]";
+  const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
 
-      if (userRes.ok) {
-        const user = await userRes.json();
-
-        if (user.role === "restaurante") {
-          const res = await fetch(
-            `${baseUrl}/api/restaurante?user_id=${user.id}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            },
-          );
-
-          if (res.ok) {
-            const restaurante = await res.json();
-            extraTitle = "Dados do restaurante";
-            extraData = (
-              <div className="text-center">
-                <p>
-                  <b>Nome:</b> {restaurante.nome}
-                </p>
-                <p>
-                  <b>CNPJ:</b> {restaurante.cnpj}
-                </p>
-                <p>
-                  <b>Descrição:</b> {restaurante.descricao}
-                </p>
-              </div>
-            );
-          }
-        } else if (user.role === "funcionario") {
-          const res = await fetch(
-            `${baseUrl}/api/funcionario?user_id=${user.id}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            },
-          );
-
-          if (res.ok) {
-            const funcionario = await res.json();
-            extraTitle = "Dados do funcionário";
-            extraData = (
-              <div className="text-center">
-                <p>
-                  <b>Nome:</b> {funcionario.nome}
-                </p>
-                <p>
-                  <b>Cargo:</b> {funcionario.cargo}
-                </p>
-              </div>
-            );
-          }
-        }
-      }
-    } catch (e) {
-      console.error("Erro ao buscar dados do usuário:", e);
-    }
-  }
 
   return (
     <div>
@@ -116,21 +43,19 @@ const HomeLayout = async () => {
             Calabraso
           </Button>
         </div>
-
-        {session && (
-          <div className="mt-8 flex flex-col items-center justify-center gap-4">
-            <h1 className={tituloClass}>Dados do usuário logado</h1>
-            <p>{session.user.name}</p>
-            <p>{session.user.email}</p>
-            <p>{session.user.id}</p>
-            <p>{session.user.image}</p>
-            
-
-            {extraTitle && <h2 className="mt-4 font-bold">{extraTitle}</h2>}
-            {extraData}
-            <LogoutForm />
-          </div>
-        )}
+        <section className="mt-10 text-center">
+          <h1 className="text-2xl font-semibold">
+            Bem-vindo, {user.name}!
+          </h1>
+          <p className="text-sm text-gray-600 mt-2">
+            Seu tipo de conta é: <b>{role}</b>
+          </p>
+          <ol>
+            <li>CNPJ: {roleData?.cnpj}</li>
+            <li>Email: {user.email}</li>
+            <li>{roleData?.descricao}</li>
+          </ol>
+        </section>
       </main>
 
       <Footer />
