@@ -17,6 +17,7 @@ const perfil = async () => {
       );
     }
     const { role, roleData, user } = dados;
+    
     const tituloClass =  "text-[23px] font-bold mb-6 text-[#F65C5C]";
     const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
 
