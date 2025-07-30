@@ -389,7 +389,7 @@ export default function Page() {
       {/* Form para adicionar item */}
       {modalAberto && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
-          <div className="mx-4 max-h-[95vh] w-[40%] max-w-4xl overflow-y-auto">
+          <div className="mx-4 max-h-[95vh] w-[40%] max-w-xl overflow-y-auto">
             <section className="min-h-fit rounded-3xl border-1 border-[#F55774] bg-white p-6">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-[#F55774]">
