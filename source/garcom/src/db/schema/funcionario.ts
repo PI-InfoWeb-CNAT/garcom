@@ -9,7 +9,6 @@ export const funcionario = pgTable("funcionario", {
   user_id: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  nome: varchar("nome", { length: 255 }).notNull(),
   cpf: varchar("cpf", { length: 14 }).notNull().unique(),
   restaurante_id: uuid("restaurante_id").notNull(),
 });

@@ -6,9 +6,8 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    // Campos obrigatórios
-    const { user_id, cnpj, nome } = body;
-    if (!user_id || !cnpj || !nome) {
+    const { user_id, cnpj} = body;
+    if (!user_id || !cnpj) {
       return NextResponse.json(
         { error: "Campos obrigatórios faltando." },
         { status: 400 },
@@ -18,7 +17,6 @@ export async function POST(request: Request) {
     for (const key of [
       "user_id",
       "cnpj",
-      "nome",
       "descricao",
       "foto_perfil",
       "foto_banner",
@@ -108,7 +106,6 @@ export async function PUT(request: Request) {
     for (const key of [
       "user_id",
       "cnpj",
-      "nome",
       "descricao",
       "foto_perfil",
       "foto_banner",
