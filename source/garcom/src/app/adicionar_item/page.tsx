@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -11,6 +11,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Input } from "@/components/ui/input";
+import { id } from "zod/v4/locales";
 
 // Tipos para o item e categoria
 type Categoria = {
@@ -25,12 +26,21 @@ type Item = {
   descricao: string;
   valor: number;
   imagem: string;
-  categorias: number[]; // IDs das categorias selecionadas
+  categoria_id: number; // ID da categoria selecionada
 };
 
 export default function Page() {
   const mainClass =
     "!pt-35 flex flex-row items-right min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
+
+  // const [state, dispatch] = useReducer(reducer, {
+  //   id: 0,
+  //   nome: "",
+  //   descricao: "",
+  //   valor: 0,
+  //   imagem: "",
+  //   categoria_id: 0,
+  // });
 
   // Estados do formulário
   const [nome, setNome] = useState("");
@@ -38,9 +48,9 @@ export default function Page() {
   const [valor, setValor] = useState("");
   const [imagemSelecionada, setImagemSelecionada] =
     useState<string>("/comidateste.jpg");
-  const [categoriasSelecionadas, setCategoriasSelecionadas] = useState<
-    number[]
-  >([]);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<
+    number | null
+  >(null);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
   // Carregar categorias do localStorage
@@ -65,20 +75,20 @@ export default function Page() {
     }
   };
 
-  // Função para toggle de seleção de categoria
-  const toggleCategoria = (categoriaId: number) => {
-    setCategoriasSelecionadas((prev) => {
-      if (prev.includes(categoriaId)) {
-        return prev.filter((id) => id !== categoriaId);
-      } else {
-        return [...prev, categoriaId];
-      }
-    });
+  // Função para seleção de categoria (apenas uma)
+  const selecionarCategoria = (categoriaId: number) => {
+    if (categoriaSelecionada === categoriaId) {
+      // Se clicar na mesma categoria, desmarca
+      setCategoriaSelecionada(null);
+    } else {
+      // Seleciona a nova categoria
+      setCategoriaSelecionada(categoriaId);
+    }
   };
 
   // Função para verificar se categoria está selecionada
   const isCategoriaSelected = (categoriaId: number) => {
-    return categoriasSelecionadas.includes(categoriaId);
+    return categoriaSelecionada === categoriaId;
   };
 
   // Função para salvar item no localStorage
@@ -96,8 +106,8 @@ export default function Page() {
       alert("Valor deve ser maior que zero!");
       return;
     }
-    if (categoriasSelecionadas.length === 0) {
-      alert("Selecione pelo menos uma categoria!");
+    if (categoriaSelecionada === null) {
+      alert("Selecione uma categoria!");
       return;
     }
 
@@ -109,7 +119,7 @@ export default function Page() {
       descricao: descricao.trim(),
       valor: parseFloat(valor),
       imagem: imagemSelecionada,
-      categorias: categoriasSelecionadas,
+      categoria_id: categoriaSelecionada,
     };
 
     // Salvar no localStorage
@@ -131,7 +141,7 @@ export default function Page() {
     setDescricao("");
     setValor("");
     setImagemSelecionada("/comidateste.jpg");
-    setCategoriasSelecionadas([]);
+    setCategoriaSelecionada(null);
   };
 
   // Função para cancelar
@@ -219,7 +229,7 @@ export default function Page() {
             </div>
             <div className="relative overflow-hidden">
               <h2 className="mb-3 text-lg font-semibold text-[#616161]">
-                Categorias (selecione uma ou mais)
+                Categoria (selecione uma)
               </h2>
               <Carousel className="w-full max-w-100">
                 <CarouselContent className="-ml-1">
@@ -231,35 +241,14 @@ export default function Page() {
                       >
                         <button
                           type="button"
-                          onClick={() => toggleCategoria(categoria.id)}
+                          onClick={() => selecionarCategoria(categoria.id)}
                           className={`w-full cursor-pointer rounded-3xl border-2 p-2 transition-all duration-200 ${
                             isCategoriaSelected(categoria.id)
-                              ? "scale-100 transform border-[#F55774] bg-[#F55774] text-[#E55F4B]"
+                              ? "scale-100 transform border-transparent bg-[#FFE3CF] text-[#E55F4B]"
                               : "border-transparent bg-[#D9D9D9] text-gray-700 hover:border-gray-300 hover:bg-[#C0C0C0]"
                           }`}
                         >
                           <div className="flex items-center justify-center space-x-2">
-                            <div
-                              className={`flex h-4 w-4 items-center justify-center rounded-sm border-2 ${
-                                isCategoriaSelected(categoria.id)
-                                  ? "border-white bg-white"
-                                  : "border-gray-500 bg-transparent"
-                              }`}
-                            >
-                              {isCategoriaSelected(categoria.id) && (
-                                <svg
-                                  className="h-3 w-3 text-[#F55774]"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              )}
-                            </div>
                             <p className="text-sm font-medium">
                               {categoria.nome}
                             </p>
@@ -280,7 +269,20 @@ export default function Page() {
               <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-white via-white/85 to-transparent"></div>
             </div>
 
-            
+            {/* Mostrar categoria selecionada */}
+            {categoriaSelecionada && (
+              <div className="rounded-lg bg-gray-50 p-3">
+                <h3 className="mb-2 text-sm font-semibold text-gray-600">
+                  Categoria selecionada:
+                </h3>
+                <span className="rounded-full bg-[#F55774] px-3 py-1 text-xs font-medium text-white">
+                  {
+                    categorias.find((cat) => cat.id === categoriaSelecionada)
+                      ?.nome
+                  }
+                </span>
+              </div>
+            )}
 
             <div className="flex justify-between">
               <Button
