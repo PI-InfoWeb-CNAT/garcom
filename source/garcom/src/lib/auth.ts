@@ -10,6 +10,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    autoSignIn: false, // Evitar login automático após cadastro
   },
   logger: console,
   user:{
