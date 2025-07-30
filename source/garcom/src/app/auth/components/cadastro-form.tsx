@@ -112,7 +112,6 @@ export default function CadastroForm() {
       const restaurantePayload: any = {
         user_id: userId,
         cnpj: rawCnpj,
-        nome: data.nome,
       };
       if (data.descricao) restaurantePayload.descricao = data.descricao;
 
@@ -127,12 +126,9 @@ export default function CadastroForm() {
         const errorMsg = await res.text();
         setFormError(errorMsg || "Erro ao cadastrar restaurante.");
 
-        // Tenta excluir o usuário e entidades relacionadas
         try {
           await fetch(`/api/user?id=${userId}`, { method: "DELETE" });
-          // Adicione aqui deleção de outras entidades relacionadas se necessário
         } catch (deleteError) {
-          // Opcional: log ou mensagem de erro
         }
       } else {
         router.push("/");

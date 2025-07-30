@@ -45,16 +45,23 @@ export default function LoginForm() {
           onSuccess: () => {
             router.push("/");
           },
-          onError: () => {
-            setFormError("Usuário ou senha inválidos.");
+          onError: (ctx) => {
+            if (ctx.error.status === 403) {
+              setFormError("Por favor, verifique seu email para ativar sua conta.");
+            } else {
+              setFormError("Usuário ou senha inválidos.");
+            }
           },
-        }
+        },
       );
-      
+      if (error) {
+        setFormError("Erro ao tentar login. Tente novamente.");
+      }
     } catch (err: any) {
       setFormError("Erro ao tentar login. Tente novamente.");
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
