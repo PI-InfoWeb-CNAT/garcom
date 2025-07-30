@@ -1,19 +1,18 @@
-import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { endereco } from "./endereco";
+import { user } from "./user";
 
 export const restaurante = pgTable("restaurante", {
   id: uuid("id")
     .primaryKey()
     .default(sql`gen_random_uuid()`),
+  user_id: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
   cnpj: varchar("cnpj", { length: 18 }).notNull().unique(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  senha: varchar("senha", { length: 255 }).notNull(),
   nome: varchar("nome", { length: 255 }).notNull(),
-  descricao: varchar("descricao", { length: 1024 }).notNull(),
-  foto_perfil: varchar("foto_perfil", { length: 1024 }).notNull(),
-  foto_banner: varchar("foto_banner", { length: 1024 }).notNull(),
-  endereco_id: uuid("endereco_id")
-    .references(() => endereco.id)
-    .notNull(),
+  descricao: varchar("descricao", { length: 1024 }),
+  foto_perfil: varchar("foto_perfil", { length: 1024 }),
+  foto_banner: varchar("foto_banner", { length: 1024 }),
+  endereco_id: uuid("endereco_id"),
 });
