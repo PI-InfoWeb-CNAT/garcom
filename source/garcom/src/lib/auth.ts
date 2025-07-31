@@ -20,7 +20,7 @@ export const auth = betterAuth({
         to: user.email,
         subject: "Verifique seu endereço de email em Garçom.",
         html: loadEmailTemplate("confirm-email.html", {
-          updatedUrl,
+          url: updatedUrl,
         }),
       });
     },
