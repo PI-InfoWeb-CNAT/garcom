@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { EditarPerfilForm } from "./editar-perfil-form";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
+import { getDados } from "@/app/auth/getDados/page";
 
 const schema = z
   .object({
@@ -17,8 +18,13 @@ const schema = z
 
 type FormData = z.infer<typeof schema>;
 
-export default function editarPerfil() {
-  const { data: session } = authClient.useSession();
+const editarPerfil = async () => {
+   const dados = await getDados();
+
+  if (!dados || dados.role !== "restaurante") {
+    return <div>Usuário não autorizado ou dados não encontrados.</div>;
+  }
+
   const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
   const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0";
 
@@ -27,11 +33,13 @@ export default function editarPerfil() {
       <Header />
       <main className={mainClass}>
         <h1 className={tituloClass}>Editar Restaurante</h1>
-        {session?.user?.id && (
-          <EditarPerfilForm restauranteId={session.user.id} />
-        )}
+        <EditarPerfilForm
+      restauranteId={dados.roleData.id}
+      dadosIniciais={dados.roleData}
+    />
       </main>
       <Footer />
     </div>
   );
 }
+export default editarPerfil;

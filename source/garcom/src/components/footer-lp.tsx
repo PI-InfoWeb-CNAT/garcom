@@ -17,7 +17,7 @@ export function FooterLP() {
 
         
 
-        <nav className="flex flex-col items-center justify-start  gap-1">
+        <nav className="flex flex-col items-end gap-1">
           <ol className="items-center justify-center gap-5 hidden md:flex">
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Cadastre-se</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E07956] transition-all"><a href="#" className="cursor-pointer">Entrar</a></li>
