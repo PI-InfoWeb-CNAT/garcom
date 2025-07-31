@@ -10,9 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-// ...existing code...
 
-// Função para validar CNPJ
 function validarCNPJ(cnpj: string) {
   cnpj = cnpj.replace(/[\.\-\/]/g, "");
   if (cnpj.length !== 14) return false;
