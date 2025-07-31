@@ -38,7 +38,7 @@ export function ListaFuncionarios({
       {funcionarios.map((funcionario) => (
         <div
           key={funcionario.id}
-          className="rounded-lg border border-gray-200 p-4"
+          className="rounded-lg border border-gray-300 p-4"
         >
           {editandoId === funcionario.id ? (
             <EdicaoFuncionario

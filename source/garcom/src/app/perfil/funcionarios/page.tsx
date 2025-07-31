@@ -29,11 +29,15 @@ export default function Page() {
     <>
       <Header />
       <main className={mainClass}>
-        <div className="items-left min-h-full flex-1 pr-30">
+        <div className="items-left flex-1 sm:pr-3 md:pr-20">
           <div className="mb-10 flex flex-row items-center justify-between">
             <h2 className="mb-10 text-2xl font-bold text-red-400">
-              Lista de Funcionários
+              Funcionários
             </h2>
+            <h3 className="text-lg font-semibold text-gray-700">
+              Funcionários
+            </h3>
+            <p>{funcionarios.length}</p>
           </div>
 
           <ListaFuncionarios
