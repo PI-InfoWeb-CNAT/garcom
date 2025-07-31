@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { IoQrCode } from "react-icons/io5";
 
 import { getDados } from "@/app/auth/getDados/page";
+import { FormMesas } from "./components/FormMesas";
 
 
 const perfil = async () => {
@@ -109,38 +110,20 @@ const perfil = async () => {
           <div
             className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[169px] relative w-full">
             <p className="!text-[22px] font-medium text-[#303030]">Gerar QRcode das mesas</p>
-            <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[93px]">
+            <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[110px]">
               <IoQrCode size={24} />
             </span>
 
           </div>
 
-          <form className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
-          >
-            <span className="underline text-[#303030] mb-2">Editar</span>
-            <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
+          <FormMesas restauranteId={roleData?.id ?? ""} />
 
-            <div className="flex items-center gap-1">
-              <div className="flex items-center gap-4 justify-center">
-                <button type="button"
-                  className="cursor-pointer pb-[4px] min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
-                </button>
-                
-                <input type="number" readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
-                
-                <button type="button"
-                  className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">+
-                </button>
-              </div>
-              <button type="submit" className="text-[#FFC300] font-bold text-[20px] ml-2 cursor-pointer">OK</button>
-            </div>
-          </form>
         </section>
         <section className="mt-10">
           <h1 className={tituloClass}>Churrascos</h1>
           <div className="flex gap-2 bg-[#F5F5F5] p-4 rounded-[27px] box-border w-[360px] h-[170px]">
             <img src="/default-banner.png" alt="Churrasco" className="w-[140px] h-[140px] object-cover rounded-[20px]"/>
-            <div className="flex flex-col justify-between items-start gap-1">
+            <div className="flex flex-col justify-between items-start gap-4">
               <div className="flex flex-col gap-2">
                 <h2 className={`${tituloClass} !text-[16px] !m-0`}>Churrascunho de besta</h2>
                 <p className="!text-[15px] text-[#464646] font-medium">Espeto de carne de calma calabreso chama chama</p>
