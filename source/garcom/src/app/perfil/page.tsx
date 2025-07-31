@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { IoQrCode } from "react-icons/io5";
 import LogoutForm from "@/app/auth/components/logout-form";
 import { getDados } from "@/app/auth/getDados/page";
+import { FormMesas } from "./components/FormMesas";
 
 
 const perfil = async () => {
@@ -115,26 +116,8 @@ const perfil = async () => {
 
           </div>
 
-          <form className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
-          >
-            <span className="underline text-[#303030] mb-2">Editar</span>
-            <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
+          <FormMesas restauranteId={roleData?.id ?? ""} />
 
-            <div className="flex items-center gap-1">
-              <div className="flex items-center gap-4 justify-center">
-                <button type="button"
-                  className="cursor-pointer pb-[4px] min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">–
-                </button>
-                
-                <input type="number" readOnly className="text-center text-[32px] ml-[12px] w-[49px] font-bold text-[#303030]"/>
-                
-                <button type="button"
-                  className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">+
-                </button>
-              </div>
-              <button type="submit" className="text-[#FFC300] font-bold text-[20px] ml-2 cursor-pointer">OK</button>
-            </div>
-          </form>
         </section>
         <section className="mt-10">
           <h1 className={tituloClass}>Churrascos</h1>
