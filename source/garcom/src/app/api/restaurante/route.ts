@@ -6,13 +6,15 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { user_id, cnpj} = body;
+    const { user_id, cnpj } = body;
+
     if (!user_id || !cnpj) {
       return NextResponse.json(
         { error: "Campos obrigatórios faltando." },
         { status: 400 },
       );
     }
+
     const insertData: any = {};
     for (const key of [
       "user_id",
@@ -24,20 +26,25 @@ export async function POST(request: Request) {
     ]) {
       if (body[key] !== undefined) insertData[key] = body[key];
     }
+
     try {
       await db.insert(restaurante).values(insertData);
       return NextResponse.json({ success: true });
     } catch (error: any) {
+      console.log("Erro capturado na inserção restaurante:", error);
+
+      const sqlError = error?.cause || error;
+
       if (
-        error?.code === "23505" &&
-        error?.constraint === "restaurante_cnpj_unique"
+        sqlError?.code === "23505" && 
+        sqlError?.constraint === "restaurante_cnpj_unique"
       ) {
         return NextResponse.json(
           { error: "O CNPJ já está cadastrado." },
-          { status: 400 },
+          { status: 409 }, 
         );
       }
-      console.error("Erro na API restaurante:", error);
+
       return NextResponse.json(
         { error: "Erro interno do servidor." },
         { status: 500 },
