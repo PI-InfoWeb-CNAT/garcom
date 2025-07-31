@@ -102,6 +102,7 @@ export default function CadastroForm() {
         name: data.nome,
         email: data.email,
         password: data.senha,
+        callbackURL: "/auth/entrar",
       });
       if (error) {
         setFormError(error.message || "Erro ao registrar usuário.");
@@ -130,8 +131,9 @@ export default function CadastroForm() {
           await fetch(`/api/user?id=${userId}`, { method: "DELETE" });
         } catch (deleteError) {
         }
-      } else {
-        router.push("/");
+      }
+      else {
+        router.push(`/auth/verificar-email?email=${encodeURIComponent(data.email)}`);
       }
     } catch (error: any) {
       setFormError(error?.message || "Erro ao registrar.");
