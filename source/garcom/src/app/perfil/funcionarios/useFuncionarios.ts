@@ -170,6 +170,19 @@ export function useFuncionarios() {
     return !funcionarioComEmail;
   };
 
+  // Verificar se CPF já existe no restaurante
+  const verificarCpfUnico = async (
+    cpf: string,
+    excluirId?: string,
+  ): Promise<boolean> => {
+    const cpfLimpo = cpf.replace(/\D/g, "");
+    const funcionarioComCpf = funcionarios.find(
+      (f) =>
+        f.cpf.replace(/\D/g, "") === cpfLimpo && f.id !== excluirId,
+    );
+    return !funcionarioComCpf;
+  };
+
   // Adicionar novo funcionário
   const adicionarFuncionario = async () => {
     // Verificar se o usuário está logado e é um restaurante
@@ -247,6 +260,13 @@ export function useFuncionarios() {
       return;
     }
 
+    // Verificar CPF único no restaurante
+    const cpfUnico = await verificarCpfUnico(novoFuncionario.cpf);
+    if (!cpfUnico) {
+      alert("CPF já está em uso por outro funcionário deste restaurante.");
+      return;
+    }
+
     try {
       setCarregando(true);
 
@@ -260,8 +280,8 @@ export function useFuncionarios() {
           email: novoFuncionario.email,
           password: novoFuncionario.senha,
           name: novoFuncionario.nome,
-          autoSignIn: false, // Evitar login automático
-          callbackURL: null, // Evitar redirecionamento automático
+          autoSignIn: false,
+          callbackURL: null,
         }),
       });
 
@@ -293,6 +313,8 @@ export function useFuncionarios() {
       });
 
       if (!updateRoleResponse.ok) {
+        // Se falhar, tentar excluir o usuário criado
+        await fetch(`/api/user?id=${userId}`, { method: "DELETE" });
         throw new Error("Erro ao definir role do usuário como funcionário");
       }
 
@@ -304,7 +326,7 @@ export function useFuncionarios() {
         },
         body: JSON.stringify({
           user_id: userId,
-          cpf: novoFuncionario.cpf.replace(/\D/g, ""), // Salvar apenas números
+          cpf: novoFuncionario.cpf.replace(/\D/g, ""),
           restaurante_id: restauranteId,
         }),
       });
@@ -315,15 +337,17 @@ export function useFuncionarios() {
         throw new Error("Erro ao criar registro do funcionário");
       }
 
-      // Limpar formulário e recarregar lista
+      // Só executa se tudo acima deu certo
       setNovoFuncionario({ nome: "", email: "", cpf: "", senha: "" });
       await carregarFuncionarios();
       alert("Funcionário adicionado com sucesso!");
+      return; // <-- Adicione esse return para garantir que nada mais será executado
     } catch (error) {
       console.error("Erro ao adicionar funcionário:", error);
       alert(
         `Erro ao adicionar funcionário: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
       );
+      return; // <-- Adicione esse return para garantir que nada mais será executado
     } finally {
       setCarregando(false);
     }
@@ -429,6 +453,13 @@ export function useFuncionarios() {
     const emailUnico = await verificarEmailUnico(dadosEdicao.email, editandoId);
     if (!emailUnico) {
       alert("Email já está em uso por outro funcionário deste restaurante.");
+      return;
+    }
+
+    // Verificar CPF único no restaurante (excluindo o funcionário atual)
+    const cpfUnico = await verificarCpfUnico(dadosEdicao.cpf, editandoId);
+    if (!cpfUnico) {
+      alert("CPF já está em uso por outro funcionário deste restaurante.");
       return;
     }
 

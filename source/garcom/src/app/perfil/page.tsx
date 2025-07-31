@@ -8,7 +8,7 @@ import { getDados } from "@/app/auth/getDados/page";
 
 const perfil = async () => {
   const dados = await getDados();
-  
+
     if (!dados) {
       return (
         <div className="p-10 text-center">
@@ -16,6 +16,7 @@ const perfil = async () => {
         </div>
       );
     }
+  
     const { role, roleData, user } = dados;
     
     const tituloClass =  "text-[23px] font-bold mb-6 text-[#F65C5C]";
