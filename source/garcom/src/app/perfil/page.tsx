@@ -73,7 +73,7 @@ const perfil = async () => {
                 <div className="flex items-start gap-5 mt-18">
                   <div>
                     <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
-                    <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">Natal - RN</p>
+                    <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">{roleData?.endereco_id.cep}</p>
                   </div>
                   <Button className="w-40 mt-[5px]" variant="rosa"><a href="/perfil/editar">Editar Perfil</a></Button>
                 </div>
