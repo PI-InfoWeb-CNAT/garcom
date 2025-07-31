@@ -67,7 +67,7 @@ const perfil = async () => {
 
           <div className="flex sm:items-center items-start sm:flex-row flex-col  justify-between w-full h-auto  ">
               <div>
-                <img src={"/default-profile.png"} alt="avatar" className="w-[150px] h-[150px] rounded-full absolute left-0 top-[131px]"/>
+                <img src={roleData?.foto_perfil || "/default-profile.png"} alt="avatar" className="w-[150px] h-[150px] rounded-full absolute left-0 top-[131px]"/>
 
                 <div className="flex items-start gap-5 mt-18">
                   <div>

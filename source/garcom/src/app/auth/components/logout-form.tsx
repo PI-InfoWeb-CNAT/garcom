@@ -19,9 +19,11 @@ export default function LogoutForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <Button className="w-40" variant="laranja" type="submit">
+      <button
+        type="submit"
+        className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all cursor-pointer">
         Sair
-      </Button>
+      </button>
     </form>
   );
 }

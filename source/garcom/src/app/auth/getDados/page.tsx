@@ -1,6 +1,6 @@
+// lib/getDados.ts
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-
 
 interface DadosUsuario {
   session: any;
@@ -14,10 +14,10 @@ interface DadosUsuario {
   role: string;
   roleData: any;
 }
+
 export async function getDados(): Promise<DadosUsuario | null> {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const headersList = await headers();
+  const session = await auth.api.getSession({ headers: headersList });
 
   const baseUrl = process.env.NEXT_PUBLIC_URL;
   if (!session?.user?.id || !baseUrl) return null;
@@ -25,30 +25,27 @@ export async function getDados(): Promise<DadosUsuario | null> {
   try {
     const userRes = await fetch(`${baseUrl}/api/user?id=${session.user.id}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
     });
 
     if (!userRes.ok) return null;
-
     const user = await userRes.json();
+
     let roleData = null;
 
     if (user.role === "restaurante") {
       const res = await fetch(`${baseUrl}/api/restaurante?user_id=${user.id}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
       });
       if (res.ok) roleData = await res.json();
     } else if (user.role === "funcionario") {
       const res = await fetch(`${baseUrl}/api/funcionario?user_id=${user.id}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
       });
       if (res.ok) roleData = await res.json();
     }
@@ -57,7 +54,12 @@ export async function getDados(): Promise<DadosUsuario | null> {
       session,
       user,
       role: user.role,
-      roleData,
+      roleData: {
+        ...roleData,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      },
     };
   } catch (e) {
     console.error("Erro ao buscar dados do usuário:", e);
