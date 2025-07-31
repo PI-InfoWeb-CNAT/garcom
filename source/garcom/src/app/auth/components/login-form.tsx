@@ -101,7 +101,7 @@ export default function LoginForm() {
         {errors.senha && (
           <p className="text-sm text-[#f65c5c]">{errors.senha.message}</p>
         )}
-        <a href="/auth/recuperar-senha">
+        <a href="/auth/redefinir-senha">
           <p className="mt-1 cursor-pointer text-sm font-medium text-[#f65c5c] hover:underline">
             Esqueceu sua senha?
           </p>

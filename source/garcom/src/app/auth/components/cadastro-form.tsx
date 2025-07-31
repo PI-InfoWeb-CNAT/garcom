@@ -81,7 +81,6 @@ export default function CadastroForm() {
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  // Função para aplicar máscara de CNPJ
   function formatarCNPJ(value: string) {
     return value
       .replace(/\D/g, "")

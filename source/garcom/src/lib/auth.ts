@@ -13,10 +13,26 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     autoSignIn: false,
+    sendResetPassword: async ({ user, url, token }: any, _request: any) => {
+      const updatedUrl = url.replace(
+        process.env.BETTER_AUTH_URL,
+        process.env.BASE_URL,
+      );
+      await sendMail({
+        to: user.email,
+        subject: "Redefina sua senha em Garçom.",
+        html: loadEmailTemplate("reset-password.html", {
+          url: updatedUrl,
+        }),
+      });
+    },
   },
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }: any, request: any) => {
-      const updatedUrl = url.replace(process.env.BETTER_AUTH_URL, process.env.BASE_URL);
+    sendVerificationEmail: async ({ user, url, token }: any, _request: any) => {
+      const updatedUrl = url.replace(
+        process.env.BETTER_AUTH_URL,
+        process.env.BASE_URL,
+      );
       await sendMail({
         to: user.email,
         subject: "Verifique seu endereço de email em Garçom.",
