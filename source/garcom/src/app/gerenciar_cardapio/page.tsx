@@ -21,79 +21,217 @@ import {
 
 // Tipos
 type Categoria = {
-  id: number;
+  id: string;
   nome: string;
+  restaurante_id?: string;
 };
 
 type Item = {
-  id: number;
+  id: string;
   id_restaurante: number;
   nome: string;
   descricao: string;
   valor: number;
   imagem: string;
-  categoria_id: number;
+  categoria_id: string;
 };
 
 export default function Page() {
   const mainClass =
     "!pt-35 flex flex-row items-start min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
+  // Funções para API de categorias
+  const buscarCategorias = async () => {
+    try {
+      const res = await fetch('/api/categorias', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao buscar categorias:', error);
+      return [];
+    }
+  };
+
+  const criarCategoria = async (dados: any) => {
+    try {
+      console.log('Enviando dados para API:', dados);
+      const res = await fetch('/api/categorias', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+      });
+      
+      console.log('Status da resposta:', res.status);
+      const resultado = await res.json();
+      console.log('Resposta da API de criação:', resultado);
+      
+      return resultado;
+    } catch (error) {
+      console.error('Erro ao criar categoria:', error);
+      return null;
+    }
+  };
+
+  const atualizarCategoria = async (id: string, dados: any) => {
+    try {
+      const res = await fetch(`/api/categorias/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao atualizar categoria:', error);
+      return null;
+    }
+  };
+
+  const deletarCategoria = async (id: string) => {
+    try {
+      const res = await fetch(`/api/categorias/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao deletar categoria:', error);
+      return null;
+    }
+  };
+
+  // Funções para API de itens
+  const buscarItens = async () => {
+    try {
+      const res = await fetch('/api/itens', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao buscar itens:', error);
+      return [];
+    }
+  };
+
+  const criarItem = async (dados: any) => {
+    try {
+      const res = await fetch('/api/itens', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao criar item:', error);
+      return null;
+    }
+  };
+
+  const atualizarItem = async (id: string, dados: any) => {
+    try {
+      const res = await fetch(`/api/itens/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados),
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao atualizar item:', error);
+      return null;
+    }
+  };
+
+  const deletarItem = async (id: string) => {
+    try {
+      const res = await fetch(`/api/itens/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return await res.json();
+    } catch (error) {
+      console.error('Erro ao deletar item:', error);
+      return null;
+    }
+  };
+
   // Adicionar categoria
   const [categorias, setCategoria] = useState<Categoria[]>([]);
   const [novaCategoria, setNovaCategoria] = useState("");
 
-  // Estados do modal de adicionar item
+  // Estados para itens
+  const [itens, setItens] = useState<Item[]>([]);
+
+  // Estados do modal de adicionar/editar item
   const [modalAberto, setModalAberto] = useState(false);
+  const [itemEditando, setItemEditando] = useState<Item | null>(null);
   const [nomeItem, setNomeItem] = useState("");
   const [descricaoItem, setDescricaoItem] = useState("");
   const [valorItem, setValorItem] = useState("");
   const [imagemSelecionada, setImagemSelecionada] =
     useState<string>("/comidateste.jpg");
   const [categoriaSelecionada, setCategoriaSelecionada] = useState<
-    number | null
+    string | null
   >(null);
 
   useEffect(() => {
-    const categoriasSalvas = localStorage.getItem("categorias");
-    if (categoriasSalvas !== null) {
-      setCategoria(JSON.parse(categoriasSalvas));
-    }
+    const carregarDados = async () => {
+      try {
+        const categoriasBuscadas = await buscarCategorias();
+        setCategoria(categoriasBuscadas);
+
+        const itensBuscados = await buscarItens();
+        setItens(itensBuscados);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+      }
+    };
+
+    carregarDados();
   }, []);
 
-  // salvar categorias no localStorage
-  const salvarLocalStorage = (novasCategorias: Categoria[]) => {
-    localStorage.setItem("categorias", JSON.stringify(novasCategorias));
-  };
-
-  const addCategoria = () => {
+  const addCategoria = async () => {
     if (novaCategoria.trim() !== "") {
-      const categoria = {
-        id: Date.now(), // Usar timestamp para IDs únicos
+      const dadosCategoria = {
         nome: novaCategoria.trim(),
+        restaurante_id: "550e8400-e29b-41d4-a716-446655440000", // UUID padrão
       };
-      const novasCategorias = [...categorias, categoria];
-      setCategoria(novasCategorias);
-      salvarLocalStorage(novasCategorias);
-      setNovaCategoria("");
+      
+      console.log('Dados da categoria a serem enviados:', dadosCategoria);
+      
+      const novaCategoriaCriada = await criarCategoria(dadosCategoria);
+      console.log('Resposta da API:', novaCategoriaCriada);
+      
+      if (novaCategoriaCriada && !novaCategoriaCriada.error) {
+        setCategoria([...categorias, novaCategoriaCriada]);
+        setNovaCategoria("");
+        console.log('Categoria adicionada ao estado:', novaCategoriaCriada);
+      } else {
+        alert("Erro ao criar categoria: " + (novaCategoriaCriada?.error || "Erro desconhecido"));
+      }
     }
   };
 
   // excluir categoria
-  const excluirCategoria = (id: number) => {
-    const novasCategorias = categorias.filter(
-      (categoria) => categoria.id !== id,
-    );
-    setCategoria(novasCategorias);
-    salvarLocalStorage(novasCategorias);
+  const excluirCategoria = async (id: string) => {
+    const resultado = await deletarCategoria(id);
+    if (resultado) {
+      const novasCategorias = categorias.filter(
+        (categoria) => categoria.id !== id,
+      );
+      setCategoria(novasCategorias);
+    } else {
+      alert("Erro ao excluir categoria!");
+    }
   };
 
   // editar categoria
-  const [editandoId, setEditandoId] = useState<number | null>(null);
+  const [editandoId, setEditandoId] = useState<string | null>(null);
   const [nomeEditando, setNomeEditando] = useState("");
 
   
-  const iniciarEdicao = (id: number, nome: string) => {
+  const iniciarEdicao = (id: string, nome: string) => {
     setEditandoId(id);
     setNomeEditando(nome);
   };
@@ -103,27 +241,47 @@ export default function Page() {
     setNomeEditando("");
   };
 
-  const salvarEdicao = () => {
+  const salvarEdicao = async () => {
     if (nomeEditando.trim() !== "" && editandoId !== null) {
-      const novasCategorias = categorias.map((categoria) => {
-        if (categoria.id === editandoId) {
-          return { ...categoria, nome: nomeEditando };
-        }
-        return categoria;
-      });
-      setCategoria(novasCategorias);
-      salvarLocalStorage(novasCategorias);
-      cancelarEdicao();
+      const dadosAtualizados = {
+        nome: nomeEditando.trim(),
+      };
+      
+      const resultado = await atualizarCategoria(editandoId, dadosAtualizados);
+      if (resultado) {
+        const novasCategorias = categorias.map((categoria) => {
+          if (categoria.id === editandoId) {
+            return { ...categoria, nome: nomeEditando };
+          }
+          return categoria;
+        });
+        setCategoria(novasCategorias);
+        cancelarEdicao();
+      } else {
+        alert("Erro ao atualizar categoria!");
+      }
     }
   };
 
-  // Funções do modal de adicionar item
+  // Funções do modal de adicionar/editar item
   const abrirModal = () => {
+    setModalAberto(true);
+    setItemEditando(null);
+  };
+
+  const abrirModalEdicao = (item: Item) => {
+    setItemEditando(item);
+    setNomeItem(item.nome);
+    setDescricaoItem(item.descricao);
+    setValorItem(item.valor.toString());
+    setImagemSelecionada(item.imagem);
+    setCategoriaSelecionada(item.categoria_id);
     setModalAberto(true);
   };
 
   const fecharModal = () => {
     setModalAberto(false);
+    setItemEditando(null);
     limparFormularioItem();
   };
 
@@ -143,7 +301,7 @@ export default function Page() {
     }
   };
 
-  const selecionarCategoria = (categoriaId: number) => {
+  const selecionarCategoria = (categoriaId: string) => {
     if (categoriaSelecionada === categoriaId) {
       setCategoriaSelecionada(null);
     } else {
@@ -151,11 +309,11 @@ export default function Page() {
     }
   };
 
-  const isCategoriaSelected = (categoriaId: number) => {
+  const isCategoriaSelected = (categoriaId: string) => {
     return categoriaSelecionada === categoriaId;
   };
 
-  const salvarItem = () => {
+  const salvarItem = async () => {
     // Validações
     if (!nomeItem.trim()) {
       alert("Nome do produto é obrigatório!");
@@ -174,30 +332,62 @@ export default function Page() {
       return;
     }
 
-    // Criar novo item
-    const novoItem: Item = {
-      id: Date.now(),
-      id_restaurante: 1,
+    const dadosItem = {
       nome: nomeItem.trim(),
       descricao: descricaoItem.trim(),
       valor: parseFloat(valorItem),
       imagem: imagemSelecionada,
       categoria_id: categoriaSelecionada,
+      id_restaurante: '210b0a36-b898-44a2-8e63-e236eccfaffa', // Por enquanto hardcoded
     };
 
-    // Salvar no localStorage
-    const itensExistentes = localStorage.getItem("itens");
-    const itens = itensExistentes ? JSON.parse(itensExistentes) : [];
-    itens.push(novoItem);
-    localStorage.setItem("itens", JSON.stringify(itens));
+    if (itemEditando) {
+      // Editando item existente
+      const resultado = await atualizarItem(itemEditando.id, dadosItem);
+      if (resultado) {
+        const novosItens = itens.map((item) =>
+          item.id === itemEditando.id ? resultado : item
+        );
+        setItens(novosItens);
+        alert("Item atualizado com sucesso!");
+      } else {
+        alert("Erro ao atualizar item!");
+        return;
+      }
+    } else {
+      // Criando novo item
+      const novoItem = await criarItem(dadosItem);
+      if (novoItem) {
+        setItens([...itens, novoItem]);
+        alert("Item salvo com sucesso!");
+      } else {
+        alert("Erro ao salvar item!");
+        return;
+      }
+    }
 
-    alert("Item salvo com sucesso!");
     fecharModal();
   };
 
-  const handleSubmitItem = (e: React.FormEvent) => {
+  // Função para excluir item
+  const excluirItem = async (id: string) => {
+    const resultado = await deletarItem(id);
+    if (resultado) {
+      const novosItens = itens.filter((item) => item.id !== id);
+      setItens(novosItens);
+    } else {
+      alert("Erro ao excluir item!");
+    }
+  };
+
+  // Função para filtrar itens por categoria
+  const getItensPorCategoria = (categoriaId: string) => {
+    return itens.filter((item) => item.categoria_id === categoriaId);
+  };
+
+   const handleSubmitItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    salvarItem();
+    await salvarItem();
   };
 
   return (
@@ -224,63 +414,60 @@ export default function Page() {
             </div>
           </div>
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-base text-gray-700">
-                Destaques
-              </AccordionTrigger>
-              <AccordionContent className="ml-14">
-                <ul>
-                  <li className="mb-5 flex flex-row items-center justify-between">
-                    <h3 className="font-semibold text-red-400">Item 1</h3>
-                    <div className="flex flex-row items-center justify-between space-x-8">
-                      <p className="text-red-400">
-                        ----------------------------------------
-                      </p>
-                      <div className="flex flex-row items-center space-x-1">
-                        <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/editar.svg"
-                            alt="editar"
-                          />
-                        </button>
-                        <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/excluir.svg"
-                            alt="Deletar"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="mb-5 flex flex-row items-center justify-between">
-                    <h3 className="font-semibold text-red-400">Item 2</h3>
-                    <div className="flex flex-row items-center justify-between space-x-8">
-                      <p className="text-red-400">
-                        ----------------------------------------
-                      </p>
-                      <div className="flex flex-row items-center space-x-1">
-                        <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/editar.svg"
-                            alt="editar"
-                          />
-                        </button>
-                        <button className="cursor-pointer">
-                          <img
-                            className="h-6 w-6"
-                            src="/excluir.svg"
-                            alt="Deletar"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
+            {categorias.length > 0 ? (
+              categorias.map((categoria) => (
+                <AccordionItem key={categoria.id} value={`categoria-${categoria.id}`}>
+                  <AccordionTrigger className="text-base text-gray-700">
+                    {categoria.nome}
+                  </AccordionTrigger>
+                  <AccordionContent className="ml-14">
+                    <ul className="list-disc pl-5 marker:text-red-400">
+                      {getItensPorCategoria(categoria.id).length > 0 ? (
+                        getItensPorCategoria(categoria.id).map((item) => (
+                          <li key={item.id} className="mb-5">
+                            <div className="flex flex-row items-center justify-between">
+                              <div className="flex flex-col">
+                                <h3 className="font-semibold text-red-400">{item.nome}</h3>
+                                <p className="text-sm text-gray-600">{item.descricao}</p>
+                                <p className="text-sm font-medium text-green-600">R$ {item.valor.toFixed(2)}</p>
+                              </div>
+                              <div className="flex flex-row items-center space-x-1">
+                                <button 
+                                  className="cursor-pointer"
+                                  onClick={() => abrirModalEdicao(item)}
+                                >
+                                  <img
+                                    className="h-6 w-6"
+                                    src="/editar.svg"
+                                    alt="editar"
+                                  />
+                                </button>
+                                <button 
+                                  className="cursor-pointer"
+                                  onClick={() => excluirItem(item.id)}
+                                >
+                                  <img
+                                    className="h-6 w-6"
+                                    src="/excluir.svg"
+                                    alt="Deletar"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-gray-500">Nenhum item cadastrado nesta categoria</li>
+                      )}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500">Nenhuma categoria cadastrada. Adicione uma categoria para começar.</p>
+              </div>
+            )}
           </Accordion>
         </div>
 
@@ -393,7 +580,7 @@ export default function Page() {
             <section className="min-h-fit rounded-3xl border-1 border-[#F55774] bg-white p-6">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-[#F55774]">
-                  Adicionar Novo Item
+                  {itemEditando ? "Editar Item" : "Adicionar Novo Item"}
                 </h2>
               </div>
 
@@ -519,7 +706,7 @@ export default function Page() {
                     type="submit"
                     className="rounded-3xl bg-[#E55F4B] p-6 pr-15 pl-15"
                   >
-                    Salvar Produto
+                    {itemEditando ? "Atualizar Produto" : "Salvar Produto"}
                   </Button>
                 </div>
               </form>
