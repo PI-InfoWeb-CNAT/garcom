@@ -43,7 +43,7 @@ export default function LoginForm() {
         },
         {
           onSuccess: () => {
-            router.push("/");
+            router.push("/perfil");
           },
           onError: () => {
             setFormError("Usuário ou senha inválidos.");
