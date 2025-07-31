@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export function FormMesas({ restauranteId }: { restauranteId: string }) {
   const [mesasAtuais, setMesasAtuais] = useState<number>(0);
   const [mesasOriginais, setMesasOriginais] = useState<number>(0);
+  const [mensagemSucesso, setMensagemSucesso] = useState("");
 
   useEffect(() => {
     async function fetchMesas() {
@@ -46,19 +47,28 @@ export function FormMesas({ restauranteId }: { restauranteId: string }) {
     }
 
     setMesasOriginais(mesasAtuais);
+    setMensagemSucesso("Mesas atualizadas com sucesso!");
+
+    setTimeout(() => {
+      setMensagemSucesso("");
+    }, 3000);
   };
-
   return (
-    <form className="bg-[#FFF1C2] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  sincronizarMesas();
-                }}
-          >
-        <span className="underline text-[#303030] mb-2">Editar</span>
-        <p className="!text-[22px] font-medium text-[#303030] mb-4">Mesas cadastradas</p>
+    <form className="bg-[#FFF1C2] flex justify-between flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[125px] w-full"
+            onSubmit={(e) => {
+            e.preventDefault();
+            sincronizarMesas();
+        }}
+        >
+        <p className="!text-[22px] font-medium text-[#303030]">Mesas cadastradas</p>
 
-        <div className="flex items-center gap-1">
+        {mensagemSucesso && (
+          <p className="text-green-600 text-sm font-medium mb-2">
+          {mensagemSucesso}
+        </p>
+        )}
+
+        <div className="flex flex-col items-center gap-4 mt-4">
             <div className="flex items-center gap-4 justify-center">
                 <button type="button"
                   onClick={() => alterarMesa(-1)}
@@ -77,7 +87,17 @@ export function FormMesas({ restauranteId }: { restauranteId: string }) {
                   className="cursor-pointer min-w-[40px] max-w-[40px] max-h-[40px] min-h-[40px] rounded-full bg-[#FFC300] flex items-center justify-center text-[2em] text-[#303030]">+
                 </button>
               </div>
-              <button type="submit" className="text-[#FFC300] font-bold text-[20px] ml-2 cursor-pointer">OK</button>
+              <button type="submit"
+                disabled={mesasAtuais === mesasOriginais}
+                className={`text-black text-base rounded-lg font-normal py-1 px-3 text-[20px] font-bold cursor-pointer transition-all
+                  ${
+                    mesasAtuais === mesasOriginais
+                      ? "bg-[#afafaf] cursor-not-allowed"
+                      : "bg-[#FFC300] hover:bg-[#e6b000]"
+                  }`}
+              >
+                Salvar
+              </button>
         </div>
     </form>
   );
