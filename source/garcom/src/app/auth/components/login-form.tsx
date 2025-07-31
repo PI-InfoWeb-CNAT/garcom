@@ -36,15 +36,21 @@ export default function LoginForm() {
   const onSubmit = async (data: FormData) => {
     setFormError(null);
     try {
-      const { error } = await authClient.signIn.email({
-        email: data.email,
-        password: data.senha,
-      });
-      if (error) {
-        setFormError(error.message || "Usuário ou senha inválidos.");
-        return;
-      }
-      router.push("/");
+      const { error } = await authClient.signIn.email(
+        {
+          email: data.email,
+          password: data.senha,
+        },
+        {
+          onSuccess: () => {
+            router.push("/");
+          },
+          onError: () => {
+            setFormError("Usuário ou senha inválidos.");
+          },
+        }
+      );
+      
     } catch (err: any) {
       setFormError("Erro ao tentar login. Tente novamente.");
     }

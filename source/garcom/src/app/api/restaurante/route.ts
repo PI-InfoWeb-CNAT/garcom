@@ -6,9 +6,8 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    // Campos obrigatórios
-    const { user_id, cnpj, nome } = body;
-    if (!user_id || !cnpj || !nome) {
+    const { user_id, cnpj} = body;
+    if (!user_id || !cnpj) {
       return NextResponse.json(
         { error: "Campos obrigatórios faltando." },
         { status: 400 },
@@ -18,11 +17,10 @@ export async function POST(request: Request) {
     for (const key of [
       "user_id",
       "cnpj",
-      "nome",
       "descricao",
       "foto_perfil",
       "foto_banner",
-      "endereco_id"
+      "endereco_id",
     ]) {
       if (body[key] !== undefined) insertData[key] = body[key];
     }
@@ -30,8 +28,14 @@ export async function POST(request: Request) {
       await db.insert(restaurante).values(insertData);
       return NextResponse.json({ success: true });
     } catch (error: any) {
-      if (error?.code === "23505" && error?.constraint === "restaurante_cnpj_unique") {
-        return NextResponse.json({ error: "O CNPJ já está cadastrado." }, { status: 400 });
+      if (
+        error?.code === "23505" &&
+        error?.constraint === "restaurante_cnpj_unique"
+      ) {
+        return NextResponse.json(
+          { error: "O CNPJ já está cadastrado." },
+          { status: 400 },
+        );
       }
       console.error("Erro na API restaurante:", error);
       return NextResponse.json(
@@ -52,11 +56,30 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const user_id = searchParams.get("user_id");
     let result;
     if (id) {
-      result = await db.select().from(restaurante).where(eq(restaurante.id, id));
+      result = await db
+        .select()
+        .from(restaurante)
+        .where(eq(restaurante.id, id));
       if (!result.length) {
-        return NextResponse.json({ error: "Restaurante não encontrado." }, { status: 404 });
+        return NextResponse.json(
+          { error: "Restaurante não encontrado." },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(result[0]);
+    } else if (user_id) {
+      result = await db
+        .select()
+        .from(restaurante)
+        .where(eq(restaurante.user_id, user_id));
+      if (!result.length) {
+        return NextResponse.json(
+          { error: "Restaurante não encontrado para este usuário." },
+          { status: 404 },
+        );
       }
       return NextResponse.json(result[0]);
     } else {
@@ -65,7 +88,10 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     console.error("Erro ao buscar restaurante:", error);
-    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erro interno do servidor." },
+      { status: 500 },
+    );
   }
 }
 
@@ -80,19 +106,24 @@ export async function PUT(request: Request) {
     for (const key of [
       "user_id",
       "cnpj",
-      "nome",
       "descricao",
       "foto_perfil",
       "foto_banner",
-      "endereco_id"
+      "endereco_id",
     ]) {
       if (body[key] !== undefined) updateData[key] = body[key];
     }
-    const result = await db.update(restaurante).set(updateData).where(eq(restaurante.id, id));
+    const result = await db
+      .update(restaurante)
+      .set(updateData)
+      .where(eq(restaurante.id, id));
     return NextResponse.json({ success: true, result });
   } catch (error) {
     console.error("Erro ao atualizar restaurante:", error);
-    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erro interno do servidor." },
+      { status: 500 },
+    );
   }
 }
 
@@ -107,6 +138,9 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Erro ao deletar restaurante:", error);
-    return NextResponse.json({ error: "Erro interno do servidor." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erro interno do servidor." },
+      { status: 500 },
+    );
   }
 }

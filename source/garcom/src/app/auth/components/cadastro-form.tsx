@@ -112,7 +112,7 @@ export default function CadastroForm() {
       const restaurantePayload: any = {
         user_id: userId,
         cnpj: rawCnpj,
-        nome: data.nome,
+
       };
       if (data.descricao) restaurantePayload.descricao = data.descricao;
 

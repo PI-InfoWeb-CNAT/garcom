@@ -21,6 +21,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const user_id = searchParams.get("user_id");
     let result;
     if (id) {
       result = await db
@@ -30,6 +31,18 @@ export async function GET(request: Request) {
       if (!result.length) {
         return NextResponse.json(
           { error: "Funcionário não encontrado." },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(result[0]);
+    } else if (user_id) {
+      result = await db
+        .select()
+        .from(funcionario)
+        .where(eq(funcionario.user_id, user_id));
+      if (!result.length) {
+        return NextResponse.json(
+          { error: "Funcionário não encontrado para este usuário." },
           { status: 404 },
         );
       }

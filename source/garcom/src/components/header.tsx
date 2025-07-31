@@ -26,34 +26,31 @@ export function Header() {
             <span className="block w-6 h-0.5 bg-[#E55F4B] hover:bg-[#E54747] transition-all"></span>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-65 bg-[#3D3D3D] text-white border-none p-0 m-0 rounded-2xl" align="end"
->
-            {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> 
-            <DropdownMenuSeparator />*/}
+          <DropdownMenuContent className="w-65 bg-[#3D3D3D] text-white border-none p-0 m-0 rounded-2xl z-100000" align="end">
             <a href="/landing-page">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
-    <FaHome className="text-white !size-[23px]" />Página principal
-  </DropdownMenuItem>
-</a>
+              <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+                <FaHome className="text-white !size-[23px]" />Página principal
+              </DropdownMenuItem>
+            </a>
 
-<a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
-    <FaBookOpen className="text-white !size-[23px]" />Cardápio
-  </DropdownMenuItem>
-</a>
+            <a href="#">
+              <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+                <FaBookOpen className="text-white !size-[23px]" />Cardápio
+              </DropdownMenuItem>
+            </a>
 
-<a href="#">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
-    <IoMdPeople className="text-white !size-[23px]" /> Funcionarios
-  </DropdownMenuItem>
-</a>
+            <a href="#">
+              <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+                <IoMdPeople className="text-white !size-[23px]" /> Funcionarios
+              </DropdownMenuItem>
+            </a>
 
-<a href="/perfil">
-  <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
-    <CgProfile className="text-white !size-[23px] hover:text-[#3D3D3D]"/>Perfil
-  </DropdownMenuItem>
-</a>
-          </DropdownMenuContent>
+            <a href="/perfil">
+              <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
+                <CgProfile className="text-white !size-[23px] hover:text-[#3D3D3D]"/>Perfil
+              </DropdownMenuItem>
+            </a>
+            </DropdownMenuContent>
         </DropdownMenu>
         
 
