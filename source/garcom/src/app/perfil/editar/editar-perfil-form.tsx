@@ -1,150 +1,78 @@
+'use client'
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MdOutlineEdit } from "react-icons/md";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-
-
-type FormData = z.infer<typeof schema>;
+import { useEffect } from "react";
 
 interface Props {
   restauranteId: string;
   dadosIniciais: any;
 }
 
+type Horario = {
+  dia: string;
+  inicio: string;
+  fim: string;
+  aberto: boolean;
+};
 
-const schema = z.object({
-  nome: z.string().optional(),
-  cnpj: z.string().optional(),
-  descricao: z.string().optional(),
-  email: z.union([z.string().email(), z.literal("")]).optional(),
-  senha: z.union([z.string().min(6), z.literal("")]).optional(),
-  confirmarSenha: z.union([z.string().min(6), z.literal("")]).optional(),
+export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
+
+  const { register, handleSubmit, reset } = useForm({
+  defaultValues: {
+    name: "",
+    descricao: "",
+    cnpj: "",
+    email: "",
+    senha: "",
+    confirmarSenha: "",
+    cep: "",
+    logradouro: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    cidade: "",
+    estado: "",
+  }
 });
 
-export default function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
-
-  
   useEffect(() => {
-    if (dadosIniciais) {
-      setValue("nome", dadosIniciais.nome || "");
-      setValue("cnpj", formatarCNPJ(dadosIniciais.cnpj || ""));
-      setValue("descricao", dadosIniciais.descricao || "");
-      setValue("email", dadosIniciais.email || "");
-
-      setFotoPerfil(dadosIniciais.fotoPerfil || null);
-      setFotoBanner(dadosIniciais.fotoBanner || null);
-      setDadosOriginais(dadosIniciais);
-    }
-  }, [dadosIniciais, setValue]);
-
-  const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
-   const inputClass = "font-poppins rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
-  const labelClass = "text-[20px] font-medium text-[#9E9E9E] mb-[7px]"
-  const [dadosOriginais, setDadosOriginais] = useState<FormData | null>(null);
-  const [fotoPerfil, setFotoPerfil] = useState<string | null>(null);
-  const [fotoBanner, setFotoBanner] = useState<string | null>(null);
-
-  const diasDaSemana = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"];
-
-  const [horarios, setHorarios] = useState(
-    diasDaSemana.map((dia) => ({
-      dia,
-      aberto: dia !== "Domingo",
-      inicio: dia !== "Domingo" ? "08:00" : "",
-      fim: dia !== "Domingo" ? "22:00" : "",
-    }))
-  );
-
-  function formatarCNPJ(value: string) {
-    return value
-      .replace(/\D/g, "")
-      .replace(/^(\d{2})(\d)/, "$1.$2")
-      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
-      .replace(/\.(\d{3})(\d)/, ".$1/$2")
-      .replace(/(\d{4})(\d)/, "$1-$2")
-      .replace(/(-\d{2})\d+?$/, "$1");
-  }
-
-  const toggleDia = (index: number) => {
-    const novos = [...horarios];
-    novos[index].aberto = !novos[index].aberto;
-    novos[index].inicio = novos[index].aberto ? "08:00" : "";
-    novos[index].fim = novos[index].aberto ? "22:00" : "";
-    setHorarios(novos);
-  };
-
-  const alterarHorario = (
-    index: number,
-    campo: "inicio" | "fim",
-    valor: string
-  ) => {
-    const novos = [...horarios];
-    novos[index][campo] = valor;
-    setHorarios(novos);
-  };
-
-  useEffect(() => {
-    async function fetchRestaurante() {
-      const res = await fetch(`/api/account?id=${restauranteId}`);
-      const data = await res.json();
-
-      setValue("nome", data.nome || "");
-      setValue("cnpj", formatarCNPJ(data.cnpj || ""));
-      setValue("descricao", data.descricao || "");
-      setValue("email", data.email || "");
-
-      setFotoPerfil(data.fotoPerfil || null);
-      setFotoBanner(data.fotoBanner || null);
-      setDadosOriginais(data);
-    }
-    fetchRestaurante();
-  }, [restauranteId, setValue]);
-
-  async function editar(data: FormData) {
-    const dadosParaEnviar: any = { id: restauranteId };
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== "" && (!dadosOriginais || value !== dadosOriginais[key as keyof FormData])) {
-        dadosParaEnviar[key] = value;
-      }
+  if (dadosIniciais) {
+    reset({
+      name: dadosIniciais.name,
+      descricao: dadosIniciais.descricao,
+      cnpj: dadosIniciais.cnpj,
+      email: dadosIniciais.email,
+      senha: "",
+      confirmarSenha: "",
+      cep: dadosIniciais.endereco?.cep || "",
+      logradouro: dadosIniciais.endereco?.logradouro || "",
+      numero: dadosIniciais.endereco?.numero || "",
+      complemento: dadosIniciais.endereco?.complemento || "",
+      bairro: dadosIniciais.endereco?.bairro || "",
+      cidade: dadosIniciais.endereco?.cidade || "",
+      estado: dadosIniciais.endereco?.estado || "",
     });
-
-    if (data.senha && data.confirmarSenha) {
-      if (data.senha !== data.confirmarSenha) {
-        alert("As senhas não coincidem.");
-        return;
-      }
-      dadosParaEnviar.novaSenha = data.senha;
-    }
-    if (fotoPerfil) {
-      dadosParaEnviar.fotoPerfil = fotoPerfil;
-    }
-    if (fotoBanner) {
-      dadosParaEnviar.fotoBanner = fotoBanner;
-    }
-
-    const res = await fetch("/api/account", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dadosParaEnviar),
-    });
-
-    const result = await res.json();
-    if (result.success) {
-      alert("Dados atualizados com sucesso!");
-    } else {
-      alert(result.error || "Erro ao atualizar dados.");
-    }
   }
+}, [dadosIniciais, reset]);
+
+  const [fotoPerfil, setFotoPerfil] = useState<string | null>(dadosIniciais.fotoPerfil || null);
+  const [fotoBanner, setFotoBanner] = useState<string | null>(dadosIniciais.fotoBanner || null);
+
+  const [horarios, setHorarios] = useState<Horario[]>(dadosIniciais.horarios || [
+    { dia: "Seg", inicio: "08:00", fim: "18:00", aberto: true },
+    { dia: "Ter", inicio: "08:00", fim: "18:00", aberto: true },
+    { dia: "Qua", inicio: "08:00", fim: "18:00", aberto: true },
+    { dia: "Qui", inicio: "08:00", fim: "18:00", aberto: true },
+    { dia: "Sex", inicio: "08:00", fim: "18:00", aberto: true },
+    { dia: "Sáb", inicio: "09:00", fim: "14:00", aberto: true },
+    { dia: "Dom", inicio: "00:00", fim: "00:00", aberto: false },
+  ]);
 
   function mudarFotoPerfil(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -155,6 +83,66 @@ export default function EditarPerfilForm({ restauranteId, dadosIniciais }: Props
     const file = e.target.files?.[0];
     if (file) setFotoBanner(URL.createObjectURL(file));
   }
+
+  function toggleDia(index: number) {
+    setHorarios((prev: Horario[]) =>
+      prev.map((dia: Horario, i: number) =>
+        i === index ? { ...dia, aberto: !dia.aberto } : dia
+      )
+    );
+  }
+
+  function alterarHorario(index: number, campo: "inicio" | "fim", valor: string) {
+    setHorarios((prev: Horario[]) =>
+      prev.map((dia: Horario, i: number) =>
+        i === index ? { ...dia, [campo]: valor } : dia
+      )
+    );
+  }
+
+  async function atualizarConta(dados: any) {
+    const res = await fetch('/api/restaurante', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados),
+    });
+    
+    if (!res.ok) throw new Error("Erro ao atualizar");
+    return await res.json();
+  }
+
+  async function editar(data: any) {
+    try {
+      const dadosParaAtualizar = {
+        id: restauranteId,
+        ...data,
+
+        horarios,
+        fotoPerfil,
+        fotoBanner,
+        endereco: {
+          cep: data.cep,
+          logradouro: data.logradouro,
+          numero: data.numero,
+          complemento: data.complemento,
+          bairro: data.bairro,
+          cidade: data.cidade,
+          estado: data.estado,
+        },
+      };
+
+      const res = await atualizarConta(dadosParaAtualizar);
+      alert("Atualização feita com sucesso!");
+      console.log("Dados atualizados:", res);
+    } catch (err) {
+      console.error("Erro:", err);
+      alert("Erro ao atualizar");
+    }
+  }
+  const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
+  const inputClass = "rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-medium placeholder:text-[1em]";
+  const labelClass = "text-[20px] font-medium text-[#9E9E9E] mb-[7px]";
+
   return (
     <form onSubmit={handleSubmit(editar)}>
       <section className="flex align-center gap-10 mb-10 h-auto">
@@ -192,15 +180,15 @@ export default function EditarPerfilForm({ restauranteId, dadosIniciais }: Props
                     <Input
                       className={inputClass}
                       type="text"
-                      placeholder="nome"
-                      {...register("nome")}
+                      placeholder="Nome do Restaurante"
+                      {...register("name")}
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className={labelClass}>Descrição</label>
                     <textarea
                       className="font-poppins rounded-[18px] bg-[#EFEFEF] text-[1em] p-3 font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium transition-all placeholder:text-[1em]"
-                      placeholder="ededde"
+                      placeholder="Digite uma descrição"
                       {...register("descricao")}
                       onInput={(e) => {
                         const el = e.target as HTMLTextAreaElement;
@@ -262,31 +250,31 @@ export default function EditarPerfilForm({ restauranteId, dadosIniciais }: Props
                   <div className="grid grid-cols-4 gap-6">
                     <div className="w-full h-fit">
                       <label className={labelClass}>CEP</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cep")} />
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Logradouro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("logradouro")} />
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Nº</label>
-                      <Input className={inputClass} type="text" placeholder="233" />
+                      <Input className={inputClass} type="text" placeholder="digite" {...register("numero")} />
                     </div>
                     <div className="w-full h-fit col-span-3">
                       <label className={labelClass}>Complemento</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("complemento")}/>
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Bairro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("bairro")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Cidade</label>
-                      <Input className={inputClass} type="text" placeholder="Natal rs" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cidade")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Estado</label>
-                      <Input className={inputClass} type="text" placeholder="Rio grande do norte" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("estado")}/>
                     </div>
                   </div>
                 </AccordionContent>
@@ -337,6 +325,6 @@ export default function EditarPerfilForm({ restauranteId, dadosIniciais }: Props
       </div>
       <Button type="submit" variant="rosa">Salvar Alterações</Button>
     </form>
+
   );
 }
-export { EditarPerfilForm };

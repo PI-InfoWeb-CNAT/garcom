@@ -54,7 +54,12 @@ export async function getDados(): Promise<DadosUsuario | null> {
       session,
       user,
       role: user.role,
-      roleData,
+      roleData: {
+        ...roleData,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      },
     };
   } catch (e) {
     console.error("Erro ao buscar dados do usuário:", e);

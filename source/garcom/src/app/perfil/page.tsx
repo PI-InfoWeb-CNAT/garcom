@@ -2,7 +2,6 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { IoQrCode } from "react-icons/io5";
-
 import { getDados } from "@/app/auth/getDados/page";
 import { FormMesas } from "./components/FormMesas";
 
@@ -63,7 +62,7 @@ const perfil = async () => {
       <main className={mainClass}>
         <section className="relative mb-10 pb-6 border-b border-[#F65C5C]">
           <div className="flex flex-col items-center relative justify-center w-full h-auto">
-            <img src="/default-banner.png" alt="banner"
+            <img src={roleData?.foto_banner || "/default-banner.png"} alt="banner"
             className="w-full h-50  object-cover"/>
           </div>
 
@@ -74,7 +73,7 @@ const perfil = async () => {
                 <div className="flex items-start gap-5 mt-18">
                   <div>
                     <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
-                    <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">Natal - RN</p>
+                    <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">{ roleData?.cidade || "sem endereço"}</p>
                   </div>
                   <Button className="w-40 mt-[5px]" variant="rosa"><a href="/perfil/editar">Editar Perfil</a></Button>
                 </div>
@@ -105,7 +104,7 @@ const perfil = async () => {
           </div>
         </section>
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 w-full">
-          <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">{roleData?.descricao}</p>
+          <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">{roleData?.descricao || "sem descrição"}</p>
           
           <div
             className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[169px] relative w-full">
@@ -132,6 +131,7 @@ const perfil = async () => {
                 <span className={`${tituloClass} !text-[20px] !m-0`}>39,99</span></p>
             </div>
           </div>
+          
         </section>
       </main>
       <Footer />
