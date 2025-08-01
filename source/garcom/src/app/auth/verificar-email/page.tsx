@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function EmailVerificationPage() {
   const searchParams = useSearchParams();
@@ -31,9 +33,9 @@ export default function EmailVerificationPage() {
     try {
       const { error } = await authClient.sendVerificationEmail({ email, callbackURL: '/auth/entrar'});
       if (error) {
-        setMessage(error.message || "Erro ao reenviar e-mail.");
+        toast.error(error.message || "Erro ao reenviar e-mail.");
       } else {
-        setMessage("E-mail de verificação reenviado com sucesso!");
+        toast.success("E-mail de verificação reenviado com sucesso!");
         setCountdown(60); 
       }
     } catch (error) {
@@ -75,18 +77,6 @@ export default function EmailVerificationPage() {
               confirmação para ativar sua conta.
             </p>
 
-            {message && (
-              <p
-                className={`font-poppins text-[1em] font-medium ${
-                  message.includes("sucesso")
-                    ? "text-green-500"
-                    : "text-[#f65c5c]"
-                }`}
-              >
-                {message}
-              </p>
-            )}
-
             <Button
               onClick={handleResendEmail}
               disabled={countdown > 0 || isResending}
@@ -120,6 +110,7 @@ export default function EmailVerificationPage() {
           height={2000}
           className="h-auto w-[70%] object-contain"
         />
+        <Toaster position="bottom-left" />
       </div>
     </div>
   );

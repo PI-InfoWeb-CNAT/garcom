@@ -119,10 +119,10 @@ export default function CadastroForm() {
 
 
 const knownErrorMsgs: Record<string, string> = {
-  "auth/email-already-exists": "Email já cadastrado.",
-  "auth/user-already-exists": "Usuário já cadastrado.",
-  "auth/invalid-email": "Email inválido.",
-  "auth/weak-password": "Senha muito fraca.",
+  "EMAIL_ALREADY_EXISTS": "Email já cadastrado.",
+  "USER_ALREADY_EXISTS": "Usuário já cadastrado.",
+  "INVALID_EMAIL": "Email inválido.",
+  "WEAK_PASSWORD": "Senha muito fraca.",
 };
 const onSubmit = async (data: FormData) => {
   try {
