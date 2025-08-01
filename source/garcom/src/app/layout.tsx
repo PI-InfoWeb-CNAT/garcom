@@ -3,9 +3,9 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Projeto Garçom",
+  title: "Garçom",
   keywords: ["garçom", "projeto garçom", "next.js", "react"],
-  description: "Projeto Garçom - Sistema de gerenciamento de pedidos",
+  description: "Garçom - Sistema de gerenciamento de pedidos",
 };
 
 export default function RootLayout({
@@ -15,8 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className="font-poppins">
+      <body>
         {children}
       </body>
     </html>
