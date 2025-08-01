@@ -22,16 +22,26 @@ export function FormularioFuncionario({
     }
   };
 
-  return (
-    <div className="items-right min-h-full w-2/5 pl-30">
-      <h3 className="mb-5 text-xl font-semibold text-gray-800">
-        Adicionar Funcionário
-      </h3>
+  const inputClass =
+    "font-poppins rounded-full mb-2 border-[#9E9E9E] bg-[#EFEFEF] !text-xs font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
 
-      <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
+
+  return (
+    <div className="items-right min-h-full w-2/5 pl-15">
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        className="space-y-4 rounded-2xl border border-[#9E9E9E] p-9"
+      >
+        <h3 className="mb-5 text-center text-xl font-semibold text-[#E55F4B]">
+          Adicionar Funcionário
+        </h3>
+        <label className="font-poppins mb-[0.3em] block text-sm text-[#616161]">
+          Nome Completo
+        </label>
         <Input
           placeholder="Nome completo"
-          className="w-full"
+          className={inputClass}
           type="text"
           value={novoFuncionario.nome}
           autoComplete="off"
@@ -39,9 +49,12 @@ export function FormularioFuncionario({
             setNovoFuncionario({ ...novoFuncionario, nome: e.target.value })
           }
         />
+        <label className="font-poppins mb-[0.3em] block text-sm text-[#616161]">
+          Email
+        </label>
         <Input
           placeholder="Email"
-          className="w-full"
+          className={inputClass}
           type="email"
           value={novoFuncionario.email}
           autoComplete="off"
@@ -52,9 +65,12 @@ export function FormularioFuncionario({
             })
           }
         />
+        <label className="font-poppins mb-[0.3em] block text-sm text-[#616161]">
+          CPF
+        </label>
         <Input
           placeholder="CPF"
-          className="w-full"
+          className={inputClass}
           type="text"
           value={novoFuncionario.cpf}
           autoComplete="off"
@@ -62,9 +78,12 @@ export function FormularioFuncionario({
             setNovoFuncionario({ ...novoFuncionario, cpf: e.target.value })
           }
         />
+        <label className="font-poppins mb-[0.3em] block text-sm text-[#616161]">
+          Senha
+        </label>
         <Input
           placeholder="Senha"
-          className="w-full"
+          className={inputClass}
           type="password"
           value={novoFuncionario.senha}
           autoComplete="new-password"
@@ -77,14 +96,14 @@ export function FormularioFuncionario({
         />
         <button
           type="submit"
-          className="w-full rounded bg-red-400 px-4 py-2 text-white hover:bg-red-500 disabled:opacity-50"
+          className="mx-auto block rounded-full mt-10 bg-[#f65c5c] px-9 py-2 cursor-pointer text-[1em] font-semibold text-[#FFFFFF] hover:bg-[#e25555]"
           disabled={carregando}
         >
           {carregando ? "Adicionando..." : "Adicionar Funcionário"}
         </button>
       </form>
 
-      <div className="mt-8 rounded-lg bg-gray-50 p-4">
+      <div className="mt-4 rounded-lg bg-gray-50 p-4">
         <h4 className="mb-2 font-medium text-gray-700">Informações:</h4>
         <ul className="space-y-1 text-sm text-gray-600">
           <li>• Nome completo é obrigatório</li>

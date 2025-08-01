@@ -1,5 +1,5 @@
 "use client";
-
+import { CiSearch } from "react-icons/ci";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { useFuncionarios } from "./useFuncionarios";
@@ -30,14 +30,16 @@ export default function Page() {
       <Header />
       <main className={mainClass}>
         <div className="items-left flex-1 sm:pr-3 md:pr-20">
-          <div className="mb-10 flex flex-row items-center justify-between">
-            <h2 className="mb-10 text-2xl font-bold text-red-400">
-              Funcionários
-            </h2>
-            <h3 className="text-lg font-semibold text-gray-700">
-              Funcionários
-            </h3>
-            <p>{funcionarios.length}</p>
+          <div className="mb-10 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-[#E55F4B]">Funcionários</h2>
+            <div>
+              <div className="text-end">
+                <h3 className="text-sm text-[#757575]">Funcionários</h3>
+                <p className="!text-xl !font-medium text-[#757575]">
+                  {funcionarios.length}
+                </p>
+              </div>
+            </div>
           </div>
 
           <ListaFuncionarios
@@ -54,7 +56,7 @@ export default function Page() {
         </div>
 
         {/* borda */}
-        <div className="mx-8 w-px self-stretch bg-[#F55774]"></div>
+        <div className="mx-8 w-px self-stretch bg-[#E55F4B]"></div>
 
         <FormularioFuncionario
           novoFuncionario={novoFuncionario}

@@ -19,13 +19,13 @@ export function CardFuncionario({
   onExcluir,
 }: CardFuncionarioProps) {
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex w-full items-center justify-between">
       <div>
-        <h3 className="text-lg font-semibold text-gray-700">
+        <h3 className="text-lg font-semibold text-[#646464]">
           {funcionario.nome}
         </h3>
         <p className="!text-sm text-[#757575]">{funcionario.email}</p>
-        <p className="text-[#757575] !text-sm">
+        <p className="!text-sm text-[#757575]">
           CPF: {formatarCPF(funcionario.cpf)}
         </p>
       </div>
