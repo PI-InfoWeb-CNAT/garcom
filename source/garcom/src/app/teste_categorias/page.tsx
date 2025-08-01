@@ -1,7 +1,8 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { Input } from "@/components/ui/input";
 import { getDados } from "@/app/auth/getDados/page";
-import CategoriasList from "./components/CategoriasList";
+import CategoriasList from "../gerenciar_cardapio/components/CategoriasList";
 
 // Tipos
 type Categoria = {
@@ -25,7 +26,7 @@ const testeCategorias = async () => {
 
   const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
   const mainClass =
-    "!pt-35 flex flex-row items-start min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
+    "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0";
 
   // Buscar categorias do servidor
   let categorias: Categoria[] = [];
@@ -79,7 +80,7 @@ const testeCategorias = async () => {
         </h1>
 
         {/* Informações do usuário */}
-        {/* <div className="mb-6 rounded-lg border bg-blue-50 p-4">
+        <div className="mb-6 rounded-lg border bg-blue-50 p-4">
           <h2 className="mb-2 text-lg font-semibold text-blue-800">
             Dados do Sistema
           </h2>
@@ -103,26 +104,21 @@ const testeCategorias = async () => {
               </span>
             </p>
           </div>
-        </div> */}
+        </div>
 
-        {/* borda */}
-        <div className="mx-8 w-px self-stretch bg-[#F55774]"></div>
-
-        <div>
-          {/* Mostrar erro se houver */}
-          {errorMessage && (
-            <div className="mb-4 rounded border border-red-200 bg-red-50 p-3 text-red-700">
-              <strong>Erro ao carregar categorias:</strong> {errorMessage}
-            </div>
-          )}
-
-          <div className="items-right min-h-full w-2/5 pl-30">
-            {/* Componente Client para interações */}
-            <CategoriasList
-              categoriasIniciais={categorias}
-              restauranteId={roleData?.id || null}
-            />
+        {/* Mostrar erro se houver */}
+        {errorMessage && (
+          <div className="mb-4 rounded border border-red-200 bg-red-50 p-3 text-red-700">
+            <strong>Erro ao carregar categorias:</strong> {errorMessage}
           </div>
+        )}
+
+        <div className="items-right min-h-full w-2/5 pl-30">
+          {/* Componente Client para interações */}
+          <CategoriasList
+            categoriasIniciais={categorias}
+            restauranteId={roleData?.id || null}
+          />
         </div>
       </main>
 
