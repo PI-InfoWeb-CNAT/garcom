@@ -7,12 +7,13 @@
 | Data       | Versão | Descrição        | Autor           |
 |------------|--------|------------------|-----------------|
 | 17/07/2025 | 1.00   | Versão Inicial   | Rodrigo |
+| 31/07/2025 | 2.00   | Versão pós implementação   | Rodrigo |
 
 ---
 
 ### 1) Resumo
 
-Permite ao restaurante adicionar, editar ou excluir mesas do sistema, organizando o ambiente e vinculando comandas e QR Codes a cada mesa.
+Permite ao restaurante adicionar, ou excluir mesas do sistema.
 
 ---
 
@@ -37,28 +38,18 @@ Permite ao restaurante adicionar, editar ou excluir mesas do sistema, organizand
 
 ### 5) Fluxos de evento
 
-#### 5.1) Fluxo básico – Adicionar mesa
+#### 5.1) Fluxo básico – Gerenciar número de mesas
 
-1. [IN] O restaurante acessa a área de gerenciamento de mesas.  
-2. [IN] Clica em “Adicionar mesa”.  
-3. [IN] Informa o número ou nome da mesa.  
-4. [OUT] O sistema valida e adiciona a mesa.  
+1. [IN] O restaurante acessa seu perfil.  
+2. [IN] Clica em + ou -, pra adicionar ou excluir mesas.  
+4. [OUT] O sistema valida e adiciona ou remove as mesas.  
 5. [OUT] Exibe confirmação de sucesso.
 
-#### 5.2) Fluxo alternativo – Excluir mesa
-
-1. [IN] O restaurante clica em “Excluir” ao lado da mesa.  
-2. [OUT] O sistema verifica se há comandas ativas.  
-3. [IN] O restaurante confirma a exclusão.  
-4. [OUT] O sistema exclui a mesa e exibe mensagem de sucesso.
-
----
 
 ### 5.3) Fluxo de exceção
 
 - Tentativa de excluir mesa com comanda ativa:  
   [OUT] Mensagem: “Não é possível excluir uma mesa com comanda em andamento.”
-
 ---
 
 ### 6) Dicionário de dados
