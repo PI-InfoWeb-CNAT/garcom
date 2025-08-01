@@ -246,6 +246,10 @@ export function useItens() {
 
       console.log("✅ Hook: Item criado com sucesso");
 
+      // Recarregar ambas as listas para garantir sincronização
+      await carregarItens();
+      await carregarCategorias();
+      
       // Só executa se tudo acima deu certo
       setNovoItem({
         nome: "",
@@ -254,7 +258,6 @@ export function useItens() {
         foto: "",
         categoria_id: "",
       });
-      await carregarItens();
       alert("Item adicionado com sucesso!");
       return true; // Indicar sucesso
     } catch (error) {
@@ -294,7 +297,9 @@ export function useItens() {
         throw new Error("Erro ao excluir item");
       }
 
+      // Recarregar ambas as listas para garantir sincronização
       await carregarItens();
+      await carregarCategorias();
       alert("Item excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir item:", error);
@@ -385,7 +390,9 @@ export function useItens() {
       }
 
       cancelarEdicao();
+      // Recarregar ambas as listas para garantir sincronização
       await carregarItens();
+      await carregarCategorias();
       alert("Item atualizado com sucesso!");
     } catch (error) {
       console.error("Erro ao atualizar item:", error);

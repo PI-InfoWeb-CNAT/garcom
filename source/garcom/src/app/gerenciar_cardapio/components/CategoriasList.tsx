@@ -8,9 +8,14 @@ import { ListaCategorias } from "../ListaCategorias";
 interface CategoriasListProps {
   categoriasIniciais?: Categoria[];
   restauranteId?: string;
+  onCategoriasChange?: () => void; // Callback para notificar mudanças
 }
 
-const CategoriasList = ({ categoriasIniciais = [], restauranteId }: CategoriasListProps) => {
+const CategoriasList = ({ 
+  categoriasIniciais = [], 
+  restauranteId, 
+  onCategoriasChange 
+}: CategoriasListProps) => {
   const [categorias, setCategorias] = useState<Categoria[]>(categoriasIniciais);
   const [novaCategoria, setNovaCategoria] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -75,8 +80,13 @@ const CategoriasList = ({ categoriasIniciais = [], restauranteId }: CategoriasLi
       if (response.ok) {
         const novaCategoriaCriada = await response.json();
         console.log("✅ Categoria criada:", novaCategoriaCriada);
-        setCategorias([...categorias, novaCategoriaCriada]);
         setNovaCategoria("");
+        // Recarregar as categorias para garantir sincronização
+        await carregarCategorias();
+        // Notificar o componente pai sobre a mudança
+        if (onCategoriasChange) {
+          onCategoriasChange();
+        }
       } else {
         const errorText = await response.text();
         console.error("❌ Erro ao adicionar categoria:", response.status, errorText);
@@ -120,15 +130,13 @@ const CategoriasList = ({ categoriasIniciais = [], restauranteId }: CategoriasLi
         const resultado = await response.json();
         console.log("✅ Categoria atualizada:", resultado);
         
-        // Atualizar a categoria na lista local
-        const novasCategorias = categorias.map((categoria) => {
-          if (categoria.id === editandoId) {
-            return { ...categoria, nome: dadosEdicao.nome.trim() };
-          }
-          return categoria;
-        });
-        setCategorias(novasCategorias);
         cancelarEdicao();
+        // Recarregar as categorias para garantir sincronização
+        await carregarCategorias();
+        // Notificar o componente pai sobre a mudança
+        if (onCategoriasChange) {
+          onCategoriasChange();
+        }
         
         // Mostrar feedback de sucesso
         alert("Categoria atualizada com sucesso!");
@@ -163,11 +171,9 @@ const CategoriasList = ({ categoriasIniciais = [], restauranteId }: CategoriasLi
       if (response.ok) {
         const resultado = await response.json();
         console.log("✅ Categoria excluída:", resultado);
-        const novasCategorias = categorias.filter(
-          (categoria) => categoria.id !== id,
-        );
-        setCategorias(novasCategorias);
         alert("Categoria excluída com sucesso!");
+        // Recarregar a página para atualizar todos os dados
+        window.location.reload();
       } else {
         const errorText = await response.text();
         console.error("❌ Erro ao excluir categoria:", response.status, errorText);

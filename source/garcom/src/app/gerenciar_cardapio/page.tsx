@@ -41,6 +41,8 @@ const testeCategorias = () => {
     novoItem,
     setNovoItem,
     restauranteId,
+    carregarItens,
+    carregarCategorias,
   } = useItens();
 
   // Funções do modal de adicionar item
@@ -199,6 +201,11 @@ const testeCategorias = () => {
           <CategoriasList
             categoriasIniciais={categorias}
             restauranteId={restauranteId || ""}
+            onCategoriasChange={() => {
+              // Recarregar ambas as listas quando há mudança nas categorias
+              carregarItens();
+              carregarCategorias();
+            }}
           />
         </div>
       </main>

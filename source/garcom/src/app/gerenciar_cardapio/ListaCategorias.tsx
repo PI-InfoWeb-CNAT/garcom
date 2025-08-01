@@ -64,7 +64,7 @@ export function ListaCategorias({
             )}
             <div className="flex flex-row items-center space-x-1">
               {editandoId === categoria.id ? (
-                <>
+                <div key={`edit-buttons-${categoria.id}`} className="flex space-x-1">
                   <button
                     className="cursor-pointer disabled:opacity-50"
                     onClick={onSalvarEdicao}
@@ -89,9 +89,9 @@ export function ListaCategorias({
                       alt="Cancelar"
                     />
                   </button>
-                </>
+                </div>
               ) : (
-                <>
+                <div key={`view-buttons-${categoria.id}`} className="flex space-x-1">
                   <button
                     className="cursor-pointer disabled:opacity-50"
                     onClick={() => onIniciarEdicao(categoria)}
@@ -120,7 +120,7 @@ export function ListaCategorias({
                       alt="Excluir"
                     />
                   </button>
-                </>
+                </div>
               )}
             </div>
           </div>
