@@ -91,7 +91,8 @@ const testeCategorias = () => {
   const salvarNovoItem = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log("🔍 Debug salvarNovoItem - Categorias disponíveis:", categorias);
+    console.log("🔍 Debug salvarNovoItem - Nome:", nomeItem);
+    console.log("🔍 Debug salvarNovoItem - Valor:", valorItem);
     console.log("🔍 Debug salvarNovoItem - Categoria selecionada:", categoriaSelecionada);
     
     // Validações
@@ -108,20 +109,24 @@ const testeCategorias = () => {
       return;
     }
 
-    // Atualizar o estado novoItem do hook
-    setNovoItem({
+    // Criar objeto com os dados do item
+    const dadosItem = {
       nome: nomeItem.trim(),
       preco_unitario: valorItem,
       descricao: descricaoItem.trim() || "",
       foto: imagemSelecionada,
       categoria_id: categoriaSelecionada,
-    });
+    };
 
-    // Chamar a função do hook (sem parâmetros)
-    await adicionarItem();
+    console.log("🔍 Debug - Dados do item a serem salvos:", dadosItem);
+
+    // Chamar a função do hook passando os dados diretamente
+    const sucesso = await adicionarItem(dadosItem);
     
-    // Fechar modal após sucesso (o hook já cuida do feedback)
-    fecharModalAdicionar();
+    // Se foi bem-sucedido, fechar o modal
+    if (sucesso) {
+      fecharModalAdicionar();
+    }
   };
 
   if (carregando) {

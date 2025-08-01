@@ -162,7 +162,12 @@ export function useItens() {
   };
 
   // Adicionar novo item
-  const adicionarItem = async () => {
+  const adicionarItem = async (dadosItem?: NovoItem) => {
+    // Se dados foram passados como parâmetro, usar eles; senão usar o estado
+    const itemData = dadosItem || novoItem;
+    
+    console.log("🔍 Hook adicionarItem - Dados recebidos:", itemData);
+    
     // Verificar se o usuário está logado e é um restaurante
     const sessionData = await authClient.getSession();
     if (!sessionData?.data?.user?.id) {
@@ -184,34 +189,40 @@ export function useItens() {
       return;
     }
 
-    // Validações básicas
+    // Validações básicas - usando os dados passados ou do estado
     if (!restauranteId) {
       alert("Erro: Restaurante não identificado. Recarregue a página.");
       return;
     }
 
-    if (!novoItem.nome.trim()) {
+    if (!itemData.nome.trim()) {
+      console.log("❌ Hook: Nome vazio:", itemData.nome);
       alert("Nome é obrigatório.");
       return;
     }
 
-    if (!novoItem.preco_unitario.trim()) {
+    if (!itemData.preco_unitario.trim()) {
+      console.log("❌ Hook: Preço vazio:", itemData.preco_unitario);
       alert("Preço é obrigatório.");
       return;
     }
 
-    if (!novoItem.categoria_id) {
+    if (!itemData.categoria_id) {
+      console.log("❌ Hook: Categoria vazia:", itemData.categoria_id);
       alert("Categoria é obrigatória.");
       return;
     }
 
-    if (!novoItem.foto.trim()) {
+    if (!itemData.foto.trim()) {
+      console.log("❌ Hook: Foto vazia:", itemData.foto);
       alert("Foto é obrigatória.");
       return;
     }
 
     try {
       setCarregando(true);
+
+      console.log("🔍 Hook: Enviando dados para API:", itemData);
 
       // Criar item
       const criarItemResult = await fetch("/api/item", {
@@ -220,11 +231,11 @@ export function useItens() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          nome: novoItem.nome,
-          preco_unitario: novoItem.preco_unitario,
-          descricao: novoItem.descricao,
-          foto: novoItem.foto,
-          categoria_id: novoItem.categoria_id,
+          nome: itemData.nome,
+          preco_unitario: itemData.preco_unitario,
+          descricao: itemData.descricao,
+          foto: itemData.foto,
+          categoria_id: itemData.categoria_id,
         }),
       });
 
@@ -232,6 +243,8 @@ export function useItens() {
         const errorData = await criarItemResult.json();
         throw new Error(errorData.message || "Erro ao criar item");
       }
+
+      console.log("✅ Hook: Item criado com sucesso");
 
       // Só executa se tudo acima deu certo
       setNovoItem({
@@ -243,11 +256,13 @@ export function useItens() {
       });
       await carregarItens();
       alert("Item adicionado com sucesso!");
+      return true; // Indicar sucesso
     } catch (error) {
-      console.error("Erro ao adicionar item:", error);
+      console.error("❌ Hook: Erro ao adicionar item:", error);
       alert(
         `Erro ao adicionar item: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
       );
+      return false; // Indicar falha
     } finally {
       setCarregando(false);
     }
