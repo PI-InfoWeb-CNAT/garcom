@@ -1,41 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-
-type Categoria = {
-  id: string;
-  nome: string;
-  restaurante_id: string;
-};
+import { Categoria } from "../types";
+import { ListaCategorias } from "../ListaCategorias";
 
 interface CategoriasListProps {
-  categoriasIniciais: Categoria[];
-  restauranteId: string | null;
+  categoriasIniciais?: Categoria[];
+  restauranteId?: string;
 }
 
-export default function CategoriasList({
-  categoriasIniciais,
-  restauranteId,
-}: CategoriasListProps) {
+const CategoriasList = ({ categoriasIniciais = [], restauranteId }: CategoriasListProps) => {
   const [categorias, setCategorias] = useState<Categoria[]>(categoriasIniciais);
-  const [novaCategoria, setNovaCategoria] = useState<string>("");
+  const [novaCategoria, setNovaCategoria] = useState("");
   const [carregando, setCarregando] = useState(false);
-
-  // Estados para edição
   const [editandoId, setEditandoId] = useState<string | null>(null);
-  const [nomeEditando, setNomeEditando] = useState<string>("");
+  const [dadosEdicao, setDadosEdicao] = useState({ nome: "" });
 
-  // Função para adicionar categoria
-  const adicionarCategoria = async () => {
-    if (!novaCategoria.trim() || !restauranteId) {
-      alert("Nome da categoria é obrigatório!");
+  // Atualizar categorias quando as iniciais mudarem
+  useEffect(() => {
+    console.log("🔍 Categorias iniciais atualizadas:", categoriasIniciais);
+    if (categoriasIniciais.length > 0) {
+      setCategorias(categoriasIniciais);
+    }
+  }, [categoriasIniciais]);
+
+  // Carregar categorias
+  const carregarCategorias = async () => {
+    if (!restauranteId) {
+      console.log("❌ Sem restauranteId para carregar categorias");
       return;
     }
 
     try {
       setCarregando(true);
-      const response = await fetch("/api/categorias", {
+      console.log("🔍 Carregando categorias para restaurante:", restauranteId);
+      
+      const response = await fetch(`/api/categoria?restaurante_id=${restauranteId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("✅ Categorias carregadas:", data);
+        setCategorias(data);
+      } else {
+        const errorText = await response.text();
+        console.error("❌ Erro ao carregar categorias:", response.status, errorText);
+      }
+    } catch (error) {
+      console.error("❌ Erro ao carregar categorias:", error);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  const addCategoria = async () => {
+    if (!novaCategoria.trim() || !restauranteId) {
+      console.log("❌ Dados inválidos para adicionar categoria");
+      return;
+    }
+
+    try {
+      setCarregando(true);
+      console.log("🔍 Adicionando categoria:", novaCategoria.trim());
+      
+      const response = await fetch("/api/categoria", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,118 +74,107 @@ export default function CategoriasList({
 
       if (response.ok) {
         const novaCategoriaCriada = await response.json();
-        setCategorias((prev) => [...prev, novaCategoriaCriada]);
-        setNovaCategoria(""); // Limpar input
-        alert("Categoria adicionada com sucesso!");
+        console.log("✅ Categoria criada:", novaCategoriaCriada);
+        setCategorias([...categorias, novaCategoriaCriada]);
+        setNovaCategoria("");
       } else {
+        const errorText = await response.text();
+        console.error("❌ Erro ao adicionar categoria:", response.status, errorText);
         alert("Erro ao adicionar categoria");
       }
     } catch (error) {
-      console.error("Erro ao adicionar categoria:", error);
+      console.error("❌ Erro ao adicionar categoria:", error);
       alert("Erro ao adicionar categoria");
     } finally {
       setCarregando(false);
     }
   };
 
-  // Função para iniciar edição
   const iniciarEdicao = (categoria: Categoria) => {
+    console.log("🔍 Iniciando edição da categoria:", categoria);
     setEditandoId(categoria.id);
-    setNomeEditando(categoria.nome);
+    setDadosEdicao({ nome: categoria.nome });
   };
 
-  // Função para salvar edição - COM DEBUG
   const salvarEdicao = async () => {
-    console.log("🔍 Debug - Salvando edição:");
-    console.log("   - editandoId:", editandoId);
-    console.log("   - nomeEditando:", nomeEditando);
-    console.log("   - restauranteId:", restauranteId);
-
-    if (!nomeEditando.trim()) {
-      alert("Nome da categoria é obrigatório!");
-      return;
-    }
-
-    if (!editandoId) {
-      alert("Erro: ID da categoria não encontrado!");
+    if (!editandoId || !dadosEdicao.nome.trim()) {
+      console.log("❌ Dados inválidos para salvar edição");
+      alert("Nome da categoria não pode estar vazio");
       return;
     }
 
     try {
       setCarregando(true);
-
-      const dadosAtualizacao = {
-        nome: nomeEditando.trim(),
-        restaurante_id: restauranteId,
-      };
-
-      console.log("📡 Dados sendo enviados:", dadosAtualizacao);
-      console.log("📡 URL da requisição:", `/api/categorias/${editandoId}`);
-
-      const response = await fetch(`/api/categorias/${editandoId}`, {
+      console.log("🔍 Salvando edição categoria:", editandoId, dadosEdicao.nome);
+      
+      const response = await fetch(`/api/categoria`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosAtualizacao),
+        body: JSON.stringify({ 
+          id: editandoId,
+          nome: dadosEdicao.nome.trim() 
+        }),
       });
 
-      console.log("📡 Response status:", response.status);
-      console.log("📡 Response ok:", response.ok);
-
       if (response.ok) {
-        const categoriaAtualizada = await response.json();
-        console.log("✅ Categoria atualizada recebida:", categoriaAtualizada);
-
-        setCategorias((prev) => {
-          const novaLista = prev.map((cat) =>
-            cat.id === editandoId ? categoriaAtualizada : cat,
-          );
-          console.log("✅ Lista atualizada:", novaLista);
-          return novaLista;
+        const resultado = await response.json();
+        console.log("✅ Categoria atualizada:", resultado);
+        
+        // Atualizar a categoria na lista local
+        const novasCategorias = categorias.map((categoria) => {
+          if (categoria.id === editandoId) {
+            return { ...categoria, nome: dadosEdicao.nome.trim() };
+          }
+          return categoria;
         });
-
+        setCategorias(novasCategorias);
         cancelarEdicao();
+        
+        // Mostrar feedback de sucesso
         alert("Categoria atualizada com sucesso!");
       } else {
         const errorText = await response.text();
-        console.error("❌ Erro na resposta:", errorText);
-        alert(`Erro ao atualizar categoria: ${errorText}`);
+        console.error("❌ Erro ao atualizar categoria:", response.status, errorText);
+        alert(`Erro ao atualizar categoria: ${response.status}`);
       }
     } catch (error) {
-      console.error("❌ Erro na requisição:", error);
-      alert(
-        `Erro de conexão: ${
-          error instanceof Error ? error.message : "Erro desconhecido"
-        }`,
-      );
+      console.error("❌ Erro ao atualizar categoria:", error);
+      alert("Erro ao atualizar categoria");
     } finally {
       setCarregando(false);
     }
   };
 
-  // Função para cancelar edição
   const cancelarEdicao = () => {
+    console.log("🔍 Cancelando edição");
     setEditandoId(null);
-    setNomeEditando("");
+    setDadosEdicao({ nome: "" });
   };
 
-  // Função para excluir categoria
   const excluirCategoria = async (id: string) => {
-    if (!confirm("Deseja realmente excluir esta categoria?")) return;
-
     try {
       setCarregando(true);
-      const response = await fetch(`/api/categorias/${id}`, {
+      console.log("🔍 Excluindo categoria:", id);
+      
+      const response = await fetch(`/api/categoria?id=${id}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
-        setCategorias((prev) => prev.filter((cat) => cat.id !== id));
+        const resultado = await response.json();
+        console.log("✅ Categoria excluída:", resultado);
+        const novasCategorias = categorias.filter(
+          (categoria) => categoria.id !== id,
+        );
+        setCategorias(novasCategorias);
         alert("Categoria excluída com sucesso!");
       } else {
+        const errorText = await response.text();
+        console.error("❌ Erro ao excluir categoria:", response.status, errorText);
         alert("Erro ao excluir categoria");
       }
     } catch (error) {
-      console.error("Erro ao excluir categoria:", error);
+      console.error("❌ Erro ao excluir categoria:", error);
       alert("Erro ao excluir categoria");
     } finally {
       setCarregando(false);
@@ -166,98 +183,50 @@ export default function CategoriasList({
 
   return (
     <div>
-      {/* Formulário para adicionar categoria */}
-      <div className="mb-5 min-w-full flex flex-row items-center justify-betweenc">
+      {/* Input para adicionar nova categoria */}
+      <div className="mb-5 flex flex-row items-center justify-between">
         <Input
           placeholder="Adicionar nova categoria"
-          className="h-12 min-h-[48px] rounded-4xl border-0 bg-[#EFEFEF] px-4 py-3 text-left text-lg font-semibold text-gray-700 focus:ring-0 focus:outline-none"
+          className="rounded-4xl border-0 bg-[#EFEFEF] text-right text-6xl font-semibold text-[#B9B9B9]"
           type="text"
           value={novaCategoria}
           onChange={(e) => setNovaCategoria(e.target.value)}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
-              adicionarCategoria();
+              e.preventDefault();
+              addCategoria();
             }
           }}
           disabled={carregando}
         />
-        <button
-          className="ml-3 cursor-pointer"
-          onClick={adicionarCategoria}
-          disabled={!novaCategoria.trim() || carregando}
+        <button 
+          className="cursor-pointer disabled:opacity-50" 
+          onClick={addCategoria}
+          disabled={carregando || !novaCategoria.trim()}
+          title="Adicionar categoria"
         >
-          <img className="h-8 w-8" src="/add.svg" alt="Adicionar" />
+          <img
+            className="ml-0.5 h-fit w-fit"
+            src="/add.svg"
+            alt="Adicionar"
+          />
         </button>
       </div>
 
       {/* Lista de categorias */}
-      <ul className="w-full list-disc pl-5 marker:text-red-400">
-        {carregando ? (
-          <li>Carregando...</li>
-        ) : categorias.length > 0 ? (
-          categorias.map((categoria) => (
-            <li key={categoria.id} className="mb-5">
-              {editandoId === categoria.id ? (
-                // Modo de edição
-                <div className="flex items-center gap-2 rounded-2xl border-1 p-3">
-                  <Input
-                    type="text"
-                    value={nomeEditando}
-                    onChange={(e) => setNomeEditando(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        salvarEdicao();
-                      } else if (e.key === "Escape") {
-                        cancelarEdicao();
-                      }
-                    }}
-                    className="flex-1 border-0 bg-transparent"
-                    autoFocus
-                    disabled={carregando}
-                  />
-                  <button
-                    onClick={salvarEdicao}
-                    className="rounded-2xl bg-[#FFE3CF] px-3 py-1 text-sm text-[#E55F4B] hover:bg-[#e6cdbd]"
-                    disabled={carregando || !nomeEditando.trim()}
-                  >
-                    {carregando ? "Salvando..." : "Salvar"}
-                  </button>
-                  <button
-                    onClick={cancelarEdicao}
-                    className="rounded-2xl bg-gray-500 px-3 py-1 text-sm text-white hover:bg-gray-600"
-                    disabled={carregando}
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              ) : (
-                // Modo de visualização
-                <div className="flex items-center justify-between">
-                  <span>{categoria.nome}</span>
-                  <div className="ml-4 flex gap-2">
-                    <button
-                      onClick={() => iniciarEdicao(categoria)}
-                      className="text-sm text-blue-500 hover:text-blue-700"
-                      disabled={carregando}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => excluirCategoria(categoria.id)}
-                      className="text-sm text-red-500 hover:text-red-700"
-                      disabled={carregando}
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </div>
-              )}
-            </li>
-          ))
-        ) : (
-          <li className="mb-5">Nenhuma categoria encontrada</li>
-        )}
-      </ul>
+      <ListaCategorias
+        categorias={categorias}
+        carregando={carregando}
+        editandoId={editandoId}
+        dadosEdicao={dadosEdicao}
+        setDadosEdicao={setDadosEdicao}
+        onIniciarEdicao={iniciarEdicao}
+        onSalvarEdicao={salvarEdicao}
+        onCancelarEdicao={cancelarEdicao}
+        onExcluir={excluirCategoria}
+      />
     </div>
   );
-}
+};
+
+export default CategoriasList;

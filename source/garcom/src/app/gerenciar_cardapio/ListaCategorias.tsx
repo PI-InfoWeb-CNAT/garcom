@@ -1,5 +1,4 @@
-import { CardCategoria } from "./CardCategoria";
-import { EdicaoCategoria } from "./EdicaoCategoria";
+import { Input } from "@/components/ui/input";
 import { Categoria, DadosEdicao } from "./types";
 
 interface ListaCategoriasProps {
@@ -34,30 +33,99 @@ export function ListaCategorias({
   }
 
   return (
-    <div className="space-y-4">
+    <ul className="list-disc pl-5 marker:text-red-400">
       {categorias.map((categoria) => (
-        <div
-          key={categoria.id}
-          className="rounded-lg border border-gray-300 p-4"
-        >
-          {editandoId === categoria.id ? (
-            <EdicaoCategoria
-              dadosEdicao={dadosEdicao}
-              setDadosEdicao={setDadosEdicao}
-              carregando={carregando}
-              onSalvar={onSalvarEdicao}
-              onCancelar={onCancelarEdicao}
-            />
-          ) : (
-            <CardCategoria
-              categoria={categoria}
-              carregando={carregando}
-              onEditar={onIniciarEdicao}
-              onExcluir={onExcluir}
-            />
-          )}
-        </div>
+        <li key={categoria.id} className="mb-5">
+          <div className="flex flex-row items-center space-x-4">
+            {editandoId === categoria.id ? (
+              <Input
+                type="text"
+                value={dadosEdicao.nome}
+                onChange={(e) =>
+                  setDadosEdicao({ ...dadosEdicao, nome: e.target.value })
+                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    onSalvarEdicao();
+                  } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    onCancelarEdicao();
+                  }
+                }}
+                className="rounded-4xl border-1 border-[#83546A] bg-white p-1 font-semibold text-gray-700"
+                autoFocus
+                disabled={carregando}
+              />
+            ) : (
+              <h3 className="font-semibold text-gray-700">
+                {categoria.nome}
+              </h3>
+            )}
+            <div className="flex flex-row items-center space-x-1">
+              {editandoId === categoria.id ? (
+                <>
+                  <button
+                    className="cursor-pointer disabled:opacity-50"
+                    onClick={onSalvarEdicao}
+                    disabled={carregando || !dadosEdicao.nome.trim()}
+                    title="Salvar"
+                  >
+                    <img
+                      className="h-8 w-8"
+                      src="/editar.svg"
+                      alt="Salvar"
+                    />
+                  </button>
+                  <button
+                    className="cursor-pointer disabled:opacity-50"
+                    onClick={onCancelarEdicao}
+                    disabled={carregando}
+                    title="Cancelar"
+                  >
+                    <img
+                      className="h-8 w-8"
+                      src="/excluir.svg"
+                      alt="Cancelar"
+                    />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="cursor-pointer disabled:opacity-50"
+                    onClick={() => onIniciarEdicao(categoria)}
+                    disabled={carregando}
+                    title="Editar"
+                  >
+                    <img
+                      className="h-6 w-6"
+                      src="/editar.svg"
+                      alt="Editar"
+                    />
+                  </button>
+                  <button
+                    className="cursor-pointer disabled:opacity-50"
+                    onClick={() => {
+                      if (confirm(`Tem certeza que deseja excluir a categoria "${categoria.nome}"?`)) {
+                        onExcluir(categoria.id);
+                      }
+                    }}
+                    disabled={carregando}
+                    title="Excluir"
+                  >
+                    <img
+                      className="h-6 w-6"
+                      src="/excluir.svg"
+                      alt="Excluir"
+                    />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

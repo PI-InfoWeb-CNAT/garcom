@@ -395,24 +395,7 @@ export default function Page() {
       <Header />
       <main className={mainClass}>
         <div className="items-left min-h-full flex-1 pr-30">
-          <div className="mb-10 flex flex-row items-center justify-between">
-            <h2 className="mb-10 text-2xl font-bold text-red-400">Cardápio</h2>
-            <div className="mb-5 flex flex-row items-center justify-between">
-              <Input
-                placeholder="Adicionar novo produto"
-                className="rounded-4xl border-0 bg-[#EFEFEF] text-right text-6xl font-semibold text-[#B9B9B9]"
-                readOnly
-                onClick={abrirModal}
-              />
-              <button className="cursor-pointer" onClick={abrirModal}>
-                <img
-                  className="ml-0.5 h-fit w-fit"
-                  src="/add.svg"
-                  alt="Adicionar"
-                />
-              </button>
-            </div>
-          </div>
+          
           <Accordion type="single" collapsible className="w-full">
             {categorias.length > 0 ? (
               categorias.map((categoria) => (

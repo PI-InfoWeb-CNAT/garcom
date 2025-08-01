@@ -27,7 +27,7 @@ export function CardCategoria({
           disabled={carregando}
           title="Editar categoria"
         >
-          <img className="h-5 w-5" src="/editar_f.svg" alt="Editar" />
+          <img className="h-8 w-8" src="/editar.svg" alt="Editar" />
         </button>
         <button
           className="rounded p-2 hover:cursor-pointer"
@@ -35,7 +35,7 @@ export function CardCategoria({
           disabled={carregando}
           title="Excluir categoria"
         >
-          <img className="h-5 w-5" src="/excluir_f.svg" alt="Excluir" />
+          <img className="h-8 w-8" src="/excluir.svg" alt="Excluir" />
         </button>
       </div>
     </div>
