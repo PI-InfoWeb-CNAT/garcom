@@ -19,7 +19,7 @@ export function Footer() {
         
 
         <nav className="flex flex-col items-end  gap-1">
-          <ol className="flex flex-col md:flex-row items-center gap-5">
+          <ol className=" flex-row md:flex hidden items-center gap-5">
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>

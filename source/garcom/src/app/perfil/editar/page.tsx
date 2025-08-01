@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer";
 import { EditarPerfilForm } from "./editar-perfil-form";
 
 const atualizarConta = async (dados: any) => {
-  const res = await fetch('/api/account', {
+  const res = await fetch('/api/restaurante', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dados),

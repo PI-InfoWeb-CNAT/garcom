@@ -50,13 +50,13 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       email: dadosIniciais.email,
       senha: "",
       confirmarSenha: "",
-      cep: dadosIniciais.cep,
-      logradouro: dadosIniciais.logradouro,
-      numero: dadosIniciais.numero,
-      complemento: dadosIniciais.complemento,
-      bairro: dadosIniciais.bairro,
-      cidade: dadosIniciais.cidade,
-      estado: dadosIniciais.estado,
+      cep: dadosIniciais.endereco?.cep || "",
+      logradouro: dadosIniciais.endereco?.logradouro || "",
+      numero: dadosIniciais.endereco?.numero || "",
+      complemento: dadosIniciais.endereco?.complemento || "",
+      bairro: dadosIniciais.endereco?.bairro || "",
+      cidade: dadosIniciais.endereco?.cidade || "",
+      estado: dadosIniciais.endereco?.estado || "",
     });
   }
 }, [dadosIniciais, reset]);
@@ -101,7 +101,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
   }
 
   async function atualizarConta(dados: any) {
-    const res = await fetch('/api/account', {
+    const res = await fetch('/api/restaurante', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dados),
@@ -116,7 +116,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       const dadosParaAtualizar = {
         id: restauranteId,
         ...data,
-        name,
+
         horarios,
         fotoPerfil,
         fotoBanner,
@@ -250,31 +250,31 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
                   <div className="grid grid-cols-4 gap-6">
                     <div className="w-full h-fit">
                       <label className={labelClass}>CEP</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cep")} />
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Logradouro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("logradouro")} />
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Nº</label>
-                      <Input className={inputClass} type="text" placeholder="233" />
+                      <Input className={inputClass} type="text" placeholder="digite" {...register("numero")} />
                     </div>
                     <div className="w-full h-fit col-span-3">
                       <label className={labelClass}>Complemento</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("complemento")}/>
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Bairro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("bairro")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Cidade</label>
-                      <Input className={inputClass} type="text" placeholder="Natal rs" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cidade")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Estado</label>
-                      <Input className={inputClass} type="text" placeholder="Rio grande do norte" />
+                      <Input className={inputClass} type="text" placeholder="Digite" {...register("estado")}/>
                     </div>
                   </div>
                 </AccordionContent>
