@@ -7,6 +7,7 @@
 | Data       | Versão | Descrição        | Autor           |
 |------------|--------|------------------|-----------------|
 | 16/05/2025 | 1.00   | Versão Inicial   | Rodrigo         |
+| 01/08/2025 | 2.00   | Versão revisada pós implementação | Rodrigo |
 
 ---
 
@@ -30,7 +31,7 @@ Permite ao restaurante organizar os produtos do cardápio em categorias, como "E
 
 ### 4) Pós-condições
 
-- Categorias criadas, editadas ou removidas serão salvas e refletidas automaticamente no cardápio exibido aos clientes.
+- Categorias criadas, editadas ou removidas serão salvas e refletidas no cardápio exibido aos clientes.
 
 ---
 
@@ -38,8 +39,8 @@ Permite ao restaurante organizar os produtos do cardápio em categorias, como "E
 
 #### 5.1) Fluxo básico – Adicionar categoria
 
-1. [IN] O restaurante acessa a interface de gerenciamento de categorias.  
-2. [IN] Clica em "Adicionar categoria".  
+1. [IN] O restaurante acessa a interface de gerenciamento de cardápio.  
+2. [IN] Clica em "Adicionar nova categoria".  
 3. [IN] Insere o nome da nova categoria.  
 4. [OUT] O sistema valida o nome da categoria.  
 5. [OUT] O sistema salva a nova categoria.  
@@ -59,17 +60,17 @@ Permite ao restaurante organizar os produtos do cardápio em categorias, como "E
 2. [OUT] O sistema solicita confirmação.  
 3. [IN] O restaurante confirma a remoção.  
 4. [OUT] O sistema verifica se a categoria está vinculada a produtos:  
-   - Se **sim**: o sistema solicita que os produtos sejam realocados ou excluídos.  
+   - Se **sim**: o sistema exibe mensagem de erro.  
    - Se **não**: o sistema remove a categoria.  
 5. [OUT] Exibe mensagem de sucesso.
 
 #### 5.4) Fluxo de exceção
 
 - Caso o nome da categoria esteja em branco:  
-  [OUT] O sistema exibe mensagem de erro e impede a criação/edição.  
+  [OUT] O sistema impede a criação.  
 
 - Tentativa de excluir categoria com produtos vinculados sem tratativa:  
-  [OUT] O sistema impede a exclusão e orienta o usuário.
+  [OUT] O sistema impede a exclusão.
 
 ---
 
