@@ -8,6 +8,7 @@
 | Data       | Versão | Descrição      | Autor            |
 | ---------- | ------ | -------------- | ---------------- |
 | 16/05/2025 | 1.00   | Versão Inicial | Rodrigo |
+| 01/08/2025 | 2.00   | Versão revisada pós implementação | Rodrigo |
 
 ---
 
@@ -40,9 +41,9 @@ Permite ao restaurante adicionar, remover ou editar produtos do cardápio, inclu
 
 #### 5.1) Fluxo básico – Adicionar produto
 
-1. \[IN] O restaurante acessa a interface de gerenciamento de produtos.
-2. \[IN] O restaurante clica em "Adicionar produto".
-3. \[IN] O restaurante preenche os campos: Nome, Descrição, Imagem, Preço e Categoria.
+1. \[IN] O restaurante acessa a interface de gerenciamento de cardápio.
+2. \[IN] O restaurante clica em "Adicionar novo item".
+3. \[IN] O restaurante preenche os campos: Image, Nome, Descrição, Valor e Categoria.
 4. \[OUT] O sistema valida os dados inseridos.
 5. \[OUT] O sistema salva o novo produto no banco de dados.
 6. \[OUT] O sistema exibe mensagem de sucesso.
@@ -57,7 +58,7 @@ Permite ao restaurante adicionar, remover ou editar produtos do cardápio, inclu
 
 #### 5.3) Fluxo alternativo – Remover produto
 
-1. \[IN] O restaurante clica em "Remover" ao lado de um produto.
+1. \[IN] O restaurante clica em "Remover" ao lado de um item.
 2. \[OUT] O sistema solicita confirmação.
 3. \[IN] O restaurante confirma a remoção.
 4. \[OUT] O sistema remove o produto do banco.
@@ -68,9 +69,6 @@ Permite ao restaurante adicionar, remover ou editar produtos do cardápio, inclu
 * Caso algum campo obrigatório não seja preenchido corretamente:
   \[OUT] O sistema destaca o(s) campo(s) com erro e exibe mensagem explicativa.
 
-* Caso a imagem não esteja em formato válido:
-  \[OUT] O sistema rejeita o upload e informa os formatos aceitos (JPG, PNG, etc.).
-
 ---
 
 ### 6) Dicionário de dados
@@ -78,12 +76,10 @@ Permite ao restaurante adicionar, remover ou editar produtos do cardápio, inclu
 | Campo     | Tipo                  | Restrições                        |
 | --------- | --------------------- | --------------------------------- |
 | Nome      | Texto alfabético      | Obrigatório                       |
-| Descrição | Texto alfanumérico    | Opcional                          |
-| Imagem    | Arquivo (PNG/JPG)     | Tamanho máximo 5MB                |
-| Preço     | Número decimal        | Maior que zero                    |
+| Descrição | Texto alfanumérico    | Obrigatório                          |
+| Imagem    | Arquivo (PNG/JPG)     | Obrigatório                |
+| Valor     | Número decimal        | Maior que zero                    |
 | Categoria | Texto (chave externa) | Deve estar cadastrada previamente |
-| Disponível | Booleano              |  Obrigatório                      |
-
 ---
 
 ### 7) Regras de negócio
