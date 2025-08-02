@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db";
+import { loadEmailTemplate, sendMail } from "@/lib/email";
 import * as schema from "@/db/schema";
 
 export const auth = betterAuth({
@@ -10,10 +11,39 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    autoSignIn: false, // Evitar login automático após cadastro
+    requireEmailVerification: true,
+    autoSignIn: false,
+    sendResetPassword: async ({ user, url, token }: any, _request: any) => {
+      const updatedUrl = url.replace(
+        process.env.BETTER_AUTH_URL,
+        process.env.BASE_URL,
+      );
+      await sendMail({
+        to: user.email,
+        subject: "Redefina sua senha em Garçom.",
+        html: loadEmailTemplate("reset-password.html", {
+          url: updatedUrl,
+        }),
+      });
+    },
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url, token }: any, _request: any) => {
+      const updatedUrl = url.replace(
+        process.env.BETTER_AUTH_URL,
+        process.env.BASE_URL,
+      );
+      await sendMail({
+        to: user.email,
+        subject: "Verifique seu endereço de email em Garçom.",
+        html: loadEmailTemplate("confirm-email.html", {
+          url: updatedUrl,
+        }),
+      });
+    },
   },
   logger: console,
-  user:{
+  user: {
     modelName: "user",
   },
   session: {
@@ -25,5 +55,4 @@ export const auth = betterAuth({
   verification: {
     modelName: "verification",
   },
-
 });

@@ -9,13 +9,23 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const schema = z.object({
   email: z.string().email("Email inválido"),
-  senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+  senha: z.string().min(1, "Insira sua senha"),
 });
 
 type FormData = z.infer<typeof schema>;
+
+const knownErrorMsgs: Record<string, string> = {
+  "auth/invalid-email": "Email inválido.",
+  "auth/user-not-found": "Usuário não encontrado.",
+  "auth/wrong-password": "Senha incorreta.",
+  "auth/email-not-verified":
+    "Por favor, verifique seu email para ativar sua conta.",
+};
 
 export default function LoginForm() {
   const router = useRouter();
@@ -33,28 +43,58 @@ export default function LoginForm() {
   const inputClass =
     "font-poppins rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-poppins placeholder:font-medium placeholder:text-[1em]";
 
-  const onSubmit = async (data: FormData) => {
-    setFormError(null);
-    try {
-      const { error } = await authClient.signIn.email(
-        {
-          email: data.email,
-          password: data.senha,
-        },
-        {
-          onSuccess: () => {
-            router.push("/");
-          },
-          onError: () => {
-            setFormError("Usuário ou senha inválidos.");
-          },
-        }
-      );
-      
-    } catch (err: any) {
-      setFormError("Erro ao tentar login. Tente novamente.");
+const onSubmit = async (data: FormData) => {
+  setFormError(null);
+  try {
+    const response = await authClient.signIn.email({
+      email: data.email,
+      password: data.senha,
+    });
+
+    if ("error" in response && response.error) {
+      const error = response.error;
+
+      const errosGenericos = [
+        "INVALID_EMAIL",
+        "USER_NOT_FOUND",
+        "WRONG_PASSWORD",
+        "INVALID_EMAIL_OR_PASSWORD",
+      ];
+
+      const code = error.code ?? "";
+      let msg = "";
+      if (errosGenericos.includes(code)) {
+        msg = "Usuário e/ou senha incorreto(s). Por favor, verifique e tente novamente.";
+        toast.error(msg);
+      } else if (code == "EMAIL_NOT_VERIFIED") {
+        msg = "Por favor, verifique seu email para ativar sua conta.";
+        toast.warning(msg);
+        return;
+      } else if (code == "TOO_MANY_REQUESTS") {
+        msg = "Muitas tentativas de login. Tente novamente mais tarde.";
+        toast.error(msg);
+        return;
+      }
+      else {
+        msg = (code && knownErrorMsgs[code]) ||
+          error.message ||
+          "Erro ao tentar login. Tente novamente.";
+        toast.error(msg);
+      }
+
+      return;
     }
-  };
+
+    router.push("/perfil");
+  } catch (err: any) {
+    const msg =
+      err instanceof Error
+        ? err.message
+        : "Erro inesperado ao tentar login. Tente novamente.";
+    setFormError(msg);
+    toast.error(msg);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -94,7 +134,7 @@ export default function LoginForm() {
         {errors.senha && (
           <p className="text-sm text-[#f65c5c]">{errors.senha.message}</p>
         )}
-        <a href="/auth/recuperar-senha">
+        <a href="/auth/redefinir-senha">
           <p className="mt-1 cursor-pointer text-sm font-medium text-[#f65c5c] hover:underline">
             Esqueceu sua senha?
           </p>
@@ -110,6 +150,7 @@ export default function LoginForm() {
       >
         {isSubmitting ? "Entrando..." : "Entrar"}
       </Button>
+      <Toaster position="bottom-right" />
     </form>
   );
 }

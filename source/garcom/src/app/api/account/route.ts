@@ -45,6 +45,7 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
+    console.log("Body recebido no PUT /account:", body);
     const { id, ...rest } = body;
     if (!id) {
       return NextResponse.json({ error: "ID obrigatório." }, { status: 400 });

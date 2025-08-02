@@ -1,6 +1,7 @@
 'use client'
 import * as React from "react"
 import Image from "next/image"
+import LogoutForm from "@/app/auth/components/logout-form";
 
 export function Footer() {
   const [open, setOpen] = React.useState(false)
@@ -17,12 +18,12 @@ export function Footer() {
 
         
 
-        <nav className="flex flex-col items-center justify-start  gap-1">
-          <ol className="items-center justify-center gap-5 hidden md:flex">
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/landing-page" className="cursor-pointer">Página principal</a></li>
+        <nav className="flex flex-col items-end  gap-1">
+          <ol className=" flex-row md:flex hidden items-center gap-5">
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Funcionarios</a></li>
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747]4 transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer"><LogoutForm /></a></li>
           </ol>
           <p>©2025 Garçom,  Todos os direitos reservados.</p>
         </nav>
