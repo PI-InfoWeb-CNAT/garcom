@@ -7,6 +7,7 @@
 | Data       | Versão | Descrição        | Autor           |
 |------------|--------|------------------|-----------------|
 | 16/05/2025 | 1.00   | Versão Inicial   | Izabel         |
+| 01/08/2025 | 2.00   | Versão revisada pós implementação | Rodrigo |
 
 ---
 
@@ -41,10 +42,10 @@ Permite adicionar, editar, excluir e vizualizar os funcionários que estão cada
 #### 5.1) Fluxo básico – Adicionar funcionário
 
 1. [IN] O restaurante acessa a interface de gerenciamento de funcionários.  
-2. [IN] Clica em "Adicionar funcionário".  
-3. [IN] Insere as credenciais do funcionários.  
+2. [IN] Insere as credenciais do funcionários.  
+3. [IN] Clica em "Adicionar funcionário".  
 4. [OUT] O sistema valida as credenciais do funcionário.  
-5. [OUT] O sistema salva a novo funcionário.  
+5. [OUT] O sistema salva o novo funcionário.  
 6. [OUT] O sistema exibe mensagem de sucesso.
 
 #### 5.2) Fluxo alternativo – Editar funcionário
@@ -84,8 +85,3 @@ Permite adicionar, editar, excluir e vizualizar os funcionários que estão cada
 
 ---
 
-### 8) Protótipo(s) de interface do caso de uso
-
-**Figura 1: Tela de gerenciamento de categorias**
-
-Colocar quando acabar o protótipo.
