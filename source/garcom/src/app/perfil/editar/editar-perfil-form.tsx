@@ -100,45 +100,70 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
     );
   }
 
-  async function atualizarConta(dados: any) {
-    const res = await fetch('/api/restaurante', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dados),
-    });
-    
-    if (!res.ok) throw new Error("Erro ao atualizar");
-    return await res.json();
-  }
+  
 
   async function editar(data: any) {
-    try {
-      const dadosParaAtualizar = {
-        id: restauranteId,
-        ...data,
+  try {
+    const enderecoPayload = {
+      cep: data.cep,
+      logradouro: data.logradouro,
+      numero: data.numero,
+      complemento: data.complemento,
+      bairro: data.bairro,
+      cidade: data.cidade,
+      estado: data.estado,
+    };
 
-        horarios,
-        fotoPerfil,
-        fotoBanner,
-        endereco: {
-          cep: data.cep,
-          logradouro: data.logradouro,
-          numero: data.numero,
-          complemento: data.complemento,
-          bairro: data.bairro,
-          cidade: data.cidade,
-          estado: data.estado,
-        },
-      };
+    let enderecoId = dadosIniciais.endereco?.id;
 
-      const res = await atualizarConta(dadosParaAtualizar);
-      alert("Atualização feita com sucesso!");
-      console.log("Dados atualizados:", res);
-    } catch (err) {
-      console.error("Erro:", err);
-      alert("Erro ao atualizar");
+    if (enderecoId) {
+      await fetch('/api/endereco', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: enderecoId, ...enderecoPayload }),
+      });
+    } else {
+      const res = await fetch('/api/endereco', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(enderecoPayload),
+      });
+      const json = await res.json();
+      enderecoId = json.id;
     }
+
+    const dadosRestaurante = {
+      id: restauranteId,
+      ...data,
+      horarios,
+      fotoPerfil,
+      fotoBanner,
+      endereco_id: enderecoId,
+    };
+
+    await fetch('/api/restaurante', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosRestaurante),
+    });
+
+    // Atualiza user
+    await fetch('/api/user', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: dadosIniciais.user_id,
+        name: data.name,
+      }),
+    });
+
+    alert("Atualização feita com sucesso!");
+  } catch (err) {
+    console.error("Erro:", err);
+    alert("Erro ao atualizar");
   }
+}
+
   const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
   const inputClass = "rounded-full bg-[#EFEFEF] text-[1em] font-medium text-[#9E9E9E] placeholder:text-[#9E9E9E] placeholder:font-medium placeholder:text-[1em]";
   const labelClass = "text-[20px] font-medium text-[#9E9E9E] mb-[7px]";
@@ -243,7 +268,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           <section className="flex flex-col">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px]  border-[#D9D9D9] ">
+                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px] mb-5  border-[#D9D9D9] ">
                   <h2 className={tituloClass}>Localização</h2>
                 </AccordionTrigger>
                 <AccordionContent className="mt-9">

@@ -7,8 +7,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { id, ...rest } = body;
-    await db.insert(endereco).values(rest);
-    return NextResponse.json({ success: true });
+    const [novoEndereco] = await db.insert(endereco).values(rest).returning();
+    return NextResponse.json({ success: true, id: novoEndereco.id });
   } catch (error) {
     return NextResponse.json(
       { error: "Erro interno do servidor." },
@@ -46,11 +46,11 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { id, ...rest } = body;
+    const { id, endereco_id, ...rest } = body;
     if (!id) {
       return NextResponse.json({ error: "ID obrigatório." }, { status: 400 });
     }
-    await db.update(endereco).set(rest).where(eq(endereco.id, id));
+    await db.update(endereco).set({ ...rest, endereco_id }).where(eq(endereco.id, id));
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(

@@ -45,11 +45,14 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { id, ...rest } = body;
+    const { id, name, ...rest } = body;
     if (!id) {
       return NextResponse.json({ error: "ID obrigatório." }, { status: 400 });
     }
-    await db.update(user).set(rest).where(eq(user.id, id));
+    const updateData: any = { ...rest };
+    if (name !== undefined) updateData.name = name;
+    await db.update(user).set(updateData).where(eq(user.id, id));
+
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
