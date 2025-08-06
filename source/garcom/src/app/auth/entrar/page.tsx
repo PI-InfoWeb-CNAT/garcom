@@ -1,8 +1,12 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import LoginForm from "../components/login-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Garçom - Entrar",
+  description: "Faça login no sistema Garçom para gerenciar seus pedidos",
+};
 
 export default function LoginPage() {
   return (

@@ -1,6 +1,12 @@
 import CadastroForm from "../components/cadastro-form";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Garçom - Cadastre-se",
+  description: "Cadastre-se no sistema Garçom para gerenciar seus pedidos",
+};
 
 export default function CadastroPage() {
   return (

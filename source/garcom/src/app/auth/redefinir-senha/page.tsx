@@ -9,8 +9,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
-// Schema de validação
 const schema = z.object({
   email: z.email("Por favor, insira um e-mail válido"),
 });

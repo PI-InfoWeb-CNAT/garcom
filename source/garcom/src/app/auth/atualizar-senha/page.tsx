@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
-// Schema de validação
 const schema = z
   .object({
     senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
