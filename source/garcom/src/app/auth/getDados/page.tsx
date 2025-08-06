@@ -63,6 +63,8 @@ export async function getDados(): Promise<DadosUsuario | null> {
     };
   } catch (e) {
     console.error("Erro ao buscar dados do usuário:", e);
+    console.log("Sessão: ", session);
+    console.log("Base URL:", baseUrl);
     return null;
   }
 }

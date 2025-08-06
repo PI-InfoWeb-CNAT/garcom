@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
 const schema = z.object({
-  email: z.string().email("Email inválido"),
+  email: z.email("Email inválido"),
   senha: z.string().min(1, "Insira sua senha"),
 });
 

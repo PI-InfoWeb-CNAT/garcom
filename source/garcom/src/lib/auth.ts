@@ -16,7 +16,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url, token }: any, _request: any) => {
       const updatedUrl = url.replace(
         process.env.BETTER_AUTH_URL,
-        process.env.BASE_URL,
+        process.env.NEXT_PUBLIC_URL,
       );
       await sendMail({
         to: user.email,
@@ -31,7 +31,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }: any, _request: any) => {
       const updatedUrl = url.replace(
         process.env.BETTER_AUTH_URL,
-        process.env.BASE_URL,
+        process.env.NEXT_PUBLIC_URL,
       );
       await sendMail({
         to: user.email,
