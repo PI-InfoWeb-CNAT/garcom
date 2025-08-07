@@ -9,22 +9,22 @@ export default function LandingPage() {
   return (
     <>
       <HeaderLP />
-      <main className="flex min-h-screen flex-col items-center justify-start pt-29">
-        <section className="bg-[#F65C5C] w-full flex flex-col items-center justify-center relative">
+      <main className="flex min-h-screen flex-col items-center justify-start pt-24">
+        <section className="relative flex w-full flex-col items-center justify-center bg-[#F65C5C]">
           <div className="relative flex items-center justify-center">
             <Image
               src="/elementos_landingpage.png"
               alt="Landing Page Banner"
-              width={800}
+              width={700}
               height={501}
-              className="h-auto"
+              className="h-auto w-full max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-2xl"
             />
             <Image
               src="/texto_landingpage.png"
               alt="Landing Page Banner"
-              width={600}
+              width={500}
               height={501}
-              className="h-auto object-contain absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+              className="absolute top-1/2 left-1/2 z-10 h-auto -translate-x-1/2 -translate-y-1/2 transform object-contain"
             />
           </div>
         </section>
@@ -172,7 +172,7 @@ export default function LandingPage() {
           <h2 className="text-center text-4xl">A prova está nos números!</h2>
           <div className="mt-10 flex w-full items-center justify-between text-center">
             <div className="flex flex-col items-center">
-              <div className="flex items-center mb-2 gap-3">
+              <div className="mb-2 flex items-center gap-3">
                 <Image
                   src="/pizza.svg"
                   alt="Pizza icon"
@@ -185,7 +185,7 @@ export default function LandingPage() {
               <p className="text-center">Restaurantes registrados</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="flex items-center mb-2 gap-3">
+              <div className="mb-2 flex items-center gap-3">
                 <Image
                   src="/porco.svg"
                   alt="Porco icon"
@@ -198,7 +198,7 @@ export default function LandingPage() {
               <p className="text-center">Pedidos concluídos</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="flex items-center mb-2 gap-3">
+              <div className="mb-2 flex items-center gap-3">
                 <Image
                   src="/melancia.svg"
                   alt="Melancia icon"
