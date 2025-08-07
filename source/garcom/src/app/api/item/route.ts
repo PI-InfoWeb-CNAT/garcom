@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const categoriaId = searchParams.get("categoria_id");
     let result;
     if (id) {
       result = await db.select().from(item).where(eq(item.id, id));
@@ -30,6 +31,18 @@ export async function GET(request: Request) {
         );
       }
       return NextResponse.json(result[0]);
+    } else if (categoriaId) {
+      result = await db
+        .select()
+        .from(item)
+        .where(eq(item.categoria_id, categoriaId));
+      if (!result.length) {
+        return NextResponse.json(
+          { error: "Nenhum item encontrado para esta categoria." },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(result);
     } else {
       result = await db.select().from(item);
       return NextResponse.json(result);

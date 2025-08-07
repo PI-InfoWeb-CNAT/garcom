@@ -1,8 +1,7 @@
 'use client'
 import * as React from "react"
 import Image from "next/image"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
-  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import LogoutForm from "@/app/auth/components/logout-form";
 import { FaHome, FaBookOpen } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
@@ -27,7 +26,7 @@ export function Header() {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="w-65 bg-[#3D3D3D] text-white border-none p-0 m-0 rounded-2xl z-100000" align="end">
-            <a href="#">
+            <a href="/cardapio">
               <DropdownMenuItem className="cursor-pointer max-h-48px p-3 pl-6 gap-3 font-poppins text-[18px] align-center font-medium hover:!bg-[#777777] hover:!text-white transition-all">
                 <FaBookOpen className="text-white !size-[23px]" />Cardápio
               </DropdownMenuItem>
@@ -58,7 +57,7 @@ export function Header() {
           md:flex md:flex-row md:static md:bg-transparent md:shadow-none md:py-0 md:gap-5
         `}>
           <ol className="flex flex-col md:flex-row items-center justify-center gap-5">
-            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="#" className="cursor-pointer">Cardápio</a></li>
+            <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/cardapio" className="cursor-pointer">Cardápio</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil/funcionarios" className="cursor-pointer">Funcionarios</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer">Perfil</a></li>
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] hover:text-[#E54747] transition-all"><a href="/perfil" className="cursor-pointer"><LogoutForm /></a></li>

@@ -16,6 +16,6 @@ export const mesa = pgTable("mesa", {
   ocupada: boolean("ocupada").notNull(),
   datahora_entrada: timestamp("datahora_entrada", { mode: "string" }),
   restaurante_id: uuid("restaurante_id")
-    .references(() => restaurante.id)
+    .references(() => restaurante.id, { onDelete: "cascade" })
     .notNull(),
 });

@@ -8,6 +8,6 @@ export const categoria = pgTable("categoria", {
     .default(sql`gen_random_uuid()`),
   nome: varchar("nome", { length: 255 }).notNull(),
   restaurante_id: uuid("restaurante_id")
-    .references(() => restaurante.id)
+    .references(() => restaurante.id, { onDelete: "cascade" })
     .notNull(),
 });

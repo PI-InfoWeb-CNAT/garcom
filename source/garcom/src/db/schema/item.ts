@@ -11,6 +11,6 @@ export const item = pgTable("item", {
   descricao: varchar("descricao", { length: 1024 }),
   foto: varchar("foto", { length: 1024 }).notNull(),
   categoria_id: uuid("categoria_id")
-    .references(() => categoria.id)
+    .references(() => categoria.id, { onDelete: "cascade" })
     .notNull(),
 });

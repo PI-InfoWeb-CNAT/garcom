@@ -18,9 +18,9 @@ export const pedido = pgTable("pedido", {
   datahora: timestamp("datahora", { mode: "string" }).notNull(),
   status: pedido_status_enum("status").notNull(),
   funcionario_id: uuid("funcionario_id")
-    .references(() => funcionario.id)
+    .references(() => funcionario.id, { onDelete: "cascade" })
     .notNull(),
   mesa_id: uuid("mesa_id")
-    .references(() => mesa.id)
+    .references(() => mesa.id, { onDelete: "cascade" })
     .notNull(),
 });

@@ -29,8 +29,10 @@ export async function getDados(): Promise<DadosUsuario | null> {
       cache: "no-store",
     });
 
+    console.log("Response from user API:", userRes);
     if (!userRes.ok) return null;
     const user = await userRes.json();
+    console.log("User data:", user);
 
     let roleData = null;
 
@@ -63,8 +65,6 @@ export async function getDados(): Promise<DadosUsuario | null> {
     };
   } catch (e) {
     console.error("Erro ao buscar dados do usuário:", e);
-    console.log("Sessão: ", session);
-    console.log("Base URL:", baseUrl);
     return null;
   }
 }

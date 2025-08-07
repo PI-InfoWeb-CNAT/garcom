@@ -5,20 +5,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut } from "lucide-react";
-import { FaHome, FaBookOpen } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
-import { IoMdPeople } from "react-icons/io";
+import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
 export function HeaderLP() {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div className="fixed top-0 z-100 flex h-26 w-full items-center justify-center bg-[#F65C5C] p-4 pt-10 pb-10 md:p-15">
+    <div className="fixed top-0 flex h-26 w-full items-center justify-center bg-[#F65C5C] p-4 pt-10 pb-10 md:p-15">
       <header className="box-border flex h-14 w-full items-center justify-between rounded-full bg-white pr-3 pl-3 text-[#E55F4B] md:pr-20 md:pl-20">
         <h1 className="align-center flex items-center pt-px">
           <Image src="/logo.svg" alt="Logo" width={60} height={60} />
@@ -43,28 +38,15 @@ export function HeaderLP() {
             <DropdownMenuSeparator />*/}
             <a href="#">
               <DropdownMenuItem className="max-h-48px font-poppins align-center cursor-pointer gap-3 p-3 pl-6 text-[18px] font-medium transition-all hover:!bg-[#777777] hover:!text-white">
-                <FaHome className="!size-[23px] text-white" />
-                Página principal
+                <FaUserPlus className="!size-[23px] text-white" />
+                Cadastre-se
               </DropdownMenuItem>
             </a>
 
             <a href="#">
               <DropdownMenuItem className="max-h-48px font-poppins align-center cursor-pointer gap-3 p-3 pl-6 text-[18px] font-medium transition-all hover:!bg-[#777777] hover:!text-white">
-                <FaBookOpen className="!size-[23px] text-white" />
-                Cardápio
-              </DropdownMenuItem>
-            </a>
-
-            <a href="#">
-              <DropdownMenuItem className="max-h-48px font-poppins align-center cursor-pointer gap-3 p-3 pl-6 text-[18px] font-medium transition-all hover:!bg-[#777777] hover:!text-white">
-                <IoMdPeople className="!size-[23px] text-white" /> Funcionarios
-              </DropdownMenuItem>
-            </a>
-
-            <a href="#">
-              <DropdownMenuItem className="max-h-48px font-poppins align-center cursor-pointer gap-3 p-3 pl-6 text-[18px] font-medium transition-all hover:!bg-[#777777] hover:!text-white">
-                <CgProfile className="!size-[23px] text-white hover:text-[#3D3D3D]" />
-                Perfil
+                <FaSignInAlt className="!size-[23px] text-white" />
+                Entrar
               </DropdownMenuItem>
             </a>
           </DropdownMenuContent>
@@ -74,7 +56,6 @@ export function HeaderLP() {
           className={` ${open ? "flex" : "hidden"} flex-col items-center gap-5 py-4 shadow-md md:static md:flex md:flex-row md:gap-5 md:bg-transparent md:py-0 md:shadow-none`}
         >
           <ol className="flex flex-col items-center justify-center gap-5 md:flex-row">
-            
             <li className="font-poppins text-[1em] font-semibold text-[#E55F4B] transition-all hover:text-[#E07956]">
               <a href="auth/cadastro" className="cursor-pointer">
                 Cadastre-se

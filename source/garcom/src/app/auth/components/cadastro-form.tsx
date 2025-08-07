@@ -130,7 +130,7 @@ const onSubmit = async (data: FormData) => {
       name: data.nome,
       email: data.email,
       password: data.senha,
-      callbackURL: "/auth/verificar-email",
+      callbackURL: "/auth/entrar",
     });
 
     if (error) {

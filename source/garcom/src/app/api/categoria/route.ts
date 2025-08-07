@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const restauranteId = searchParams.get("restaurante_id");
     let result;
     if (id) {
       result = await db.select().from(categoria).where(eq(categoria.id, id));
@@ -30,6 +31,18 @@ export async function GET(request: Request) {
         );
       }
       return NextResponse.json(result[0]);
+    } else if (restauranteId) {
+      result = await db
+        .select()
+        .from(categoria)
+        .where(eq(categoria.restaurante_id, restauranteId));
+      if (!result.length) {
+        return NextResponse.json(
+          { error: "Nenhuma categoria encontrada para este restaurante." },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(result);
     } else {
       result = await db.select().from(categoria);
       return NextResponse.json(result);
