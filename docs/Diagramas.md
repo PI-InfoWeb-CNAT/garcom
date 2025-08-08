@@ -12,7 +12,7 @@
 
 ## 1. Diagrama de casos de uso 
 
-![Casos de Uso](imagens/Diagrama_casos_de_uso.png)
+![Casos de Uso](imagens/Diagrama_de_casos_de_uso_garcom.png)
 
 ## 2. Diagrama de entidades e relacionamentos
 
