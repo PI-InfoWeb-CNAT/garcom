@@ -116,20 +116,28 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
 
     let enderecoId = dadosIniciais.endereco?.id;
 
-    if (enderecoId) {
-      await fetch('/api/endereco', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: enderecoId, ...enderecoPayload }),
-      });
-    } else {
+    // Se não existe endereço, cria um novo
+    if (!enderecoId) {
       const res = await fetch('/api/endereco', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(enderecoPayload),
       });
-      const json = await res.json();
-      enderecoId = json.id;
+      const result = await res.json();
+      enderecoId = result.id;
+      // Atualiza o restaurante para vincular o novo endereco_id
+      await fetch('/api/restaurante', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: restauranteId, endereco_id: enderecoId }),
+      });
+    } else {
+      // Se existe, atualiza
+      await fetch('/api/endereco', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: enderecoId, ...enderecoPayload }),
+      });
     }
 
     const dadosRestaurante = {
@@ -147,7 +155,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       body: JSON.stringify(dadosRestaurante),
     });
 
-    // Atualiza user
+    // Atualiza user pq é diferente de restaurante
     await fetch('/api/user', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -275,31 +283,38 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
                   <div className="grid grid-cols-4 gap-6">
                     <div className="w-full h-fit">
                       <label className={labelClass}>CEP</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cep")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("cep")} />
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Logradouro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("logradouro")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("logradouro")} />
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Nº</label>
-                      <Input className={inputClass} type="text" placeholder="digite" {...register("numero")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="digite" {...register("numero")} />
                     </div>
                     <div className="w-full h-fit col-span-3">
                       <label className={labelClass}>Complemento</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("complemento")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("complemento")}/>
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Bairro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("bairro")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("bairro")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Cidade</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cidade")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("cidade")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Estado</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("estado")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("estado")}/>
                     </div>
                   </div>
                 </AccordionContent>
