@@ -39,7 +39,7 @@ export default function EditarPerfilPage() {
   useEffect(() => {
     const fetchDados = async () => {
       try {
-        const res = await fetch("/api/dados"); 
+        const res = await fetch("/api/dados", { credentials: "include" });
         if (!res.ok) throw new Error("Erro ao buscar dados");
         const json = await res.json();
         setDados(json);

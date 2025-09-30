@@ -15,10 +15,19 @@ interface Props {
 }
 
 type Horario = {
+  id?: string;
   dia: string;
   inicio: string;
   fim: string;
   aberto: boolean;
+};
+
+const diasSemana = [
+  "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"
+];
+
+const diasSemanaMap: Record<string, number> = {
+  "Dom": 0, "Seg": 1, "Ter": 2, "Qua": 3, "Qui": 4, "Sex": 5, "Sáb": 6
 };
 
 export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
@@ -64,15 +73,68 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
   const [fotoPerfil, setFotoPerfil] = useState<string | null>(dadosIniciais.fotoPerfil || null);
   const [fotoBanner, setFotoBanner] = useState<string | null>(dadosIniciais.fotoBanner || null);
 
-  const [horarios, setHorarios] = useState<Horario[]>(dadosIniciais.horarios || [
-    { dia: "Seg", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Ter", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Qua", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Qui", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Sex", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Sáb", inicio: "09:00", fim: "14:00", aberto: true },
-    { dia: "Dom", inicio: "00:00", fim: "00:00", aberto: false },
-  ]);
+  const [horarios, setHorarios] = useState<Horario[]>([]);
+
+  useEffect(() => {
+    async function fetchHorarios() {
+      if (!restauranteId) return;
+      try {
+        const res = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+        let data: any[] = [];
+        if (res.ok) {
+          data = await res.json();
+        }
+        // Garante todos os dias
+        const horariosCompletos = diasSemana.map(dia => {
+          const encontrado = data.find((h: any) => h.dia === dia);
+          return encontrado
+            ? {
+                id: encontrado.id,
+                dia: encontrado.dia,
+                inicio: encontrado.horarioAbertura,
+                fim: encontrado.horarioFechamento,
+                aberto: encontrado.aberto
+              }
+            : { dia, inicio: "08:00", fim: "18:00", aberto: false };
+        });
+        setHorarios(horariosCompletos);
+      } catch (err) {
+        setHorarios(diasSemana.map(dia => ({
+          dia, inicio: "08:00", fim: "18:00", aberto: false
+        })));
+      }
+    }
+    fetchHorarios();
+  }, [restauranteId]);
+
+  // Garante que, após salvar, o estado dos horários seja atualizado e mantido
+  async function atualizarHorariosRestaurante() {
+    if (!restauranteId) return;
+    try {
+      const res = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+      let data: any[] = [];
+      if (res.ok) {
+        data = await res.json();
+      }
+      const horariosCompletos = diasSemana.map(dia => {
+        const encontrado = data.find((h: any) => h.dia === dia);
+        return encontrado
+          ? {
+              id: encontrado.id,
+              dia: encontrado.dia,
+              inicio: encontrado.horarioAbertura,
+              fim: encontrado.horarioFechamento,
+              aberto: encontrado.aberto
+            }
+          : { dia, inicio: "08:00", fim: "18:00", aberto: false };
+      });
+      setHorarios(horariosCompletos);
+    } catch (err) {
+      setHorarios(diasSemana.map(dia => ({
+        dia, inicio: "08:00", fim: "18:00", aberto: false
+      })));
+    }
+  }
 
   function mudarFotoPerfil(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -116,7 +178,6 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
 
     let enderecoId = dadosIniciais.endereco?.id;
 
-    // Se não existe endereço, cria um novo
     if (!enderecoId) {
       const res = await fetch('/api/endereco', {
         method: 'POST',
@@ -125,14 +186,12 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       });
       const result = await res.json();
       enderecoId = result.id;
-      // Atualiza o restaurante para vincular o novo endereco_id
       await fetch('/api/restaurante', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: restauranteId, endereco_id: enderecoId }),
       });
     } else {
-      // Se existe, atualiza
       await fetch('/api/endereco', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -155,7 +214,6 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       body: JSON.stringify(dadosRestaurante),
     });
 
-    // Atualiza user pq é diferente de restaurante
     await fetch('/api/user', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -164,6 +222,41 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         name: data.name,
       }),
     });
+
+    // Buscar horários existentes antes de salvar
+    const resExistentes = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+    let existentes: any[] = [];
+    if (resExistentes.ok) {
+      existentes = await resExistentes.json();
+    }
+
+    await Promise.all(horarios.map(async (horario) => {
+      const payload = {
+        dia_semana: diasSemanaMap[horario.dia],
+        horario_inicio: horario.inicio,
+        horario_fim: horario.fim,
+        aberto: horario.aberto,
+        restaurante_id: restauranteId
+      };
+      // Verifica se já existe horário para o dia/restaurante
+      const existente = existentes.find((h) => h.dia_semana === diasSemanaMap[horario.dia] && h.restaurante_id === restauranteId);
+      if (existente) {
+        await fetch('/api/horarioFuncionamento', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: existente.id, ...payload }),
+        });
+      } else {
+        await fetch('/api/horarioFuncionamento', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+    }));
+
+    // Atualiza os horários do restaurante após salvar
+    await atualizarHorariosRestaurante();
 
     alert("Atualização feita com sucesso!");
   } catch (err) {
@@ -204,7 +297,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           <section className="flex flex-col">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px]  border-[#D9D9D9] ">
+                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[65.84px]  border-[#D9D9D9] ">
                   <h2 className={tituloClass}>Informações do Restaurante</h2>
                 </AccordionTrigger>
                 <AccordionContent className=" flex flex-col mt-9 w-full gap-4">
@@ -276,7 +369,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           <section className="flex flex-col">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px] mb-5  border-[#D9D9D9] ">
+                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[65.84px] mb-5  border-[#D9D9D9] ">
                   <h2 className={tituloClass}>Localização</h2>
                 </AccordionTrigger>
                 <AccordionContent className="mt-9">
@@ -326,8 +419,8 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         <section className="flex flex-col col-span-3 md:col-span-1 mb-10">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-3">
-              <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px]  border-[#D9D9D9] ">
-                <h2 className={tituloClass}>Horários de Funcionamento</h2>
+              <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none border-[#D9D9D9] ">
+                <h2 className={`${tituloClass} !mb-0`}>Horários de Funcionamento</h2>
               </AccordionTrigger>
               <AccordionContent className="mt-9">
                 <div className="flex flex-col gap-4">

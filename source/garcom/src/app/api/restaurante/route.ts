@@ -87,7 +87,13 @@ export async function GET(request: Request) {
           .where(eq(endereco.id, restauranteData.endereco_id));
         enderecoData = enderecoResult[0] || null;
       }
-      return NextResponse.json({ ...restauranteData, endereco: enderecoData });
+não       // Buscar horários de funcionamento
+      const { horarioFuncionamento } = await import("@/db/schema/horarioFuncionamento");
+      const horarios = await db
+        .select()
+        .from(horarioFuncionamento)
+        .where(eq(horarioFuncionamento.restaurante_id, restauranteData.id));
+      return NextResponse.json({ ...restauranteData, endereco: enderecoData, horarios });
     } else if (user_id) {
       result = await db
         .select()
@@ -108,7 +114,13 @@ export async function GET(request: Request) {
           .where(eq(endereco.id, restauranteData.endereco_id));
         enderecoData = enderecoResult[0] || null;
       }
-      return NextResponse.json({ ...restauranteData, endereco: enderecoData });
+      // Buscar horários de funcionamento
+      const { horarioFuncionamento } = await import("@/db/schema/horarioFuncionamento");
+      const horarios = await db
+        .select()
+        .from(horarioFuncionamento)
+        .where(eq(horarioFuncionamento.restaurante_id, restauranteData.id));
+      return NextResponse.json({ ...restauranteData, endereco: enderecoData, horarios });
     } else {
       result = await db.select().from(restaurante);
       return NextResponse.json(result);
