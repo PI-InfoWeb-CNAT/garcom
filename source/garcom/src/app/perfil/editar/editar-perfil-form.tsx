@@ -76,6 +76,7 @@ const router = useRouter();
   const [fotoBanner, setFotoBanner] = useState<string | null>(dadosIniciais.fotoBanner || null);
 
   const [horarios, setHorarios] = useState<Horario[]>([]);
+  const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
     async function fetchHorarios() {
@@ -166,6 +167,7 @@ const router = useRouter();
   
 
   async function editar(data: any) {
+  setCarregando(true);
   try {
     const enderecoPayload = {
       cep: data.cep,
@@ -240,16 +242,13 @@ const router = useRouter();
         aberto: horario.aberto,
         restaurante_id: restauranteId
       };
-      // Filtra todos os existentes para o mesmo dia/restaurante
       const existentesDia = existentes.filter((h) => h.dia_semana === diasSemanaMap[horario.dia] && h.restaurante_id === restauranteId);
       if (existentesDia.length > 0) {
-        // Atualiza apenas o primeiro registro encontrado
         await fetch('/api/horarioFuncionamento', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: existentesDia[0].id, ...payload }),
         });
-        // Opcional: deletar os demais duplicados
         for (let i = 1; i < existentesDia.length; i++) {
           await fetch(`/api/horarioFuncionamento?id=${existentesDia[i].id}`, {
             method: 'DELETE',
@@ -265,12 +264,12 @@ const router = useRouter();
     }));
 
     await atualizarHorariosRestaurante();
-
-    alert("Atualização feita com sucesso!");
     router.back();
   } catch (err) {
     console.error("Erro:", err);
     alert("Erro ao atualizar");
+  } finally {
+    setCarregando(false);
   }
 }
 
@@ -279,7 +278,7 @@ const router = useRouter();
   const labelClass = "text-[20px] font-medium text-[#9E9E9E] mb-[7px]";
 
   return (
-    <form onSubmit={handleSubmit(editar)}>
+  <form onSubmit={handleSubmit(editar)}>
       <section className="flex align-center gap-10 mb-10 h-auto">
         <div className="flex flex-col items-center relative justify-center w-50 h-50">
           <img src={fotoPerfil || "/default-profile.png"} alt="Foto do perfil"
@@ -443,7 +442,7 @@ const router = useRouter();
                       <div className="flex gap-2 items-center">
                         <input
                           type="time"
-                          value={dia.inicio}
+                          value={dia.inicio.slice(0,5)}
                           disabled={!dia.aberto}
                           onChange={(e) => alterarHorario(index, "inicio", e.target.value)}
                           className={`${inputClass} h-8 w-19 no-clock border-blocked p-[4px]`}
@@ -451,7 +450,7 @@ const router = useRouter();
                         <span className="text-gray-500">-</span>
                         <input
                           type="time"
-                          value={dia.fim}
+                          value={dia.fim.slice(0,5)}
                           disabled={!dia.aberto}
                           onChange={(e) => alterarHorario(index, "fim", e.target.value)}
                           className={`${inputClass} h-8 w-19 no-clock border-blocked p-[4px]`}
@@ -465,7 +464,9 @@ const router = useRouter();
           </Accordion>
         </section>
       </div>
-      <Button type="submit" variant="rosa">Salvar Alterações</Button>
+      <Button type="submit" variant="rosa" disabled={carregando}>
+        {carregando ? "Salvando..." : "Salvar Alterações"}
+      </Button>
     </form>
 
   );

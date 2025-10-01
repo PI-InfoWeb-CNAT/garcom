@@ -7,12 +7,24 @@ import { FormMesas } from "./components/FormMesas";
 
 
 const perfil = async () => {
+  // Estado de carregamento para tela curta
+  // Como este é um server component, para animação real precisaria ser client, mas podemos simular uma barra cheia
   const dados = await getDados();
 
   if (!dados) {
     return (
-      <div className="p-10 text-center">
-        <h1>Erro ao carregar dados do usuário</h1>
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-full max-w-md p-8 rounded bg-white shadow text-center">
+          <h1 className="text-[#F65C5C] text-xl font-bold mb-6">Carregando perfil...</h1>
+          <div className="flex justify-center">
+            {/* Barra de progresso do shadcn/ui */}
+            <div className="w-full max-w-[300px]">
+              <div className="relative h-3 w-full rounded-full bg-[#fee9e7] overflow-hidden">
+                <div className="absolute left-0 top-0 h-3 rounded-full bg-[#F65C5C] animate-pulse" style={{ width: '80%' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -158,7 +170,7 @@ const perfil = async () => {
               </ul>
           </div>
         </section>
-        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 w-full">
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
           <p className="md:col-span-2 sm:col-span-2 col-span-1 pb-3 md:pb-0 !text-[#9E9E9E] w-full">{roleData?.descricao || "sem descrição"}</p>
           
           <div
