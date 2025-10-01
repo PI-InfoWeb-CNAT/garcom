@@ -4,34 +4,21 @@ import { Button } from "@/components/ui/button";
 import { IoQrCode } from "react-icons/io5";
 import { getDados } from "@/app/auth/getDados/page";
 import { FormMesas } from "./components/FormMesas";
+import { Progress } from "@/components/ui/progress";
 
 
 const perfil = async () => {
-  // Estado de carregamento para tela curta
-  // Como este é um server component, para animação real precisaria ser client, mas podemos simular uma barra cheia
+
   const dados = await getDados();
 
   if (!dados) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-full max-w-md p-8 rounded bg-white shadow text-center">
-          <h1 className="text-[#F65C5C] text-xl font-bold mb-6">Carregando perfil...</h1>
-          <div className="flex justify-center">
-            {/* Barra de progresso do shadcn/ui */}
-            <div className="w-full max-w-[300px]">
-              <div className="relative h-3 w-full rounded-full bg-[#fee9e7] overflow-hidden">
-                <div className="absolute left-0 top-0 h-3 rounded-full bg-[#F65C5C] animate-pulse" style={{ width: '80%' }}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Progress value={33} />
     );
   }
 
   const { role, roleData, user } = dados;
 
-  // DEBUG: Exibir dados dos horários recebidos
   let debugHorariosApi = null;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   if (roleData?.id) {

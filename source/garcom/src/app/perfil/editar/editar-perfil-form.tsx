@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MdOutlineEdit } from "react-icons/md";
-import { useEffect } from "react";
+import { Progress } from "@/components/ui/progress";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -33,44 +33,60 @@ const diasSemanaMap: Record<string, number> = {
 
 export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
 
-  const { register, handleSubmit, reset } = useForm({
-  defaultValues: {
-    name: "",
-    descricao: "",
-    cnpj: "",
-    email: "",
-    senha: "",
-    confirmarSenha: "",
-    cep: "",
-    logradouro: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    cidade: "",
-    estado: "",
-  }
-});
-const router = useRouter();
 
-  useEffect(() => {
-  if (dadosIniciais) {
-    reset({
-      name: dadosIniciais.name,
-      descricao: dadosIniciais.descricao,
-      cnpj: dadosIniciais.cnpj,
-      email: dadosIniciais.email,
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: "",
+      descricao: "",
+      cnpj: "",
+      email: "",
       senha: "",
       confirmarSenha: "",
-      cep: dadosIniciais.endereco?.cep || "",
-      logradouro: dadosIniciais.endereco?.logradouro || "",
-      numero: dadosIniciais.endereco?.numero || "",
-      complemento: dadosIniciais.endereco?.complemento || "",
-      bairro: dadosIniciais.endereco?.bairro || "",
-      cidade: dadosIniciais.endereco?.cidade || "",
-      estado: dadosIniciais.endereco?.estado || "",
-    });
-  }
-}, [dadosIniciais, reset]);
+      cep: "",
+      logradouro: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    }
+  });
+  const router = useRouter();
+
+  // Estado para animação de carregamento
+  const [carregandoForm, setCarregandoForm] = useState(true);
+  const [progress, setProgress] = useState(10);
+
+  // Controla tempo mínimo de exibição do Progress
+  useEffect(() => {
+    setProgress(10);
+    setCarregandoForm(true);
+    const minTimeout = setTimeout(() => setProgress(80), 300);
+    let hideTimeout: NodeJS.Timeout;
+    if (dadosIniciais) {
+      reset({
+        name: dadosIniciais.name,
+        descricao: dadosIniciais.descricao,
+        cnpj: dadosIniciais.cnpj,
+        email: dadosIniciais.email,
+        senha: "",
+        confirmarSenha: "",
+        cep: dadosIniciais.endereco?.cep || "",
+        logradouro: dadosIniciais.endereco?.logradouro || "",
+        numero: dadosIniciais.endereco?.numero || "",
+        complemento: dadosIniciais.endereco?.complemento || "",
+        bairro: dadosIniciais.endereco?.bairro || "",
+        cidade: dadosIniciais.endereco?.cidade || "",
+        estado: dadosIniciais.endereco?.estado || "",
+      });
+      // Garante que o Progress fique visível por pelo menos 800ms
+      hideTimeout = setTimeout(() => setCarregandoForm(false), 800);
+    }
+    return () => {
+      clearTimeout(minTimeout);
+      if (hideTimeout) clearTimeout(hideTimeout);
+    };
+  }, [dadosIniciais, reset]);
 
   const [fotoPerfil, setFotoPerfil] = useState<string | null>(dadosIniciais.fotoPerfil || null);
   const [fotoBanner, setFotoBanner] = useState<string | null>(dadosIniciais.fotoBanner || null);
@@ -265,6 +281,7 @@ const router = useRouter();
 
     await atualizarHorariosRestaurante();
     router.back();
+
   } catch (err) {
     console.error("Erro:", err);
     alert("Erro ao atualizar");
@@ -278,7 +295,7 @@ const router = useRouter();
   const labelClass = "text-[20px] font-medium text-[#9E9E9E] mb-[7px]";
 
   return (
-  <form onSubmit={handleSubmit(editar)}>
+    <form onSubmit={handleSubmit(editar)}>
       <section className="flex align-center gap-10 mb-10 h-auto">
         <div className="flex flex-col items-center relative justify-center w-50 h-50">
           <img src={fotoPerfil || "/default-profile.png"} alt="Foto do perfil"
@@ -468,6 +485,5 @@ const router = useRouter();
         {carregando ? "Salvando..." : "Salvar Alterações"}
       </Button>
     </form>
-
   );
 }
