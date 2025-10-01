@@ -9,27 +9,39 @@ import { FormMesas } from "./components/FormMesas";
 const perfil = async () => {
   const dados = await getDados();
 
-    if (!dados) {
-      return (
-        <div className="p-10 text-center">
-          <h1>Erro ao carregar dados do usuário</h1>
-        </div>
-      );
-    }
-  
-    const { role, roleData, user } = dados;
-    
-    const tituloClass =  "text-[23px] font-bold mb-6 text-[#F65C5C]";
-    const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0"
+  if (!dados) {
+    return (
+      <div className="p-10 text-center">
+        <h1>Erro ao carregar dados do usuário</h1>
+      </div>
+    );
+  }
 
-   type DiaSemana = 
-  | 'Segunda-feira'
-  | 'Terça-feira'
-  | 'Quarta-feira'
-  | 'Quinta-feira'
-  | 'Sexta-feira'
-  | 'Sábado'
-  | 'Domingo';
+  const { role, roleData, user } = dados;
+
+  // DEBUG: Exibir dados dos horários recebidos
+  let debugHorariosApi = null;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  if (roleData?.id) {
+    try {
+      const horariosApi = await fetch(`${baseUrl}/api/horarioFuncionamento?restaurante_id=${roleData.id}`, { cache: "no-store" });
+      debugHorariosApi = horariosApi.ok ? await horariosApi.json() : [];
+    } catch (err) {
+      debugHorariosApi = { error: String(err) };
+    }
+  }
+
+  const tituloClass = "text-[23px] font-bold mb-6 text-[#F65C5C]";
+  const mainClass = "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0";
+
+  type DiaSemana =
+    | 'Segunda-feira'
+    | 'Terça-feira'
+    | 'Quarta-feira'
+    | 'Quinta-feira'
+    | 'Sexta-feira'
+    | 'Sábado'
+    | 'Domingo';
 
   type HorarioFuncionamento = {
     aberto: boolean;
@@ -38,24 +50,64 @@ const perfil = async () => {
   };
 
   const dias: DiaSemana[] = [
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado',
-  'Domingo',
-];
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
+    'Sexta-feira',
+    'Sábado',
+    'Domingo',
+  ];
 
-  const horarios: Record<DiaSemana, HorarioFuncionamento> = {
-    'Segunda-feira': { aberto: true, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Terça-feira': { aberto: true, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Quarta-feira': { aberto: false, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Quinta-feira': { aberto: true, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Sexta-feira': { aberto: true, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Sábado': { aberto: true, horarioAbertura: "13:00", horarioFechamento: "22:00" },
-    'Domingo': { aberto: false, horarioAbertura: "", horarioFechamento: "" },
+  // Mapeamento entre backend e frontend
+  const mapDiaBackendToFrontend: Record<number | string, DiaSemana> = {
+    1: 'Segunda-feira',
+    2: 'Terça-feira',
+    3: 'Quarta-feira',
+    4: 'Quinta-feira',
+    5: 'Sexta-feira',
+    6: 'Sábado',
+    0: 'Domingo',
+    'Seg': 'Segunda-feira',
+    'Ter': 'Terça-feira',
+    'Qua': 'Quarta-feira',
+    'Qui': 'Quinta-feira',
+    'Sex': 'Sexta-feira',
+    'Sáb': 'Sábado',
+    'Dom': 'Domingo',
   };
+
+  let horarios: Record<DiaSemana, HorarioFuncionamento> = dias.reduce((acc, dia) => {
+    acc[dia] = { aberto: false, horarioAbertura: '', horarioFechamento: '' };
+    return acc;
+  }, {} as Record<DiaSemana, HorarioFuncionamento>);
+
+  if (roleData?.id) {
+    try {
+      const horariosApi = await fetch(`${baseUrl}/api/horarioFuncionamento?restaurante_id=${roleData.id}`, { cache: "no-store" });
+      const horariosData = horariosApi.ok ? await horariosApi.json() : [];
+      if (!Array.isArray(horariosData) || horariosData.length === 0) {
+        console.error('Horários não recebidos ou vazios:', horariosData);
+      } else {
+        console.log('Horários recebidos da API:', horariosData);
+      }
+      // Para cada dia, pega o primeiro registro aberto, ou o primeiro registro se não houver nenhum aberto
+      dias.forEach((dia) => {
+        const registrosDia = horariosData.filter((h: any) => mapDiaBackendToFrontend[h.dia_semana] === dia);
+        let registro = registrosDia.find((h: any) => h.aberto === true || h.aberto === 'true');
+        if (!registro) registro = registrosDia[0];
+        if (registro) {
+          horarios[dia] = {
+            aberto: registro.aberto === true || registro.aberto === 'true' ? true : false,
+            horarioAbertura: registro.horario_inicio ?? registro.horarioAbertura ?? '',
+            horarioFechamento: registro.horario_fim ?? registro.horarioFechamento ?? '',
+          };
+        }
+      });
+    } catch (err) {
+
+    }
+  }
 
     return (
     <div>
@@ -75,10 +127,10 @@ const perfil = async () => {
                   <div>
                     <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
                     <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">
-                      {roleData?.endereco?.cidade || "sem endereço"}
+                      {roleData.endereco.cidade || "sem endereço"}
                     </p>
                   </div>
-                  <Button className="w-40 mt-[5px]" variant="rosa"><a href="/perfil/editar">Editar Perfil</a></Button>
+                  <a href="/perfil/editar"><Button className="w-40 mt-[5px]" variant="rosa">Editar Perfil</Button></a>
                 </div>
 
                 <div className="flex items-center w-auto gap-5 pt-2">  
@@ -98,7 +150,7 @@ const perfil = async () => {
                       ></span>
                       <span className="text-[#5C5C5C] min-w-[130px]">{dia}</span>
                       <span className="text-[#5C5C5C] font-medium">
-                        {aberto ? `${horarioAbertura} - ${horarioFechamento}` : 'Fechado'}
+                        {aberto ? `${horarioAbertura.slice(0,5)} - ${horarioFechamento.slice(0,5)}` : 'Fechado'}
                       </span>
                     </li>
                   );

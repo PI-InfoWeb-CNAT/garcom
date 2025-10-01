@@ -87,7 +87,7 @@ export async function GET(request: Request) {
           .where(eq(endereco.id, restauranteData.endereco_id));
         enderecoData = enderecoResult[0] || null;
       }
-não       // Buscar horários de funcionamento
+
       const { horarioFuncionamento } = await import("@/db/schema/horarioFuncionamento");
       const horarios = await db
         .select()

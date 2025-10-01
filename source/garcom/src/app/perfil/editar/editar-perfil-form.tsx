@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MdOutlineEdit } from "react-icons/md";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   restauranteId: string;
@@ -49,6 +50,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
     estado: "",
   }
 });
+const router = useRouter();
 
   useEffect(() => {
   if (dadosIniciais) {
@@ -84,15 +86,15 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         if (res.ok) {
           data = await res.json();
         }
-        // Garante todos os dias
+        // Garante todos os dias, mapeando os campos do backend para o frontend
         const horariosCompletos = diasSemana.map(dia => {
-          const encontrado = data.find((h: any) => h.dia === dia);
+          const encontrado = data.find((h: any) => h.dia_semana === diasSemanaMap[dia]);
           return encontrado
             ? {
                 id: encontrado.id,
-                dia: encontrado.dia,
-                inicio: encontrado.horarioAbertura,
-                fim: encontrado.horarioFechamento,
+                dia: dia,
+                inicio: encontrado.horario_inicio,
+                fim: encontrado.horario_fim,
                 aberto: encontrado.aberto
               }
             : { dia, inicio: "08:00", fim: "18:00", aberto: false };
@@ -107,7 +109,6 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
     fetchHorarios();
   }, [restauranteId]);
 
-  // Garante que, após salvar, o estado dos horários seja atualizado e mantido
   async function atualizarHorariosRestaurante() {
     if (!restauranteId) return;
     try {
@@ -117,13 +118,13 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         data = await res.json();
       }
       const horariosCompletos = diasSemana.map(dia => {
-        const encontrado = data.find((h: any) => h.dia === dia);
+        const encontrado = data.find((h: any) => h.dia_semana === diasSemanaMap[dia]);
         return encontrado
           ? {
               id: encontrado.id,
-              dia: encontrado.dia,
-              inicio: encontrado.horarioAbertura,
-              fim: encontrado.horarioFechamento,
+              dia: dia,
+              inicio: encontrado.horario_inicio,
+              fim: encontrado.horario_fim,
               aberto: encontrado.aberto
             }
           : { dia, inicio: "08:00", fim: "18:00", aberto: false };
@@ -230,6 +231,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       existentes = await resExistentes.json();
     }
 
+    // Para cada dia, atualiza apenas o primeiro registro encontrado (se houver), nunca cria duplicado
     await Promise.all(horarios.map(async (horario) => {
       const payload = {
         dia_semana: diasSemanaMap[horario.dia],
@@ -238,14 +240,21 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         aberto: horario.aberto,
         restaurante_id: restauranteId
       };
-      // Verifica se já existe horário para o dia/restaurante
-      const existente = existentes.find((h) => h.dia_semana === diasSemanaMap[horario.dia] && h.restaurante_id === restauranteId);
-      if (existente) {
+      // Filtra todos os existentes para o mesmo dia/restaurante
+      const existentesDia = existentes.filter((h) => h.dia_semana === diasSemanaMap[horario.dia] && h.restaurante_id === restauranteId);
+      if (existentesDia.length > 0) {
+        // Atualiza apenas o primeiro registro encontrado
         await fetch('/api/horarioFuncionamento', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: existente.id, ...payload }),
+          body: JSON.stringify({ id: existentesDia[0].id, ...payload }),
         });
+        // Opcional: deletar os demais duplicados
+        for (let i = 1; i < existentesDia.length; i++) {
+          await fetch(`/api/horarioFuncionamento?id=${existentesDia[i].id}`, {
+            method: 'DELETE',
+          });
+        }
       } else {
         await fetch('/api/horarioFuncionamento', {
           method: 'POST',
@@ -255,10 +264,10 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       }
     }));
 
-    // Atualiza os horários do restaurante após salvar
     await atualizarHorariosRestaurante();
 
     alert("Atualização feita com sucesso!");
+    router.back();
   } catch (err) {
     console.error("Erro:", err);
     alert("Erro ao atualizar");
