@@ -22,7 +22,34 @@ const ClienteCardapio = () => {
   const [quantidade, setQuantidade] = useState<number>(1);
   const [observacao, setObservacao] = useState<string>("");
   // Mesa fixa para testes
-  const mesaId = "7d7f76b4-1847-45c0-98a9-a68e74091f8c";
+  const mesaId = "6f57c238-43c5-4295-94ea-5becfb39e41c";
+
+  // Estado para itens no carrinho
+  const [itensCarrinho, setItensCarrinho] = useState<number>(0);
+
+  // Atualiza quantidade de itens no carrinho após adicionar
+  useEffect(() => {
+    // Buscar pedido aberto para a mesa e contar itens
+    const buscarItensCarrinho = async () => {
+      const resPedido = await fetch(`/api/pedido?mesa_id=${mesaId}&status=aberto`);
+      if (resPedido.ok) {
+        const pedidos = await resPedido.json();
+        if (pedidos.length > 0) {
+          const pedidoId = pedidos[0].id;
+          const resItens = await fetch(`/api/itemPedido?pedido_id=${pedidoId}`);
+          if (resItens.ok) {
+            const itens = await resItens.json();
+            // Soma todas as quantidades dos itens
+            const total = itens.reduce((acc: any, item: any) => acc + (item.quantidade || 1), 0);
+            setItensCarrinho(total);
+            return;
+          }
+        }
+      }
+      setItensCarrinho(0);
+    };
+    buscarItensCarrinho();
+  }, [formAberto]);
 
   // Filtra categorias do restaurante logado
   const categoriasRestaurante = categorias
@@ -231,6 +258,13 @@ const ClienteCardapio = () => {
           </div>
         )}
       </main>
+      {/* Aviso de itens no carrinho */}
+      {itensCarrinho > 0 && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-[#F65C5C] text-white px-6 py-3 rounded-full shadow-lg animate-fade-in">
+          <span className="font-bold text-lg">{itensCarrinho} item{itensCarrinho > 1 ? "s" : ""} no carrinho</span>
+          <button className="bg-white text-[#F65C5C] font-bold px-4 py-2 rounded-full hover:bg-[#FFE3CF] transition">Ver pedido</button>
+        </div>
+      )}
       <Footer />
     </div>
   );
