@@ -43,7 +43,6 @@ export default function EditarPerfilPage() {
     const fetchDados = async () => {
       setCarregando(true);
       setProgress(10);
-      // Simula progresso animado
       const timer = setTimeout(() => setProgress(80), 400);
       try {
         const res = await fetch("/api/dados", { credentials: "include" });
@@ -69,17 +68,23 @@ export default function EditarPerfilPage() {
     <div>
       <Header />
       <main className={mainClass}>
-        <h1 className={tituloClass}>Editar Restaurante</h1>
+        
         {carregando ? (
-          <Progress value={progress} className="w-[80%] mx-auto" />
+          <div className="w-full h-[70vh] text-center flex flex-col items-center justify-center">
+            <h1 className={tituloClass}>Carregando</h1>
+            <Progress value={progress} className="w-[70%] mx-auto" />
+          </div>
         ) : (
           <>
             {erro && <p className="text-red-500">Erro: {erro}</p>}
             {dados && (
-              <EditarPerfilForm
-                restauranteId={dados.roleData.id}
-                dadosIniciais={dados.roleData}
-              />
+              <>
+                <h1 className={tituloClass}>Editar Restaurante</h1>
+                <EditarPerfilForm
+                  restauranteId={dados.roleData.id}
+                  dadosIniciais={dados.roleData}
+                />
+              </>
             )}
           </>
         )}
