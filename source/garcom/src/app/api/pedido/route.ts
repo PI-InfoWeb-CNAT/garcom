@@ -6,12 +6,14 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    console.log("[API PEDIDO] Body recebido:", body);
     const { id, ...rest } = body;
     await db.insert(pedido).values(rest);
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("[API PEDIDO] Erro ao inserir pedido:", error);
     return NextResponse.json(
-      { error: "Erro interno do servidor." },
+      { error: "Erro interno do servidor.", details: String(error) },
       { status: 500 },
     );
   }
