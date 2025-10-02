@@ -35,7 +35,7 @@ export default function QRcodes() {
 
         {/* Informações */}
         {!carregando && mesas.length > 0 && (
-          <div className="mt-2 mb-4 w-full rounded-lg bg-gray-50">
+          <div className="mt-2 mb-4 w-full rounded-lg">
             <h3 className="mb-2 font-semibold text-[#757575]">
               Total de mesas: {mesas.length}
             </h3>
@@ -63,7 +63,7 @@ export default function QRcodes() {
 
         {/* Grid de QR Codes */}
         {!carregando && !erro && mesas.length > 0 && (
-          <div className="grid w-full grid-cols-3 gap-4 gap-x-10">
+          <div className="grid w-full grid-cols-3 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {mesas.map((mesa) => (
               <CardQRCode key={mesa.id} mesa={mesa} />
             ))}

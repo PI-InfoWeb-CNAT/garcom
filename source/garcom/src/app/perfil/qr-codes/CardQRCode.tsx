@@ -15,10 +15,10 @@ export function CardQRCode({ mesa }: CardQRCodeProps) {
           Mesa {mesa.numero}
         </h3>
 
-        <div className="rounded bg-white p-2">
+        <div className="rounded bg-white">
           <QRCodeSVG
             value={urlPedido}
-            size={270}
+            size={180}
             level="M"
             includeMargin={true}
           />
