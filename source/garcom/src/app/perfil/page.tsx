@@ -122,7 +122,7 @@ const perfil = async () => {
               <div>
                 <img src={roleData?.foto_perfil || "/default-profile.png"} alt="avatar" className="w-[150px] h-[150px] rounded-full absolute left-0 top-[131px]"/>
 
-                <div className="flex items-start gap-5 mt-18">
+                <div className="flex items-start gap-5 mt-24">
                   <div>
                     <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
                     <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">
