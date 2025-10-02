@@ -123,7 +123,15 @@ const ClienteCardapio = () => {
             </div>
           </section>
           <section className="m-[5vw]">
-            <h2 className="text-[20px] mb-4 font-bold text-[#F65C5C]">Cardápio</h2>
+            <div className="flex items-center mb-4 place-content-between">
+              <h2 className="text-[20px] font-bold text-[#F65C5C] mr-4 ">Cardápio</h2>
+              <button
+                className="ml-2 bg-[#F65C5C] font-bold text-white px-8 py-2 rounded-full cursor-pointer text-[12px]"
+                type="button"
+              >
+                Ver pedidos
+              </button>
+            </div>
             {!carregando && categoriasRestaurante.length === 0 && (
               <p className="text-[#616161]">Nenhuma categoria disponível para este restaurante.</p>
             )}
