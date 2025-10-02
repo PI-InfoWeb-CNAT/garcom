@@ -13,7 +13,6 @@ export default function QRcodes() {
 
   const { mesas, carregando, erro, recarregar } = useMesas();
 
-  
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
@@ -35,7 +34,6 @@ export default function QRcodes() {
           </button>
         </div>
 
-
         {!carregando && mesas.length > 0 && (
           <div className="no-print mt-2 mb-4 w-full rounded-lg">
             <h3 className="mb-2 font-semibold text-[#757575]">
@@ -43,7 +41,6 @@ export default function QRcodes() {
             </h3>
           </div>
         )}
-
 
         {carregando && (
           <div className="no-print w-full py-8 text-center">
@@ -63,10 +60,8 @@ export default function QRcodes() {
           </div>
         )}
 
-
         <div ref={contentRef}>
-
-          <div className="mb-6 hidden print:block">
+          <div className="mt-4 mb-6 hidden print:block">
             <h1 className="text-center text-2xl font-bold text-black">
               QR Codes das Mesas
             </h1>
@@ -75,9 +70,8 @@ export default function QRcodes() {
             </p>
           </div>
 
-
           {!carregando && !erro && mesas.length > 0 && (
-            <div className="grid w-full grid-cols-3 gap-7 md:grid-cols-3 lg:grid-cols-5 ">
+            <div className="grid w-full grid-cols-3 gap-7 md:grid-cols-3 lg:grid-cols-5">
               {mesas.map((mesa) => (
                 <CardQRCode key={mesa.id} mesa={mesa} />
               ))}
