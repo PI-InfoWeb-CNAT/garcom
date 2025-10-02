@@ -6,16 +6,16 @@ interface CardQRCodeProps {
 }
 
 export function CardQRCode({ mesa }: CardQRCodeProps) {
-  const urlPedido = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/pedido/mesa/${mesa.id}`;
+  const urlPedido = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${mesa.restaurante_id}/pedido/mesa/${mesa.id}`;
 
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex flex-col items-center">
-        <h3 className="text-lg font-semibold text-gray-800">
+        <h3 className="text-lg font-semibold text-[#2c2c2c]">
           Mesa {mesa.numero}
         </h3>
 
-        <div className="rounded bg-white">
+        <div className="rounded bg-white">  
           <QRCodeSVG
             value={urlPedido}
             size={180}
