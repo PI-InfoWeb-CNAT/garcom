@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { restaurante } from "@/db/schema";
+import { endereco } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
@@ -77,7 +78,22 @@ export async function GET(request: Request) {
           { status: 404 },
         );
       }
-      return NextResponse.json(result[0]);
+      const restauranteData = result[0];
+      let enderecoData = null;
+      if (restauranteData.endereco_id) {
+        const enderecoResult = await db
+          .select()
+          .from(endereco)
+          .where(eq(endereco.id, restauranteData.endereco_id));
+        enderecoData = enderecoResult[0] || null;
+      }
+
+      const { horarioFuncionamento } = await import("@/db/schema/horarioFuncionamento");
+      const horarios = await db
+        .select()
+        .from(horarioFuncionamento)
+        .where(eq(horarioFuncionamento.restaurante_id, restauranteData.id));
+      return NextResponse.json({ ...restauranteData, endereco: enderecoData, horarios });
     } else if (user_id) {
       result = await db
         .select()
@@ -89,7 +105,22 @@ export async function GET(request: Request) {
           { status: 404 },
         );
       }
-      return NextResponse.json(result[0]);
+      const restauranteData = result[0];
+      let enderecoData = null;
+      if (restauranteData.endereco_id) {
+        const enderecoResult = await db
+          .select()
+          .from(endereco)
+          .where(eq(endereco.id, restauranteData.endereco_id));
+        enderecoData = enderecoResult[0] || null;
+      }
+      // Buscar horários de funcionamento
+      const { horarioFuncionamento } = await import("@/db/schema/horarioFuncionamento");
+      const horarios = await db
+        .select()
+        .from(horarioFuncionamento)
+        .where(eq(horarioFuncionamento.restaurante_id, restauranteData.id));
+      return NextResponse.json({ ...restauranteData, endereco: enderecoData, horarios });
     } else {
       result = await db.select().from(restaurante);
       return NextResponse.json(result);

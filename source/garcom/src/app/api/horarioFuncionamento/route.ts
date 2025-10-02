@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const restaurante_id = searchParams.get("restaurante_id");
     let result;
     if (id) {
       result = await db
@@ -33,6 +34,12 @@ export async function GET(request: Request) {
         );
       }
       return NextResponse.json(result[0]);
+    } else if (restaurante_id) {
+      result = await db
+        .select()
+        .from(horarioFuncionamento)
+        .where(eq(horarioFuncionamento.restaurante_id, restaurante_id));
+      return NextResponse.json(result);
     } else {
       result = await db.select().from(horarioFuncionamento);
       return NextResponse.json(result);

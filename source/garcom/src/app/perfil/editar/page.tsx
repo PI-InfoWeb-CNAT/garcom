@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { EditarPerfilForm } from "./editar-perfil-form";
+import { Progress } from "@/components/ui/progress";
 
 const atualizarConta = async (dados: any) => {
   const res = await fetch('/api/restaurante', {
@@ -35,18 +36,26 @@ interface DadosUsuario {
 export default function EditarPerfilPage() {
   const [dados, setDados] = useState<DadosUsuario | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [progress, setProgress] = useState(10);
 
   useEffect(() => {
     const fetchDados = async () => {
+      setCarregando(true);
+      setProgress(10);
+      const timer = setTimeout(() => setProgress(80), 400);
       try {
-        const res = await fetch("/api/dados"); 
+        const res = await fetch("/api/dados", { credentials: "include" });
         if (!res.ok) throw new Error("Erro ao buscar dados");
         const json = await res.json();
         setDados(json);
       } catch (err: any) {
         setErro(err.message);
         console.error(err);
+      } finally {
+        setTimeout(() => setCarregando(false), 800); // tempo mínimo de loading
       }
+      return () => clearTimeout(timer);
     };
 
     fetchDados();
@@ -59,13 +68,25 @@ export default function EditarPerfilPage() {
     <div>
       <Header />
       <main className={mainClass}>
-        <h1 className={tituloClass}>Editar Restaurante</h1>
-        {erro && <p className="text-red-500">Erro: {erro}</p>}
-        {dados && (
-          <EditarPerfilForm
-            restauranteId={dados.roleData.id}
-            dadosIniciais={dados.roleData}
-          />
+        
+        {carregando ? (
+          <div className="w-full h-[70vh] text-center flex flex-col items-center justify-center">
+            <h1 className={tituloClass}>Carregando</h1>
+            <Progress value={progress} className="w-[70%] mx-auto" />
+          </div>
+        ) : (
+          <>
+            {erro && <p className="text-red-500">Erro: {erro}</p>}
+            {dados && (
+              <>
+                <h1 className={tituloClass}>Editar Restaurante</h1>
+                <EditarPerfilForm
+                  restauranteId={dados.roleData.id}
+                  dadosIniciais={dados.roleData}
+                />
+              </>
+            )}
+          </>
         )}
       </main>
       <Footer />

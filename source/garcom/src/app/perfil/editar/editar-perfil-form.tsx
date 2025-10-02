@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { MdOutlineEdit } from "react-icons/md";
-import { useEffect } from "react";
+import { Progress } from "@/components/ui/progress";
+import { useRouter } from "next/navigation";
 
 interface Props {
   restauranteId: string;
@@ -15,64 +16,143 @@ interface Props {
 }
 
 type Horario = {
+  id?: string;
   dia: string;
   inicio: string;
   fim: string;
   aberto: boolean;
 };
 
+const diasSemana = [
+  "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"
+];
+
+const diasSemanaMap: Record<string, number> = {
+  "Dom": 0, "Seg": 1, "Ter": 2, "Qua": 3, "Qui": 4, "Sex": 5, "Sáb": 6
+};
+
 export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
 
-  const { register, handleSubmit, reset } = useForm({
-  defaultValues: {
-    name: "",
-    descricao: "",
-    cnpj: "",
-    email: "",
-    senha: "",
-    confirmarSenha: "",
-    cep: "",
-    logradouro: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    cidade: "",
-    estado: "",
-  }
-});
 
-  useEffect(() => {
-  if (dadosIniciais) {
-    reset({
-      name: dadosIniciais.name,
-      descricao: dadosIniciais.descricao,
-      cnpj: dadosIniciais.cnpj,
-      email: dadosIniciais.email,
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: "",
+      descricao: "",
+      cnpj: "",
+      email: "",
       senha: "",
       confirmarSenha: "",
-      cep: dadosIniciais.endereco?.cep || "",
-      logradouro: dadosIniciais.endereco?.logradouro || "",
-      numero: dadosIniciais.endereco?.numero || "",
-      complemento: dadosIniciais.endereco?.complemento || "",
-      bairro: dadosIniciais.endereco?.bairro || "",
-      cidade: dadosIniciais.endereco?.cidade || "",
-      estado: dadosIniciais.endereco?.estado || "",
-    });
-  }
-}, [dadosIniciais, reset]);
+      cep: "",
+      logradouro: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+    }
+  });
+  const router = useRouter();
+
+  // Estado para animação de carregamento
+  const [carregandoForm, setCarregandoForm] = useState(true);
+  const [progress, setProgress] = useState(10);
+
+  // Controla tempo mínimo de exibição do Progress
+  useEffect(() => {
+    setProgress(10);
+    setCarregandoForm(true);
+    const minTimeout = setTimeout(() => setProgress(80), 300);
+    let hideTimeout: NodeJS.Timeout;
+    if (dadosIniciais) {
+      reset({
+        name: dadosIniciais.name,
+        descricao: dadosIniciais.descricao,
+        cnpj: dadosIniciais.cnpj,
+        email: dadosIniciais.email,
+        senha: "",
+        confirmarSenha: "",
+        cep: dadosIniciais.endereco?.cep || "",
+        logradouro: dadosIniciais.endereco?.logradouro || "",
+        numero: dadosIniciais.endereco?.numero || "",
+        complemento: dadosIniciais.endereco?.complemento || "",
+        bairro: dadosIniciais.endereco?.bairro || "",
+        cidade: dadosIniciais.endereco?.cidade || "",
+        estado: dadosIniciais.endereco?.estado || "",
+      });
+      // Garante que o Progress fique visível por pelo menos 800ms
+      hideTimeout = setTimeout(() => setCarregandoForm(false), 800);
+    }
+    return () => {
+      clearTimeout(minTimeout);
+      if (hideTimeout) clearTimeout(hideTimeout);
+    };
+  }, [dadosIniciais, reset]);
 
   const [fotoPerfil, setFotoPerfil] = useState<string | null>(dadosIniciais.fotoPerfil || null);
   const [fotoBanner, setFotoBanner] = useState<string | null>(dadosIniciais.fotoBanner || null);
 
-  const [horarios, setHorarios] = useState<Horario[]>(dadosIniciais.horarios || [
-    { dia: "Seg", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Ter", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Qua", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Qui", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Sex", inicio: "08:00", fim: "18:00", aberto: true },
-    { dia: "Sáb", inicio: "09:00", fim: "14:00", aberto: true },
-    { dia: "Dom", inicio: "00:00", fim: "00:00", aberto: false },
-  ]);
+  const [horarios, setHorarios] = useState<Horario[]>([]);
+  const [carregando, setCarregando] = useState(false);
+
+  useEffect(() => {
+    async function fetchHorarios() {
+      if (!restauranteId) return;
+      try {
+        const res = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+        let data: any[] = [];
+        if (res.ok) {
+          data = await res.json();
+        }
+        // Garante todos os dias, mapeando os campos do backend para o frontend
+        const horariosCompletos = diasSemana.map(dia => {
+          const encontrado = data.find((h: any) => h.dia_semana === diasSemanaMap[dia]);
+          return encontrado
+            ? {
+                id: encontrado.id,
+                dia: dia,
+                inicio: encontrado.horario_inicio,
+                fim: encontrado.horario_fim,
+                aberto: encontrado.aberto
+              }
+            : { dia, inicio: "08:00", fim: "18:00", aberto: false };
+        });
+        setHorarios(horariosCompletos);
+      } catch (err) {
+        setHorarios(diasSemana.map(dia => ({
+          dia, inicio: "08:00", fim: "18:00", aberto: false
+        })));
+      }
+    }
+    fetchHorarios();
+  }, [restauranteId]);
+
+  async function atualizarHorariosRestaurante() {
+    if (!restauranteId) return;
+    try {
+      const res = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+      let data: any[] = [];
+      if (res.ok) {
+        data = await res.json();
+      }
+      const horariosCompletos = diasSemana.map(dia => {
+        const encontrado = data.find((h: any) => h.dia_semana === diasSemanaMap[dia]);
+        return encontrado
+          ? {
+              id: encontrado.id,
+              dia: dia,
+              inicio: encontrado.horario_inicio,
+              fim: encontrado.horario_fim,
+              aberto: encontrado.aberto
+            }
+          : { dia, inicio: "08:00", fim: "18:00", aberto: false };
+      });
+      setHorarios(horariosCompletos);
+    } catch (err) {
+      setHorarios(diasSemana.map(dia => ({
+        dia, inicio: "08:00", fim: "18:00", aberto: false
+      })));
+    }
+  }
 
   function mudarFotoPerfil(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -103,6 +183,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
   
 
   async function editar(data: any) {
+  setCarregando(true);
   try {
     const enderecoPayload = {
       cep: data.cep,
@@ -116,20 +197,25 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
 
     let enderecoId = dadosIniciais.endereco?.id;
 
-    if (enderecoId) {
-      await fetch('/api/endereco', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: enderecoId, ...enderecoPayload }),
-      });
-    } else {
+    if (!enderecoId) {
       const res = await fetch('/api/endereco', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(enderecoPayload),
       });
-      const json = await res.json();
-      enderecoId = json.id;
+      const result = await res.json();
+      enderecoId = result.id;
+      await fetch('/api/restaurante', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: restauranteId, endereco_id: enderecoId }),
+      });
+    } else {
+      await fetch('/api/endereco', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: enderecoId, ...enderecoPayload }),
+      });
     }
 
     const dadosRestaurante = {
@@ -147,7 +233,6 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       body: JSON.stringify(dadosRestaurante),
     });
 
-    // Atualiza user
     await fetch('/api/user', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -157,10 +242,51 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
       }),
     });
 
-    alert("Atualização feita com sucesso!");
+    // Buscar horários existentes antes de salvar
+    const resExistentes = await fetch(`/api/horarioFuncionamento?restaurante_id=${restauranteId}`);
+    let existentes: any[] = [];
+    if (resExistentes.ok) {
+      existentes = await resExistentes.json();
+    }
+
+    // Para cada dia, atualiza apenas o primeiro registro encontrado (se houver), nunca cria duplicado
+    await Promise.all(horarios.map(async (horario) => {
+      const payload = {
+        dia_semana: diasSemanaMap[horario.dia],
+        horario_inicio: horario.inicio,
+        horario_fim: horario.fim,
+        aberto: horario.aberto,
+        restaurante_id: restauranteId
+      };
+      const existentesDia = existentes.filter((h) => h.dia_semana === diasSemanaMap[horario.dia] && h.restaurante_id === restauranteId);
+      if (existentesDia.length > 0) {
+        await fetch('/api/horarioFuncionamento', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: existentesDia[0].id, ...payload }),
+        });
+        for (let i = 1; i < existentesDia.length; i++) {
+          await fetch(`/api/horarioFuncionamento?id=${existentesDia[i].id}`, {
+            method: 'DELETE',
+          });
+        }
+      } else {
+        await fetch('/api/horarioFuncionamento', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+    }));
+
+    await atualizarHorariosRestaurante();
+    router.back();
+
   } catch (err) {
     console.error("Erro:", err);
     alert("Erro ao atualizar");
+  } finally {
+    setCarregando(false);
   }
 }
 
@@ -196,7 +322,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           <section className="flex flex-col">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px]  border-[#D9D9D9] ">
+                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[65.84px]  border-[#D9D9D9] ">
                   <h2 className={tituloClass}>Informações do Restaurante</h2>
                 </AccordionTrigger>
                 <AccordionContent className=" flex flex-col mt-9 w-full gap-4">
@@ -268,38 +394,45 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           <section className="flex flex-col">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-2">
-                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px] mb-5  border-[#D9D9D9] ">
+                <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[65.84px] mb-5  border-[#D9D9D9] ">
                   <h2 className={tituloClass}>Localização</h2>
                 </AccordionTrigger>
                 <AccordionContent className="mt-9">
                   <div className="grid grid-cols-4 gap-6">
                     <div className="w-full h-fit">
                       <label className={labelClass}>CEP</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cep")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("cep")} />
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Logradouro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("logradouro")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("logradouro")} />
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Nº</label>
-                      <Input className={inputClass} type="text" placeholder="digite" {...register("numero")} />
+                      <Input className={inputClass} type="text" 
+                      placeholder="digite" {...register("numero")} />
                     </div>
                     <div className="w-full h-fit col-span-3">
                       <label className={labelClass}>Complemento</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("complemento")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("complemento")}/>
                     </div>
                     <div className="w-full h-fit">
                       <label className={labelClass}>Bairro</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("bairro")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("bairro")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Cidade</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("cidade")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("cidade")}/>
                     </div>
                     <div className="w-full h-fit col-span-2">
                       <label className={labelClass}>Estado</label>
-                      <Input className={inputClass} type="text" placeholder="Digite" {...register("estado")}/>
+                      <Input className={inputClass} type="text" 
+                      placeholder="Digite" {...register("estado")}/>
                     </div>
                   </div>
                 </AccordionContent>
@@ -311,8 +444,8 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
         <section className="flex flex-col col-span-3 md:col-span-1 mb-10">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-3">
-              <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none h-[60px]  border-[#D9D9D9] ">
-                <h2 className={tituloClass}>Horários de Funcionamento</h2>
+              <AccordionTrigger className="cursor-pointer !no-underline border-b rounded-none border-[#D9D9D9] ">
+                <h2 className={`${tituloClass} !mb-0`}>Horários de Funcionamento</h2>
               </AccordionTrigger>
               <AccordionContent className="mt-9">
                 <div className="flex flex-col gap-4">
@@ -326,7 +459,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
                       <div className="flex gap-2 items-center">
                         <input
                           type="time"
-                          value={dia.inicio}
+                          value={dia.inicio.slice(0,5)}
                           disabled={!dia.aberto}
                           onChange={(e) => alterarHorario(index, "inicio", e.target.value)}
                           className={`${inputClass} h-8 w-19 no-clock border-blocked p-[4px]`}
@@ -334,7 +467,7 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
                         <span className="text-gray-500">-</span>
                         <input
                           type="time"
-                          value={dia.fim}
+                          value={dia.fim.slice(0,5)}
                           disabled={!dia.aberto}
                           onChange={(e) => alterarHorario(index, "fim", e.target.value)}
                           className={`${inputClass} h-8 w-19 no-clock border-blocked p-[4px]`}
@@ -348,8 +481,9 @@ export function EditarPerfilForm({ restauranteId, dadosIniciais }: Props) {
           </Accordion>
         </section>
       </div>
-      <Button type="submit" variant="rosa">Salvar Alterações</Button>
+      <Button type="submit" variant="rosa" disabled={carregando}>
+        {carregando ? "Salvando..." : "Salvar Alterações"}
+      </Button>
     </form>
-
   );
 }
