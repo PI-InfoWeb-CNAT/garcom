@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { IoQrCode } from "react-icons/io5";
 import { getDados } from "@/app/auth/getDados/page";
 import { FormMesas } from "./components/FormMesas";
-
+import Link from "next/link";
 
 const perfil = async () => {
   const dados = await getDados();
@@ -110,10 +110,11 @@ const perfil = async () => {
           <div
             className="bg-[#FEE9E7] flex flex-col rounded-[11.01px] p-5 pl-8 pr-8 min-w-[213px] min-h-[169px] relative w-full">
             <p className="!text-[22px] font-medium text-[#303030]">Gerar QRcode das mesas</p>
-            <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[110px]">
-              <IoQrCode size={24} />
-            </span>
-
+            <Link href={'/perfil/qr-codes'}>
+              <span className="rounded-full flex items-center justify-center w-[50px] min-h-[50px] bg-[#F65C5C] text-white cursor-pointer hover:bg-[#E54747] transition-all absolute right-8 top-[110px]">
+                <IoQrCode size={24} />
+              </span>
+            </Link>
           </div>
 
           <FormMesas restauranteId={roleData?.id ?? ""} />
