@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { useSearchParams } from "next/navigation";
 import { useItens } from "@/app/cardapio/useItens";
 import { Item } from "@/app/cardapio/types";
 
@@ -21,15 +22,17 @@ const ClienteCardapio = () => {
   const [itemSelecionado, setItemSelecionado] = useState<Item | null>(null);
   const [quantidade, setQuantidade] = useState<number>(1);
   const [observacao, setObservacao] = useState<string>("");
-  // Mesa fixa para testes
-  const mesaId = "6f57c238-43c5-4295-94ea-5becfb39e41c";
 
-  // Estado para itens no carrinho
+  const searchParams = useSearchParams();
+  const mesaId = searchParams.get("mesa_id") || "";
+  const restauranteIdUrl = searchParams.get("restaurante_id") || "";
+
+ 
   const [itensCarrinho, setItensCarrinho] = useState<number>(0);
 
-  // Atualiza quantidade de itens no carrinho após adicionar
+ 
   useEffect(() => {
-    // Buscar pedido aberto para a mesa e contar itens
+
     const buscarItensCarrinho = async () => {
       const resPedido = await fetch(`/api/pedido?mesa_id=${mesaId}&status=aberto`);
       if (resPedido.ok) {
@@ -51,12 +54,12 @@ const ClienteCardapio = () => {
     buscarItensCarrinho();
   }, [formAberto]);
 
-  // Filtra categorias do restaurante logado
+
   const categoriasRestaurante = categorias
     ? categorias.filter((cat: any) => cat.restaurante_id === restauranteId).map((cat: any) => cat.id)
     : [];
 
-  // Filtra itens que pertencem às categorias do restaurante logado
+
   const itensFiltrados = itens.filter((item: any) => categoriasRestaurante.includes(item.categoria_id));
 
   const abrirForm = (item: Item) => {
@@ -64,7 +67,7 @@ const ClienteCardapio = () => {
     setFormAberto(true);
     setQuantidade(1);
     setObservacao("");
-    // Não busca mesas, usa mesaId fixo
+
   };
 
   const fecharForm = () => {
@@ -75,9 +78,9 @@ const ClienteCardapio = () => {
   const adicionarAoPedido = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!itemSelecionado || !mesaId) return;
-    // 1. Criar pedido (se não existir para a mesa)
+
     let pedidoId = null;
-    // Buscar pedido aberto para a mesa
+
     const resPedido = await fetch(`/api/pedido?mesa_id=${mesaId}&status=aberto`);
     let pedido = null;
     if (resPedido.ok) {
@@ -87,7 +90,7 @@ const ClienteCardapio = () => {
         pedidoId = pedido.id;
       }
     }
-    // Se não existe, criar novo pedido
+
     if (!pedidoId) {
       const resNovo = await fetch("/api/pedido", {
         method: "POST",
@@ -107,7 +110,7 @@ const ClienteCardapio = () => {
         return;
       }
     }
-    // 2. Adicionar item ao pedido
+
     const resItem = await fetch("/api/itemPedido", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -125,15 +128,6 @@ const ClienteCardapio = () => {
       alert("Erro ao adicionar item ao pedido.");
     }
   };
-//   const dados = await getDados();
-
-//     if (!dados) {
-//       return (
-//         <div className="p-10 text-center">
-//           <h1>Erro ao carregar dados do usuário</h1>
-//         </div>
-//       );
-//     }
 
 
   return (
@@ -214,7 +208,7 @@ const ClienteCardapio = () => {
                 <h2 className="text-[20px] font-semibold text-[#F65C5C]">{itemSelecionado.nome}</h2>
                 <p className="text-[14px] text-[#616161]">{itemSelecionado.descricao}</p>
               </div>
-              {/* Mesa fixa, não exibe select */}
+
               <div>
                 <h2 className="text-[18px] font-semibold text-[#616161]">Observação</h2>
                 <input
@@ -258,7 +252,7 @@ const ClienteCardapio = () => {
           </div>
         )}
       </main>
-      {/* Aviso de itens no carrinho */}
+
       {itensCarrinho > 0 && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-[#F65C5C] text-white px-6 py-3 rounded-full shadow-lg animate-fade-in">
           <span className="font-bold text-lg">{itensCarrinho} item{itensCarrinho > 1 ? "s" : ""} no carrinho</span>

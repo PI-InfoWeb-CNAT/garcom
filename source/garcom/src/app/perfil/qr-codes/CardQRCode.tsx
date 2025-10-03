@@ -6,7 +6,7 @@ interface CardQRCodeProps {
 }
 
 export function CardQRCode({ mesa }: CardQRCodeProps) {
-  const urlPedido = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/${mesa.restaurante_id}/pedido/mesa/${mesa.id}`;
+  const urlPedido = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/perfil/cliente?mesa_id=${mesa.id}&restaurante_id=${mesa.restaurante_id}`;
 
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">

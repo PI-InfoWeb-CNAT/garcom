@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { pedido } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {
@@ -23,7 +23,10 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    const mesa_id = searchParams.get("mesa_id");
+    const status = searchParams.get("status");
     let result;
+
     if (id) {
       result = await db.select().from(pedido).where(eq(pedido.id, id));
       if (!result.length) {
@@ -33,6 +36,11 @@ export async function GET(request: Request) {
         );
       }
       return NextResponse.json(result[0]);
+    } else if (mesa_id && status) {
+      result = await db.select().from(pedido).where(
+        and(eq(pedido.mesa_id, mesa_id), eq(pedido.status, status))
+      );
+      return NextResponse.json(result);
     } else {
       result = await db.select().from(pedido);
       return NextResponse.json(result);

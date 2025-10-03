@@ -23,6 +23,7 @@ export async function GET(request: Request) {
     const item_id = searchParams.get("item_id") ?? undefined;
     let result;
     if (typeof pedido_id === "string" && typeof item_id === "string") {
+      
       result = await db
         .select()
         .from(itemPedido)
@@ -39,7 +40,15 @@ export async function GET(request: Request) {
         );
       }
       return NextResponse.json(result[0]);
+    } else if (typeof pedido_id === "string") {
+      
+      result = await db
+        .select()
+        .from(itemPedido)
+        .where(eq(itemPedido.pedido_id, pedido_id));
+      return NextResponse.json(result);
     } else {
+      
       result = await db.select().from(itemPedido);
       return NextResponse.json(result);
     }
