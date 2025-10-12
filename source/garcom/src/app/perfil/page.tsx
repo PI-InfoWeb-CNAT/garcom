@@ -86,7 +86,7 @@ const perfil = async () => {
       const horariosApi = await fetch(`${baseUrl}/api/horarioFuncionamento?restaurante_id=${roleData.id}`, { cache: "no-store" });
       const horariosData = horariosApi.ok ? await horariosApi.json() : [];
       if (!Array.isArray(horariosData) || horariosData.length === 0) {
-        console.error('Horários não recebidos ou vazios:', horariosData);
+        {roleData.endereco?.cidade || "sem endereço"};
       } else {
         console.log('Horários recebidos da API:', horariosData);
       }
@@ -126,7 +126,7 @@ const perfil = async () => {
                   <div>
                     <h1 className={`${tituloClass} !m-0 !text-[#616161] !text-[27px]`}>{user.name}</h1>
                     <p className="!text-[14px] text-medium mp-[-10px] text-[#B2B2B2] ">
-                      {roleData.endereco.cidade || "sem endereço"}
+                      {roleData?.endereco?.cidade || "sem endereço"}
                     </p>
                   </div>
                   <a href="/perfil/editar"><Button className="w-40 mt-[5px]" variant="rosa">Editar Perfil</Button></a>
