@@ -258,7 +258,7 @@ const ClienteCardapio = () => {
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-[#F65C5C] text-white px-6 py-3 rounded-full shadow-lg animate-fade-in">
           <span className="font-bold text-lg">{itensCarrinho} item{itensCarrinho > 1 ? "s" : ""} no carrinho</span>
           <Link 
-            href={`perfil/cliente/pedido?mesa_id=${mesaId}&restaurante_id=${restauranteIdUrl}`} 
+            href={`cliente/pedido?mesa_id=${mesaId}&restaurante_id=${restauranteIdUrl}`} 
             className="bg-white text-[#F65C5C] font-bold px-4 py-2 rounded-full hover:bg-[#FFE3CF] transition"
           >
             Ver pedido
