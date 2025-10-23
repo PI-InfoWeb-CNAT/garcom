@@ -1,5 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import React from "react";
+import { MessageCircle } from "lucide-react";
 
 interface ModalPedidoProps {
   isOpen: boolean;
@@ -15,9 +17,12 @@ export function ModalPedido({ isOpen, onClose }: ModalPedidoProps) {
           <div className="p-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between space-x-10">
+                <Dialog.Title className="sr-only">
+                  Detalhes do Pedido
+                </Dialog.Title>
                 <Dialog.Close asChild>
                   <button
-                    className="top-4 left-4 text-[#9E9E9E] transition-opacity hover:opacity-100 focus:outline-none"
+                    className="top-4 left-4 cursor-pointer text-[#9E9E9E] transition-opacity hover:opacity-100 focus:outline-none"
                     aria-label="Fechar"
                   >
                     <X className="h-7 w-7" />
@@ -42,7 +47,7 @@ export function ModalPedido({ isOpen, onClose }: ModalPedidoProps) {
               <div className="space-y-3">
                 <ul className="space-y-2 text-[14px!important]">
                   <li className="flex items-center justify-between text-[#9E9E9E]">
-                    <div className="flex items-center gap-3 ">
+                    <div className="flex items-center gap-3">
                       <span>2 uni</span>
                       <h4>Pizza Margherita</h4>
                     </div>
@@ -51,11 +56,16 @@ export function ModalPedido({ isOpen, onClose }: ModalPedidoProps) {
                 </ul>
               </div>
 
-              <hr className="border-gray-300" />
+              <div className="flex items-center mt-10">
+                <MessageCircle  className=" h-[18px] text-[#9E9E9E] mr-1" />
+                <h2 className=" text-[#9E9E9E]">Tirar o manjericão</h2>
+              </div>
 
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-black/80">Total:</h3>
-                <span className="text-xl font-bold text-[#F65C5C]">
+              <hr className="border-[#FF954A] border-rounded" />
+
+              <div className="flex items-center text-[#9E9E9E] font-semibold">
+                <h4 className="mr-1">Total:</h4>
+                <span>
                   R$ 135,00
                 </span>
               </div>
