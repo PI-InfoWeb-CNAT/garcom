@@ -1,9 +1,17 @@
+"use client";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { ModalPedido } from "./ModalPedido";
 
 export function CardPedido() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
-      <div className="mt-8 rounded-3xl bg-[#FFC300] px-6 py-4 text-black/65">
+      <div
+        className="mt-8 cursor-pointer rounded-3xl bg-[#FFC300] px-6 py-4 text-black/65 transition-transform hover:scale-[1.02]"
+        onClick={() => setIsModalOpen(true)}
+      >
         <div className="flex items-center justify-between text-[14px]">
           <h4 className="text-[14px] font-semibold">Pedido #12345</h4>
           <p className="text-[14px]">15:57</p>
@@ -34,11 +42,19 @@ export function CardPedido() {
           </ul>
         </div>
         <div className="flex justify-end">
-          <button className="bg-black/65 rounded-2xl">
+          <button
+            className="rounded-2xl bg-black/65"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsModalOpen(true);
+            }}
+          >
             <ChevronDown className="text-[#FFC300]" />
           </button>
         </div>
       </div>
+
+      <ModalPedido isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }
