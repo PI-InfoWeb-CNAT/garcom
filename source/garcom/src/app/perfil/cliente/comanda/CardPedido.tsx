@@ -3,8 +3,35 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { ModalPedido } from "./ModalPedido";
 
-export function CardPedido() {
+interface CardPedidoProps {
+  pedido: any;
+  items?: any[];
+}
+
+function formatStatus(status?: string) {
+  switch (status) {
+    case "aberto":
+      return "Aberto";
+    case "em_preparacao":
+      return "Em preparação";
+    case "pronto":
+      return "Pronto";
+    case "finalizado":
+      return "Finalizado";
+    default:
+      return status ?? "Preparando";
+  }
+}
+
+export function CardPedido({ pedido, items = [] }: CardPedidoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const pedidoIdShort = pedido?.id ? String(pedido.id).slice(0, 6) : "—";
+  const horario = pedido?.datahora
+    ? new Date(pedido.datahora).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "--:--";
 
   return (
     <>
@@ -13,8 +40,8 @@ export function CardPedido() {
         onClick={() => setIsModalOpen(true)}
       >
         <div className="flex items-center justify-between text-[14px]">
-          <h4 className="text-[14px] font-semibold">Pedido #12345</h4>
-          <p className="text-[14px]">15:57</p>
+          <h4 className="text-[14px] font-semibold">Pedido #{pedidoIdShort}</h4>
+          <p className="text-[14px]">{horario}</p>
         </div>
         <div className="mb-1 flex items-center">
           <img
@@ -22,23 +49,24 @@ export function CardPedido() {
             src="/chapeu_chef.svg"
             alt="Chapéu de Chef"
           />
-          <h2 className="ml-1.5 font-semibold">Preparando</h2>
+          <h2 className="ml-1.5 font-semibold">
+            {formatStatus(pedido?.status)}
+          </h2>
         </div>
         <hr className="border" />
         <div>
           <ul className="space-y-0.2 mt-4">
-            <li className="flex items-center gap-5">
-              <p>2 uni</p>
-              <h4 className="">Pizza Margherita</h4>
-            </li>
-            <li className="flex items-center gap-5">
-              <p>2 uni</p>
-              <h4 className="">Pizza Margherita</h4>
-            </li>
-            <li className="flex items-center gap-5">
-              <p>2 uni</p>
-              <h4 className="">Pizza Margherita</h4>
-            </li>
+            {items.map((it, idx) => (
+              <li key={idx} className="flex items-center gap-5">
+                <p>{it.quantidade} uni</p>
+                <h4 className="">{it.item_nome ?? it.item_id}</h4>
+              </li>
+            ))}
+            {items.length === 0 && (
+              <li className="flex items-center gap-5 text-[#9E9E9E]">
+                Nenhum item
+              </li>
+            )}
           </ul>
         </div>
         <div className="flex justify-end">
@@ -54,7 +82,12 @@ export function CardPedido() {
         </div>
       </div>
 
-      <ModalPedido isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ModalPedido
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        pedido={pedido}
+        items={items}
+      />
     </>
   );
 }

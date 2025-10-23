@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { itemPedido } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { item } from "@/db/schema/item";
 
 export async function POST(request: Request) {
   try {
@@ -23,10 +24,17 @@ export async function GET(request: Request) {
     const item_id = searchParams.get("item_id") ?? undefined;
     let result;
     if (typeof pedido_id === "string" && typeof item_id === "string") {
-      
+      // buscar itemPedido específico e incluir nome do item
       result = await db
-        .select()
+        .select({
+          pedido_id: itemPedido.pedido_id,
+          item_id: itemPedido.item_id,
+          quantidade: itemPedido.quantidade,
+          observacao: itemPedido.observacao,
+          item_nome: item.nome,
+        })
         .from(itemPedido)
+        .leftJoin(item, eq(itemPedido.item_id, item.id))
         .where(
           and(
             eq(itemPedido.pedido_id, pedido_id),
@@ -41,14 +49,21 @@ export async function GET(request: Request) {
       }
       return NextResponse.json(result[0]);
     } else if (typeof pedido_id === "string") {
-      
+      // buscar todos os itens do pedido com nome do item
       result = await db
-        .select()
+        .select({
+          pedido_id: itemPedido.pedido_id,
+          item_id: itemPedido.item_id,
+          quantidade: itemPedido.quantidade,
+          observacao: itemPedido.observacao,
+          item_nome: item.nome,
+        })
         .from(itemPedido)
+        .leftJoin(item, eq(itemPedido.item_id, item.id))
         .where(eq(itemPedido.pedido_id, pedido_id));
       return NextResponse.json(result);
     } else {
-      
+      // retornar todos os registros (sem join)
       result = await db.select().from(itemPedido);
       return NextResponse.json(result);
     }
