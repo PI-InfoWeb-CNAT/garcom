@@ -23,3 +23,30 @@ export default function ClienteComanda() {
     </>
   );
 }
+
+function ClienteComandaVazia() {
+    return (
+      <>
+        <Header />
+        <div className="mx-6 mt-30 mb-10">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-[#F65C5C]">Minha Comanda</h1>
+            <h3 className="font-semibold text-[#9E9E9E]">0 pedido(s)</h3>
+          </div>
+          <div className="flex flex-col items-center">
+            <figure className="mt-15">
+                <img src="/comanda_vazia.png" alt="Mulher com fome" />
+            </figure>
+            <p className="text-center mt-5 text-[#616161]">
+              O que vai ser hoje? Clique e descubra<br></br>seu novo sabor
+              preferido!
+            </p>
+            <button className="mt-4 cursor-pointer w-40 rounded-full bg-[#F65C5C] px-5 py-1 text-[16px] text-white hover:bg-[#f79393]">
+              Fazer pedido
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+}
