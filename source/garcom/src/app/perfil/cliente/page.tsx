@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { useSearchParams } from "next/navigation";
 import { useItens } from "@/app/cardapio/useItens";
 import { Item } from "@/app/cardapio/types";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 
@@ -64,6 +65,7 @@ const ClienteCardapio = () => {
   const itensFiltrados = itens.filter((item: any) => categoriasRestaurante.includes(item.categoria_id));
 
   const abrirForm = (item: Item) => {
+    console.debug("abrirForm -> item selecionado:", item);
     setItemSelecionado(item);
     setFormAberto(true);
     setQuantidade(1);
@@ -78,7 +80,11 @@ const ClienteCardapio = () => {
 
   const adicionarAoPedido = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!itemSelecionado || !mesaId) return;
+    console.debug("adicionarAoPedido ->", { itemSelecionado, mesaId, quantidade, observacao });
+    if (!itemSelecionado || !mesaId) {
+      console.warn("adicionarAoPedido: itemSelecionado or mesaId missing", { itemSelecionado, mesaId });
+      return;
+    }
 
     let pedidoId = null;
 
@@ -255,7 +261,12 @@ const ClienteCardapio = () => {
       {itensCarrinho > 0 && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-[#F65C5C] text-white px-6 py-3 rounded-full shadow-lg animate-fade-in">
           <span className="font-bold text-lg">{itensCarrinho} item{itensCarrinho > 1 ? "s" : ""} no carrinho</span>
-          <button className="bg-white text-[#F65C5C] font-bold px-4 py-2 rounded-full hover:bg-[#FFE3CF] transition">Ver pedido</button>
+          <Link 
+            href={`cliente/pedido?mesa_id=${mesaId}&restaurante_id=${restauranteIdUrl}`} 
+            className="bg-white text-[#F65C5C] font-bold px-4 py-2 rounded-full hover:bg-[#FFE3CF] transition"
+          >
+            Ver pedido
+          </Link>
         </div>
       )}
       <Footer />

@@ -89,7 +89,7 @@ export function FormMesas({ restauranteId }: { restauranteId: string }) {
               </div>
               <button type="submit"
                 disabled={mesasAtuais === mesasOriginais}
-                className={`text-black text-base rounded-lg font-normal py-1 px-3 text-[20px] font-bold cursor-pointer transition-all
+                className={`text-black text-base rounded-lg font-normal py-1 px-3 text-[20px] cursor-pointer transition-all
                   ${
                     mesasAtuais === mesasOriginais
                       ? "bg-[#afafaf] cursor-not-allowed"
