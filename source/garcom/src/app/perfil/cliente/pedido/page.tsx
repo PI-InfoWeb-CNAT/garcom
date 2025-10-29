@@ -1,10 +1,11 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Input } from "@/components/ui/input";
 const ClientePedido = () => {
+  const [quantidade, setQuantidade] = useState(1);
+
   return (
     <div>
       <Header />

@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { CardPedido } from "./CardPedido";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function ClienteComanda() {
   const searchParams = useSearchParams();
@@ -37,9 +38,9 @@ export default function ClienteComanda() {
 
         const itemsPromises = lista.map(async (p: any) => {
           const r = await fetch(`/api/itemPedido?pedido_id=${p.id}`);
-          if (!r.ok) return [];
+          if (!r.ok) return { pedido: p, items: [] };
           const items = await r.json();
-          return { pedido: p, items };
+          return { pedido: p, items: Array.isArray(items) ? items : [] };
         });
 
         const withItems = await Promise.all(itemsPromises);
@@ -56,20 +57,20 @@ export default function ClienteComanda() {
   if (!mesa_id) {
     return ClienteComandaVazia();
   }
+  const mainClass =
+    "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
   return (
     <>
       <Header />
-      <div className="mx-6 mt-30 mb-10">
-        <div className="flex items-center justify-between">
+      <main className={mainClass}>
+        <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-bold text-[#F65C5C]">Minha Comanda</h1>
           <h3 className="font-semibold text-[#9E9E9E]">
             {pedidos.length} pedido(s)
           </h3>
         </div>
-        <button className="mt-4 cursor-pointer rounded-full bg-[#F65C5C] px-5 py-1 text-[16px] text-white hover:bg-[#f79393]">
-          Fazer pedido
-        </button>
+        <a href="/perfil/cliente"><Button className="w-40 mt-[5px]" variant="rosa">Fazer pedido</Button></a>
 
         {loading && (
           <p className="mt-4 text-[#9E9E9E]">Carregando pedidos...</p>
@@ -86,17 +87,19 @@ export default function ClienteComanda() {
             Nenhum pedido encontrado para essa mesa.
           </div>
         )}
-      </div>
+      </main>
       <Footer />
     </>
   );
 }
 
 function ClienteComandaVazia() {
+  const mainClass =
+    "!pt-35 flex flex-col min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
   return (
     <>
       <Header />
-      <div className="mx-6 mt-30 mb-10">
+      <main className={mainClass}>
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-[#F65C5C]">Minha Comanda</h1>
           <h3 className="font-semibold text-[#9E9E9E]">0 pedido(s)</h3>
@@ -109,11 +112,9 @@ function ClienteComandaVazia() {
             O que vai ser hoje? Clique e descubra<br></br>seu novo sabor
             preferido!
           </p>
-          <button className="mt-4 w-40 cursor-pointer rounded-full bg-[#F65C5C] px-5 py-1 text-[16px] text-white hover:bg-[#f79393]">
-            Fazer pedido
-          </button>
+          <a href="/perfil/cliente"><Button className="w-40 mt-[5px]" variant="rosa">Fazer pedido</Button></a>
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );

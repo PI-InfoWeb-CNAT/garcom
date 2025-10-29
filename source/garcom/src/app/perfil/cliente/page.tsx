@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { useSearchParams } from "next/navigation";
 import { useItens } from "@/app/cardapio/useItens";
 import { Item } from "@/app/cardapio/types";
+import { Button } from "@/components/ui/button";
 
 
 type ItemCardapio = {
@@ -128,30 +129,28 @@ const ClienteCardapio = () => {
       alert("Erro ao adicionar item ao pedido.");
     }
   };
+  const mainClass =
+    "!pt-35 flex flex-col items-start min-h-screen bg-white p-7 md:p-36 !pb-0 mt-10";
 
 
   return (
     <div>
       <Header />
-      <main className="!pt-26 flex items-center flex-col min-h-screen bg-white">
+      <main className={mainClass}>
         <img src="/banner-landing-page.png" alt="Banner" />
-        <section>
-          <section className="flex flex-row items-center justify-left ml-5 mt-4">
+        <section className="w-full mt-8">
+          <div className="flex flex-row items-center justify-left">
             <img className="w-16 h-16 rounded-full object-cover mr-5" src="/default-profile.png" alt="Perfil" />
             <div className="mr-5">
-              <h2 className="text-[25px] font-bold text-[#F65C5C]">Nome do Cliente</h2>
+              <h2 className="text-[25px] font-bold text-[#F65C5C]">Nome restaurante</h2>
               <p className="text-[12px] text-[#F65C5C]">Natal - RN</p>
-            </div>
-          </section>
-          <section className="m-[5vw]">
+          </div>
+
+          </div>
+          <section className="mt-8">
             <div className="flex items-center mb-4 place-content-between">
               <h2 className="text-[20px] font-bold text-[#F65C5C] mr-4 ">Cardápio</h2>
-              <button
-                className="ml-2 bg-[#F65C5C] font-bold text-white px-8 py-2 rounded-full cursor-pointer text-[12px]"
-                type="button"
-              >
-                Ver pedidos
-              </button>
+              <a href="/perfil/cliente/comanda"><Button className="w-40 mt-[5px]" variant="rosa">Minha comanda</Button></a>
             </div>
             {!carregando && categoriasRestaurante.length === 0 && (
               <p className="text-[#616161]">Nenhuma categoria disponível para este restaurante.</p>
