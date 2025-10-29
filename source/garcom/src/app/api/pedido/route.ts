@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { pedido } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { mesa } from "@/db/schema/mesa";
 
 export async function POST(request: Request) {
   try {
@@ -28,7 +29,19 @@ export async function GET(request: Request) {
     let result;
 
     if (id) {
-      result = await db.select().from(pedido).where(eq(pedido.id, id));
+      result = await db
+        .select({
+          id: pedido.id,
+          datahora: pedido.datahora,
+          status: pedido.status,
+          funcionario_id: pedido.funcionario_id,
+          mesa_id: pedido.mesa_id,
+          mesa_numero: mesa.numero,
+        })
+        .from(pedido)
+        .leftJoin(mesa, eq(pedido.mesa_id, mesa.id))
+        .where(eq(pedido.id, id));
+
       if (!result.length) {
         return NextResponse.json(
           { error: "Pedido não encontrado." },
@@ -37,12 +50,59 @@ export async function GET(request: Request) {
       }
       return NextResponse.json(result[0]);
     } else if (mesa_id && status) {
-      result = await db.select().from(pedido).where(
-        and(eq(pedido.mesa_id, mesa_id), eq(pedido.status, status))
-      );
+      result = await db
+        .select({
+          id: pedido.id,
+          datahora: pedido.datahora,
+          status: pedido.status,
+          funcionario_id: pedido.funcionario_id,
+          mesa_id: pedido.mesa_id,
+          mesa_numero: mesa.numero,
+        })
+        .from(pedido)
+        .leftJoin(mesa, eq(pedido.mesa_id, mesa.id))
+        .where(and(eq(pedido.mesa_id, mesa_id), eq(pedido.status, status)));
+      return NextResponse.json(result);
+    } else if (mesa_id) {
+      result = await db
+        .select({
+          id: pedido.id,
+          datahora: pedido.datahora,
+          status: pedido.status,
+          funcionario_id: pedido.funcionario_id,
+          mesa_id: pedido.mesa_id,
+          mesa_numero: mesa.numero,
+        })
+        .from(pedido)
+        .leftJoin(mesa, eq(pedido.mesa_id, mesa.id))
+        .where(eq(pedido.mesa_id, mesa_id));
+      return NextResponse.json(result);
+    } else if (status) {
+      result = await db
+        .select({
+          id: pedido.id,
+          datahora: pedido.datahora,
+          status: pedido.status,
+          funcionario_id: pedido.funcionario_id,
+          mesa_id: pedido.mesa_id,
+          mesa_numero: mesa.numero,
+        })
+        .from(pedido)
+        .leftJoin(mesa, eq(pedido.mesa_id, mesa.id))
+        .where(eq(pedido.status, status));
       return NextResponse.json(result);
     } else {
-      result = await db.select().from(pedido);
+      result = await db
+        .select({
+          id: pedido.id,
+          datahora: pedido.datahora,
+          status: pedido.status,
+          funcionario_id: pedido.funcionario_id,
+          mesa_id: pedido.mesa_id,
+          mesa_numero: mesa.numero,
+        })
+        .from(pedido)
+        .leftJoin(mesa, eq(pedido.mesa_id, mesa.id));
       return NextResponse.json(result);
     }
   } catch (error) {

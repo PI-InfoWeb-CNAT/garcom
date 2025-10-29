@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { itemPedido, item } from "@/db/schema"; 
 import { eq, and } from "drizzle-orm";
+import { item } from "@/db/schema/item";
 
 export async function POST(request: Request) {
   try {
