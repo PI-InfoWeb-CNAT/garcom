@@ -65,7 +65,6 @@ const ClienteCardapio = () => {
   const itensFiltrados = itens.filter((item: any) => categoriasRestaurante.includes(item.categoria_id));
 
   const abrirForm = (item: Item) => {
-    console.debug("abrirForm -> item selecionado:", item);
     setItemSelecionado(item);
     setFormAberto(true);
     setQuantidade(1);
@@ -80,11 +79,7 @@ const ClienteCardapio = () => {
 
   const adicionarAoPedido = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.debug("adicionarAoPedido ->", { itemSelecionado, mesaId, quantidade, observacao });
-    if (!itemSelecionado || !mesaId) {
-      console.warn("adicionarAoPedido: itemSelecionado or mesaId missing", { itemSelecionado, mesaId });
-      return;
-    }
+    if (!itemSelecionado || !mesaId) return;
 
     let pedidoId = null;
 
