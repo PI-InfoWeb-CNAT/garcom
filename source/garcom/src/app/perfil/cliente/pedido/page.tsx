@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Header } from "@/components/cliente-header";
+import { Footer } from "@/components/cliente-footer";
 import { Input } from "@/components/ui/input";
 import { useSearchParams, useRouter } from "next/navigation";
 

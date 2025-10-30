@@ -1,8 +1,8 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Header } from "@/components/cliente-header";
+import { Footer } from "@/components/cliente-footer";
 import { useSearchParams } from "next/navigation";
 import { useItens } from "@/app/cardapio/useItens";
 import { Item } from "@/app/cardapio/types";
@@ -31,6 +31,8 @@ const ClienteCardapio = () => {
 
  
   const [itensCarrinho, setItensCarrinho] = useState<number>(0);
+  const [restauranteNome, setRestauranteNome] = useState<string>("Nome restaurante");
+  const [restauranteLocal, setRestauranteLocal] = useState<string>("Natal - RN");
 
  
   useEffect(() => {
@@ -55,6 +57,39 @@ const ClienteCardapio = () => {
     };
     buscarItensCarrinho();
   }, [formAberto]);
+
+  // Buscar dados do restaurante (nome e localização) quando soubermos o restauranteId
+  useEffect(() => {
+    const buscarRestaurante = async () => {
+      if (!restauranteId) return;
+      try {
+        const res = await fetch(`/api/restaurante?id=${restauranteId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        let nome = data.descricao || "";
+        if (data.user_id) {
+          try {
+            const resUser = await fetch(`/api/user?id=${data.user_id}`);
+            if (resUser.ok) {
+              const userData = await resUser.json();
+              if (userData.name) nome = userData.name;
+            }
+          } catch (e) {
+            console.error("Erro ao buscar usuário do restaurante:", e);
+          }
+        }
+        setRestauranteNome(nome || "Nome restaurante");
+
+        const cidade = data.endereco?.cidade;
+        const estado = data.endereco?.estado;
+        setRestauranteLocal(cidade && estado ? `${cidade} - ${estado}` : "Sem localização");
+      } catch (error) {
+        console.error("Erro ao buscar restaurante:", error);
+      }
+    };
+    buscarRestaurante();
+  }, [restauranteId]);
 
 
   const categoriasRestaurante = categorias
@@ -108,7 +143,6 @@ const ClienteCardapio = () => {
         const novoPedido = await resNovo.json();
         pedidoId = novoPedido.id;
       } else {
-        alert("Erro ao criar pedido.");
         return;
       }
     }
@@ -126,8 +160,6 @@ const ClienteCardapio = () => {
     if (resItem.ok) {
       alert(`Item adicionado ao pedido da mesa ${mesaId}`);
       fecharForm();
-    } else {
-      alert("Erro ao adicionar item ao pedido.");
     }
   };
   const mainClass =
@@ -138,13 +170,13 @@ const ClienteCardapio = () => {
     <div>
       <Header />
       <main className={mainClass}>
-        <img src="/banner-landing-page.png" alt="Banner" />
+        <img src="/default-banner.png" alt="Banner" />
         <section className="w-full mt-8">
           <div className="flex flex-row items-center justify-left">
             <img className="w-16 h-16 rounded-full object-cover mr-5" src="/default-profile.png" alt="Perfil" />
             <div className="mr-5">
-              <h2 className="text-[25px] font-bold text-[#F65C5C]">Nome restaurante</h2>
-              <p className="text-[12px] text-[#F65C5C]">Natal - RN</p>
+          <h2 className="text-[25px] font-bold text-[#F65C5C]">{restauranteNome}</h2>
+          <p className="text-[12px] text-[#F65C5C]">{restauranteLocal}</p>
           </div>
 
           </div>
