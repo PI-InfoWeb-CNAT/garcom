@@ -58,8 +58,8 @@ export function CardPedido({ pedido, items = [] }: CardPedidoProps) {
           <ul className="space-y-0.2 mt-4">
             {items.map((it, idx) => (
               <li key={idx} className="flex items-center gap-5">
-                <p>{it.quantidade} uni</p>
-                <h4 className="">{it.item_nome ?? it.item_id}</h4>
+                <p>{(it.quantidade ?? it.qtd ?? 0)} uni</p>
+                <h4 className="">{it.item_cardapio?.nome ?? it.item_nome ?? it.item_id ?? "Item"}</h4>
               </li>
             ))}
             {items.length === 0 && (

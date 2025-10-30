@@ -147,7 +147,11 @@ const ClientePedido = () => {
 
       if (res.ok) {
         alert("Pedido confirmado e enviado para a cozinha!");
-        router.push(`/cliente/status?pedido_id=${pedidoId}`);
+        // navegar para a página da comanda enviando o pedidoId e mesaId como query
+        // ajustamos o caminho para o diretório real: /perfil/cliente/comanda
+        router.push(
+          `/perfil/cliente/comanda?pedido_id=${encodeURIComponent(pedidoId)}&mesa_id=${encodeURIComponent(mesaId ?? "")}`
+        );
       } else {
         alert("Erro ao confirmar o pedido: " + (json?.error ?? `status ${res.status}`));
       }

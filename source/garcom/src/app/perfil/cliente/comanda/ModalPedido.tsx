@@ -93,8 +93,8 @@ export function ModalPedido({
                       className="flex items-center justify-between text-[#9E9E9E]"
                     >
                       <div className="flex items-center gap-3">
-                        <span>{it.quantidade} uni</span>
-                        <h4>{it.item_nome ?? it.item_id ?? "Item"}</h4>
+                        <span>{(it.quantidade ?? it.qtd ?? 0)} uni</span>
+                        <h4>{it.item_cardapio?.nome ?? it.item_nome ?? it.item_id ?? "Item"}</h4>
                       </div>
                       <span>{it.observacao ? it.observacao : ""}</span>
                     </li>
