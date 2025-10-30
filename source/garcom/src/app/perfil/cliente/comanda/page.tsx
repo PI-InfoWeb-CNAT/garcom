@@ -1,6 +1,6 @@
 "use client";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Header } from "@/components/cliente-header";
+import { Footer } from "@/components/cliente-footer";
 import { CardPedido } from "./CardPedido";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
