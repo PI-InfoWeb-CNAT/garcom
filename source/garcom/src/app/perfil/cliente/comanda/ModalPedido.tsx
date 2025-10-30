@@ -72,9 +72,9 @@ export function ModalPedido({
               <hr className="border-[#FF954A]" />
 
               <div className="flex items-center justify-between">
-                <div className="flex w-30 items-center justify-center rounded-2xl bg-[#FFC300] py-1 text-white">
+                <div className="flex w-40 items-center justify-center rounded-2xl bg-[#FFC300] py-1 text-white">
                   <hr className="bg mr-1.5 h-2 w-2 rounded-3xl bg-white"></hr>
-                  <h4>{formatStatus(pedido?.status)}</h4>
+                  <h4 className="">{formatStatus(pedido?.status)}</h4>
                 </div>
                 <h3 className="text-[#9E9E9E]">
                   mesa{" "}
