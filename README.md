@@ -1,11 +1,69 @@
 # Projeto Integrador InfoWeb - IFRN
+> [!IMPORTANT]\
+> Todo material está publicado sob licença [GPL-3.0](https://www.gnu.org/licenses/quick-guide-gplv3.pt-br.html).
 
 # <img src="docs/imagens/marca_garcom.png">
 ### A janta, o mercado e aquele mimo… Chama o Garçom!
-O projeto Garçom tem como objetivo possibilitar restaurantes utilizarem um sistema de cardápio e comandas eletrônicas
 
-> [!IMPORTANT]\
-> Todo material está publicado sob licença [GPL-3.0](https://www.gnu.org/licenses/quick-guide-gplv3.pt-br.html).
+>
+> # 🍽️ Garçom — Sistema de Cardápio e Comandas Eletrônicas
+
+O **Garçom** é um sistema web desenvolvido para possibilitar que restaurantes utilizem **cardápios digitais e comandas eletrônicas**, otimizando o atendimento, reduzindo erros de pedidos e melhorando a experiência do cliente.
+
+O projeto simula um ambiente real de restaurante, envolvendo desde a visualização do cardápio até o gerenciamento de pedidos via sistema web.
+
+---
+
+## 🧩 Escopo do Projeto
+
+- Desenvolvimento **frontend e backend**
+- Prototipação de telas
+- Criação e configuração do banco de dados
+- Construção de API
+- Interface responsiva para diferentes dispositivos
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+- React
+- Next.js
+- HTML5 / CSS3
+- Tailwind CSS
+
+### Backend
+- Node.js
+- TypeScript
+
+### Banco de Dados
+- PostgreSQL
+
+### Outros
+- Git
+- API REST
+
+---
+
+## 📌 Funcionalidades
+
+- Exibição de cardápio digital
+- Criação e gerenciamento de comandas
+- Comunicação entre frontend e backend via API
+- Persistência de dados no banco PostgreSQL
+- Layout responsivo (desktop e mobile)
+
+---
+
+## 🧠 Decisões Técnicas
+
+- Utilização do **Next.js** para organização das páginas e melhor estruturação do frontend
+- **API REST** desenvolvida em Node.js com TypeScript, garantindo maior segurança e tipagem
+- Separação de responsabilidades entre frontend, backend e camada de dados
+- Banco de dados relacional (PostgreSQL) modelado para representar pedidos, produtos e comandas
+- Estilização com **Tailwind CSS**, facilitando a responsividade e padronização visual
+
+---
 
 ### Artefatos do Projeto
 * [Documento de visão](docs/Documento_de_Visao.md)
